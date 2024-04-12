@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    [SerializeField] private GameObject tile;
+    [SerializeField] private GameObject[] tile;
     [SerializeField] private GameObject wall;
+
+    private GameManager gm;
     // Start is called before the first frame update
     void Start()
     {
-        
+        gm = GameManager.Instance;
     }
 
     // Update is called once per frame
@@ -19,7 +21,7 @@ public class Tile : MonoBehaviour
     }
     public void SetTile(Transform tileTransform)
     {
-        Instantiate(tile, tileTransform.position, Quaternion.identity);
+        Instantiate(tile[gm.tileNum], tileTransform.position, Quaternion.identity);
     }
     public void SetWall(Transform tileTransform)
     {
