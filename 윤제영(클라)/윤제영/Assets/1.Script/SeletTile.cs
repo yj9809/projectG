@@ -22,97 +22,57 @@ public class SeletTile : MonoBehaviour
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        int wallLayerMask = LayerMask.GetMask("Wall");
+        int tileLayerMask = LayerMask.GetMask("Tile");
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, wallLayerMask | tileLayerMask))
         {
-            Debug.Log(hit.transform.gameObject.tag);
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                Debug.Log(hit.transform.gameObject.transform.localEulerAngles);
 
-            if (gm.oType == ObjType.Tile && hit.transform.CompareTag("Tile"))
-            {
-                if (tilePreView == null)
+                if (gm.oType == ObjType.Tile && hit.transform.CompareTag("Tile"))
                 {
-                    tilePreView = Instantiate(tile[gm.tileNum], hit.transform.position, Quaternion.identity);
+                    if (tilePreView == null)
+                    {
+                        tilePreView = Instantiate(tile[gm.tileNum], hit.transform.position, Quaternion.Euler(hit.transform.localEulerAngles));
+                    }
+                    else
+                    {
+                        tilePreView.transform.position = hit.transform.position;
+                    }
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        SetTile(hit.transform.position);
+                    }
+                }
+                else if (gm.oType == ObjType.Wall && hit.transform.CompareTag("Wall"))
+                {
+                    if (tilePreView == null)
+                    {
+                        tilePreView = Instantiate(wall[gm.tileNum], hit.transform.position, hit.transform.rotation);
+                    }
+                    else
+                    {
+                        tilePreView.transform.position = hit.transform.position;
+                    }
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        SetTile(hit.transform.position);
+                    }
                 }
                 else
                 {
-                    tilePreView.transform.position = hit.transform.position;
-                }
-                if (Input.GetMouseButtonDown(0))
-                {
-                    SetTile(hit.transform.position);
-                }
-            }
-            else if (gm.oType == ObjType.Wall && hit.transform.CompareTag("Wall"))
-            {
-                if (tilePreView == null)
-                {
-                    tilePreView = Instantiate(wall[gm.tileNum], hit.transform.position, Quaternion.identity);
-                    tilePreView.transform.rotation = hit.transform.localRotation;
-                }
-                else
-                {
-                    tilePreView.transform.position = hit.transform.position;
-                }
-                if (Input.GetMouseButtonDown(0))
-                {
-                    SetTile(hit.transform.position);
-                }
-            }
-            else
-            {
-                if (tilePreView != null)
-                {
-                    Destroy(tilePreView);
+                    if (tilePreView != null)
+                    {
+                        Destroy(tilePreView);
+                    }
                 }
             }
         }
-        
-        //if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-        //{
-        //    Debug.Log(hit.transform.gameObject.tag);
-        //    if (hit.transform.CompareTag("Tile"))
-        //    {
-        //        if (tilePreView == null)
-        //        {
-        //            tilePreView = Instantiate(tile[gm.tileNum], hit.transform.position, Quaternion.identity);
-        //        }
-        //        else
-        //        {
-        //            tilePreView.transform.position = hit.transform.position;
-        //        }
-        //        if (Input.GetMouseButtonDown(0))
-        //        {
-        //            SetTile(hit.transform.position);
-        //        }
-        //    }
-        //    else if (hit.transform.CompareTag("Wall"))
-        //    {
-        //        if (tilePreView == null)
-        //        {
-        //            tilePreView = Instantiate(wall[0], hit.transform.position, Quaternion.identity);
-        //            tilePreView.transform.rotation = hit.transform.rotation;
-        //        }
-        //        else if (tilePreView.gameObject.tag != "Wall")
-        //        {
-        //            tilePreView = Instantiate(wall[0], hit.transform.position, Quaternion.identity);
-        //            tilePreView.transform.rotation = hit.transform.rotation;
-        //        }
-        //        else
-        //        {
-        //            Destroy(tilePreView);
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    if (tilePreView != null)
-        //    {
-        //        Destroy(tilePreView);
-        //    }
-        //}
     }
     public void SetTile(Vector3 position)
     {
-        Instantiate(tile[gm.tileNum], position, Quaternion.identity);
+        Instantiate(wall[gm.tileNum], position, Quaternion.identity);
     }
     public void SetWall(Vector3 position)
     {
