@@ -1,3 +1,6 @@
+Library\Bee\artifacts\mvdfrm\Unity.2D.Tilemap.Editor.ref.dll_436C0E2610862891.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.2D.Tilemap.Extras.Editor.ref.dll_8DA00406C36CC6AA.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.2D.Tilemap.Extras.ref.dll_371E356D6F5B6577.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.EditorCoroutines.Editor.ref.dll_34ED10A34098B2DB.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Performance.Profile-Analyzer.Editor.ref.dll_65A192712782EB2B.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.PlasticSCM.Editor.ref.dll_257AEB342BE77856.mvfrm
@@ -103,4 +106,8 @@ Library\Bee\artifacts\mvdfrm\UnityEngine.VirtualTexturingModule.dll_CE566C1D1F6C
 Library\Bee\artifacts\mvdfrm\UnityEngine.VRModule.dll_B95AE1192FB0461B.mvfrm
 Library\Bee\artifacts\mvdfrm\UnityEngine.WindModule.dll_F21D12B47CC71897.mvfrm
 Library\Bee\artifacts\mvdfrm\UnityEngine.XRModule.dll_EC19A41DB8EA9379.mvfrm
-Library\Bee\artifacts\mvdfrm\Unity.VisualScripting.Antlr3.Runtime.dll_6D57F55A459AF6B7.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Android.Gradle.dll_7BD2D126A307FA6B.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Android.Types.dll_CF8874D003380F01.mvfrm
+Library\Bee\artifacts\mvdfrm\UnityEditor.iOS.Extensions.Common.dll_EC375009807661E8.mvfrm
+Library\Bee\artifacts\mvdfrm\UnityEditor.iOS.Extensions.Xcode.dll_9B464D8E9BDC63E4.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.VisualScripting.Antlr3.Runtime.dll_21F9678D21D85977.mvfrm

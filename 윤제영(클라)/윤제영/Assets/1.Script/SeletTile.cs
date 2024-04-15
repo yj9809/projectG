@@ -25,6 +25,7 @@ public class SeletTile : MonoBehaviour
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             Debug.Log(hit.transform.gameObject.tag);
+
             if (gm.oType == ObjType.Tile && hit.transform.CompareTag("Tile"))
             {
                 if (tilePreView == null)
@@ -45,7 +46,7 @@ public class SeletTile : MonoBehaviour
                 if (tilePreView == null)
                 {
                     tilePreView = Instantiate(wall[gm.tileNum], hit.transform.position, Quaternion.identity);
-                    tilePreView.transform.rotation = hit.transform.rotation;
+                    tilePreView.transform.rotation = hit.transform.localRotation;
                 }
                 else
                 {
