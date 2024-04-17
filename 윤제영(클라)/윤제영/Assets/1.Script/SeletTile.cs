@@ -34,13 +34,13 @@ public class SeletTile : MonoBehaviour
                 {
                     if (tilePreView == null)
                     {
-                        tilePreView = Instantiate(tile[gm.tileNum], hit.transform.position, Quaternion.Euler(hit.transform.localEulerAngles));
+                        tilePreView = Instantiate(tile[gm.tileNum], hit.transform.position, Quaternion.identity);
                     }
                     else
                     {
                         tilePreView.transform.position = hit.transform.position;
                     }
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButton(0))
                     {
                         SetTile(hit.transform.position);
                     }
@@ -54,10 +54,11 @@ public class SeletTile : MonoBehaviour
                     else
                     {
                         tilePreView.transform.position = hit.transform.position;
+                        tilePreView.transform.rotation = hit.transform.rotation;
                     }
                     if (Input.GetMouseButtonDown(0))
                     {
-                        SetTile(hit.transform.position);
+                        SetWall(hit.transform.position);
                     }
                 }
                 else
@@ -72,11 +73,11 @@ public class SeletTile : MonoBehaviour
     }
     public void SetTile(Vector3 position)
     {
-        Instantiate(wall[gm.tileNum], position, Quaternion.identity);
+        Instantiate(tile[gm.tileNum], position, Quaternion.identity);
     }
     public void SetWall(Vector3 position)
     {
-        //Instantiate(wall, pos, Quaternion.identity);
+        Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
     }
 }
 

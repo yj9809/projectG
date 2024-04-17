@@ -7,11 +7,14 @@ using DG.Tweening;
 public class Ui : MonoBehaviour
 {
     [SerializeField] private Image tileSeletWindow;
+    private GameManager gm;
 
     private bool tileWindow;
     private void Start()
     {
         tileWindow = false;
+        gm = GameManager.Instance;
+        gm.TileGrid.SetActive(false);
     }
     // Update is called once per frame
     void Update()
@@ -24,14 +27,14 @@ public class Ui : MonoBehaviour
         {
             tileSeletWindow.transform.
                 GetComponent<RectTransform>().DOMoveY(tileSeletWindow.transform.position.y + 240 , 1f);
-
+            gm.TileGrid.SetActive(true);
             tileWindow = true;
         }
         else if (tileWindow)
         {
             tileSeletWindow.transform.
                 GetComponent<RectTransform>().DOMoveY(tileSeletWindow.transform.position.y - 240, 1f);
-
+            gm.TileGrid.SetActive(false);
             tileWindow = false;
         }
     }
