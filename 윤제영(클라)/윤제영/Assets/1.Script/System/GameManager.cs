@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum ObjType
 {
@@ -34,5 +35,9 @@ public class GameManager : Singleton<GameManager>
     void Update()
     {
 
+    }
+    public void OnLoadScene(string name)
+    {
+        SceneManager.LoadScene(name);
     }
 }
