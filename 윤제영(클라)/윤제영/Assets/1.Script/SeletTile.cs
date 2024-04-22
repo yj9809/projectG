@@ -8,7 +8,7 @@ public class SeletTile : MonoBehaviour
     [SerializeField] private GameObject[] wall;
 
     private Camera mainCamera;
-    private GameObject tilePreView;
+    public GameObject tilePreView;
     private GameManager gm;
 
     private void Awake()
@@ -20,17 +20,21 @@ public class SeletTile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        TileGirdSelet();
+    }
+    private void TileGirdSelet()
+    {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        int wallLayerMask = LayerMask.GetMask("Wall");
-        int tileLayerMask = LayerMask.GetMask("Tile");
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, wallLayerMask | tileLayerMask))
+        int tileGirdLayerMask = LayerMask.GetMask("Tile Grid");
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, tileGirdLayerMask))
         {
             if (gm.oType == ObjType.Tile && hit.transform.CompareTag("Tile"))
             {
                 if (tilePreView == null)
                 {
                     tilePreView = Instantiate(tile[gm.tileNum], hit.transform.position, Quaternion.identity);
+                    tilePreView.transform.GetComponent<Collider>().enabled = false;
                 }
                 else
                 {
@@ -46,6 +50,7 @@ public class SeletTile : MonoBehaviour
                 if (tilePreView == null)
                 {
                     tilePreView = Instantiate(wall[gm.tileNum], hit.transform.position, hit.transform.rotation);
+                    tilePreView.transform.GetComponent<Collider>().enabled = false;
                 }
                 else
                 {
@@ -66,36 +71,50 @@ public class SeletTile : MonoBehaviour
             }
         }
     }
+    //鸥老 积己
     public void SetTile(Vector3 position)
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            if (hit.transform.gameObject.name != tile[gm.tileNum].name)
+            if (hit.transform.gameObject.name == tile[gm.tileNum].name)
+                return;
+            else if (hit.transform.gameObject.name != tile[gm.tileNum].name)
             {
-                GameObject newTile = Instantiate(tile[gm.tileNum], position, Quaternion.identity);
+                GameObject newTile;
+                if (hit.transform.gameObject.layer == 6)
+                    newTile = Instantiate(tile[gm.tileNum], position, Quaternion.identity);
+                else
+                {
+                    Destroy(hit.transform.gameObject);
+                    newTile = Instantiate(tile[gm.tileNum], position, Quaternion.identity);
+                }
                 newTile.name = tile[gm.tileNum].name;
                 newTile.transform.SetParent(gm.tileParent.transform);
             }
-            //else if(hit.transform.gameObject.name == tile[gm.tileNum].name)
-            //{
-            //    Destroy(hit.transform.gameObject);
-            //    GameObject newTile = Instantiate(tile[gm.tileNum], position, Quaternion.identity);
-            //    newTile.name = tile[gm.tileNum].name;
-            //    newTile.transform.SetParent(gm.tileParent.transform);
-            //}
+            
         } 
     }
+    //寒 积己
     public void SetWall(Vector3 position)
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity)) 
         {
-            if (hit.transform.gameObject.name != wall[gm.tileNum].name)
+            if (hit.transform.gameObject.name == wall[gm.tileNum].name)
+                return;
+            else if (hit.transform.gameObject.name != wall[gm.tileNum].name)
             {
-                GameObject newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
+                GameObject newWall;
+                if (hit.transform.gameObject.layer == 6)
+                    newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
+                else
+                {
+                    Destroy(hit.transform.gameObject);
+                    newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
+                }
                 newWall.name = wall[gm.tileNum].name;
                 newWall.transform.SetParent(gm.tileParent.transform);
             }
