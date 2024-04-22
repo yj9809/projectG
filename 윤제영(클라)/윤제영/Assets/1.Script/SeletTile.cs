@@ -78,13 +78,13 @@ public class SeletTile : MonoBehaviour
                 newTile.name = tile[gm.tileNum].name;
                 newTile.transform.SetParent(gm.tileParent.transform);
             }
-            else if(hit.transform.gameObject.name == tile[gm.tileNum].name)
-            {
-                Destroy(hit.transform.gameObject);
-                GameObject newTile = Instantiate(tile[gm.tileNum], position, Quaternion.identity);
-                newTile.name = tile[gm.tileNum].name;
-                newTile.transform.SetParent(gm.tileParent.transform);
-            }
+            //else if(hit.transform.gameObject.name == tile[gm.tileNum].name)
+            //{
+            //    Destroy(hit.transform.gameObject);
+            //    GameObject newTile = Instantiate(tile[gm.tileNum], position, Quaternion.identity);
+            //    newTile.name = tile[gm.tileNum].name;
+            //    newTile.transform.SetParent(gm.tileParent.transform);
+            //}
         } 
     }
     public void SetWall(Vector3 position)
