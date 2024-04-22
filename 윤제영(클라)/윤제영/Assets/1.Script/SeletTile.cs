@@ -26,58 +26,80 @@ public class SeletTile : MonoBehaviour
         int tileLayerMask = LayerMask.GetMask("Tile");
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, wallLayerMask | tileLayerMask))
         {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            if (gm.oType == ObjType.Tile && hit.transform.CompareTag("Tile"))
             {
-                Debug.Log(hit.transform.gameObject.transform.localEulerAngles);
-
-                if (gm.oType == ObjType.Tile && hit.transform.CompareTag("Tile"))
+                if (tilePreView == null)
                 {
-                    if (tilePreView == null)
-                    {
-                        tilePreView = Instantiate(tile[gm.tileNum], hit.transform.position, Quaternion.identity);
-                    }
-                    else
-                    {
-                        tilePreView.transform.position = hit.transform.position;
-                    }
-                    if (Input.GetMouseButton(0))
-                    {
-                        SetTile(hit.transform.position);
-                    }
-                }
-                else if (gm.oType == ObjType.Wall && hit.transform.CompareTag("Wall"))
-                {
-                    if (tilePreView == null)
-                    {
-                        tilePreView = Instantiate(wall[gm.tileNum], hit.transform.position, hit.transform.rotation);
-                    }
-                    else
-                    {
-                        tilePreView.transform.position = hit.transform.position;
-                        tilePreView.transform.rotation = hit.transform.rotation;
-                    }
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        SetWall(hit.transform.position);
-                    }
+                    tilePreView = Instantiate(tile[gm.tileNum], hit.transform.position, Quaternion.identity);
                 }
                 else
                 {
-                    if (tilePreView != null)
-                    {
-                        Destroy(tilePreView);
-                    }
+                    tilePreView.transform.position = hit.transform.position;
+                }
+                if (Input.GetMouseButton(0))
+                {
+                    SetTile(hit.transform.position);
+                }
+            }
+            else if (gm.oType == ObjType.Wall && hit.transform.CompareTag("Wall"))
+            {
+                if (tilePreView == null)
+                {
+                    tilePreView = Instantiate(wall[gm.tileNum], hit.transform.position, hit.transform.rotation);
+                }
+                else
+                {
+                    tilePreView.transform.position = hit.transform.position;
+                    tilePreView.transform.rotation = hit.transform.rotation;
+                }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    SetWall(hit.transform.position);
+                }
+            }
+            else
+            {
+                if (tilePreView != null)
+                {
+                    Destroy(tilePreView);
                 }
             }
         }
     }
     public void SetTile(Vector3 position)
     {
-        Instantiate(tile[gm.tileNum], position, Quaternion.identity);
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            if (hit.transform.gameObject.name != tile[gm.tileNum].name)
+            {
+                GameObject newTile = Instantiate(tile[gm.tileNum], position, Quaternion.identity);
+                newTile.name = tile[gm.tileNum].name;
+                newTile.transform.SetParent(gm.tileParent.transform);
+            }
+            else if(hit.transform.gameObject.name == tile[gm.tileNum].name)
+            {
+                Destroy(hit.transform.gameObject);
+                GameObject newTile = Instantiate(tile[gm.tileNum], position, Quaternion.identity);
+                newTile.name = tile[gm.tileNum].name;
+                newTile.transform.SetParent(gm.tileParent.transform);
+            }
+        } 
     }
     public void SetWall(Vector3 position)
     {
-        Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity)) 
+        {
+            if (hit.transform.gameObject.name != wall[gm.tileNum].name)
+            {
+                GameObject newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
+                newWall.name = wall[gm.tileNum].name;
+                newWall.transform.SetParent(gm.tileParent.transform);
+            }
+        }
     }
 }
 

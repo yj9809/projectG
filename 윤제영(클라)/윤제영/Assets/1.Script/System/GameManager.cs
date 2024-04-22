@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager>
 {
     public int tileNum;
     public ObjType oType = ObjType.Non;
+    public GameObject tileParent;
     private GameObject tileGrid;
     public GameObject TileGrid
     {
@@ -28,7 +29,7 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
-        
+        tileParent = GameObject.Find("Tile Parent");
     }
 
     // Update is called once per frame
