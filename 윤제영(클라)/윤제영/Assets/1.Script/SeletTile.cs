@@ -70,6 +70,13 @@ public class SeletTile : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            if (tilePreView != null)
+            {
+                Destroy(tilePreView);
+            }
+        }
     }
     //타일 생성
     public void SetTile(Vector3 position)
@@ -85,6 +92,8 @@ public class SeletTile : MonoBehaviour
                 GameObject newTile;
                 if (hit.transform.gameObject.layer == 6)
                     newTile = Instantiate(tile[gm.tileNum], position, Quaternion.identity);
+                else if (hit.transform.CompareTag("Wall"))
+                    return;
                 else
                 {
                     Destroy(hit.transform.gameObject);
@@ -105,10 +114,12 @@ public class SeletTile : MonoBehaviour
         {
             if (hit.transform.gameObject.name == wall[gm.tileNum].name)
                 return;
-            else if (hit.transform.gameObject.name != wall[gm.tileNum].name)
+            else if (hit.transform.gameObject.name != wall[gm.tileNum].name) 
             {
                 GameObject newWall;
                 if (hit.transform.gameObject.layer == 6)
+                    newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
+                else if(hit.transform.CompareTag("Tile"))
                     newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
                 else
                 {
