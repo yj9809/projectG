@@ -6,6 +6,8 @@ public class SeletTile : MonoBehaviour
 {
     [SerializeField] private GameObject[] tile;
     [SerializeField] private GameObject[] wall;
+    [SerializeField] private Material[] wallMate;
+    [SerializeField] private Material[] tileMate;
 
     private Camera mainCamera;
     public GameObject tilePreView;
@@ -26,9 +28,9 @@ public class SeletTile : MonoBehaviour
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        int tileGirdLayerMask = LayerMask.GetMask("Tile Grid");
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, tileGirdLayerMask))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
+            Debug.Log(hit.transform.gameObject);
             if (gm.oType == ObjType.Tile && hit.transform.CompareTag("Tile"))
             {
                 if (tilePreView == null)
@@ -116,15 +118,21 @@ public class SeletTile : MonoBehaviour
                 return;
             else if (hit.transform.gameObject.name != wall[gm.tileNum].name) 
             {
+                Debug.Log(hit.transform.gameObject.name);
                 GameObject newWall;
                 if (hit.transform.gameObject.layer == 6)
+                {
                     newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
-                else if(hit.transform.CompareTag("Tile"))
+
+                }
+                else if (hit.transform.CompareTag("Tile"))
                     newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
                 else
                 {
-                    Destroy(hit.transform.gameObject);
-                    newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
+                    newWall = hit.transform.gameObject;
+                    Material[] mate = newWall.transform.GetComponent<MeshRenderer>().materials;
+                    mate[0] = wallMate[gm.tileNum];
+                    newWall.transform.GetComponent<MeshRenderer>().materials = mate;
                 }
                 newWall.name = wall[gm.tileNum].name;
                 newWall.transform.SetParent(gm.tileParent.transform);

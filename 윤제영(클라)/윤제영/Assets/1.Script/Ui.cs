@@ -7,12 +7,15 @@ using DG.Tweening;
 public class Ui : MonoBehaviour
 {
     [SerializeField] private Image tileSeletWindow;
+    [SerializeField] private Image funnitureSeletWindow;
     private GameManager gm;
 
     private bool tileWindow;
+    private bool funnitureWindow;
     private void Start()
     {
         tileWindow = false;
+        funnitureWindow = false;
         gm = GameManager.Instance;
         gm.TileGrid.SetActive(false);
     }
@@ -26,16 +29,33 @@ public class Ui : MonoBehaviour
         if (!tileWindow)
         {
             tileSeletWindow.transform.
-                GetComponent<RectTransform>().DOMoveY(tileSeletWindow.transform.position.y + 240 , 1f);
+                GetComponent<RectTransform>().DOMoveY(0 , 1f);
             gm.TileGrid.SetActive(true);
             tileWindow = true;
         }
         else if (tileWindow)
         {
             tileSeletWindow.transform.
-                GetComponent<RectTransform>().DOMoveY(tileSeletWindow.transform.position.y - 240, 1f);
+                GetComponent<RectTransform>().DOMoveY(-240, 1f);
             gm.TileGrid.SetActive(false);
             tileWindow = false;
+        }
+    }
+    public void FunnitureWindow()
+    {
+        if (!funnitureWindow)
+        {
+            funnitureSeletWindow.transform.
+                GetComponent<RectTransform>().DOMoveY(0, 1f);
+            gm.TileGrid.SetActive(true);
+            funnitureWindow = true;
+        }
+        else if (funnitureWindow)
+        {
+            funnitureSeletWindow.transform.
+                GetComponent<RectTransform>().DOMoveY(-240, 1f);
+            gm.TileGrid.SetActive(false);
+            funnitureWindow = false;
         }
     }
     public void TileNum(int num)
