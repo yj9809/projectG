@@ -9,28 +9,29 @@ public class SeletTile : MonoBehaviour
     [SerializeField] private Material[] wallMate;
     [SerializeField] private Material[] tileMate;
 
-    private Camera mainCamera;
-    public GameObject tilePreView;
     private GameManager gm;
+    private Camera mainCamera;
+
+    private Ray ray;
+    private RaycastHit hit;
+    private GameObject tilePreView;
 
     private void Awake()
     {
-        mainCamera = Camera.main;
         gm = GameManager.Instance;
+        mainCamera = Camera.main;
     }
 
     // Update is called once per frame
     void Update()
     {
+        ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         TileGirdSelet();
     }
     private void TileGirdSelet()
     {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            Debug.Log(hit.transform.gameObject);
             if (gm.oType == ObjType.Tile && hit.transform.CompareTag("Tile"))
             {
                 if (tilePreView == null)
@@ -83,8 +84,6 @@ public class SeletTile : MonoBehaviour
     //鸥老 积己
     public void SetTile(Vector3 position)
     {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             if (hit.transform.gameObject.name == tile[gm.tileNum].name)
@@ -92,14 +91,17 @@ public class SeletTile : MonoBehaviour
             else if (hit.transform.gameObject.name != tile[gm.tileNum].name)
             {
                 GameObject newTile;
+
                 if (hit.transform.gameObject.layer == 6)
                     newTile = Instantiate(tile[gm.tileNum], position, Quaternion.identity);
                 else if (hit.transform.CompareTag("Wall"))
                     return;
                 else
                 {
-                    Destroy(hit.transform.gameObject);
-                    newTile = Instantiate(tile[gm.tileNum], position, Quaternion.identity);
+                    newTile = hit.transform.gameObject;
+                    Material[] mate = newTile.transform.GetComponent<MeshRenderer>().materials;
+                    mate[0] = tileMate[gm.tileNum];
+                    newTile.transform.GetComponent<MeshRenderer>().materials = mate;
                 }
                 newTile.name = tile[gm.tileNum].name;
                 newTile.transform.SetParent(gm.tileParent.transform);
@@ -110,21 +112,16 @@ public class SeletTile : MonoBehaviour
     //寒 积己
     public void SetWall(Vector3 position)
     {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity)) 
         {
             if (hit.transform.gameObject.name == wall[gm.tileNum].name)
                 return;
             else if (hit.transform.gameObject.name != wall[gm.tileNum].name) 
             {
-                Debug.Log(hit.transform.gameObject.name);
                 GameObject newWall;
-                if (hit.transform.gameObject.layer == 6)
-                {
-                    newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
 
-                }
+                if (hit.transform.gameObject.layer == 6)
+                    newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
                 else if (hit.transform.CompareTag("Tile"))
                     newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
                 else
@@ -134,6 +131,7 @@ public class SeletTile : MonoBehaviour
                     mate[0] = wallMate[gm.tileNum];
                     newWall.transform.GetComponent<MeshRenderer>().materials = mate;
                 }
+
                 newWall.name = wall[gm.tileNum].name;
                 newWall.transform.SetParent(gm.tileParent.transform);
             }

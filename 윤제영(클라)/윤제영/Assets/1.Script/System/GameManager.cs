@@ -11,9 +11,12 @@ public enum ObjType
 }
 public class GameManager : Singleton<GameManager>
 {
-    public int tileNum;
+    public GameObject seletTile;
+    public GameObject seletFunniture;
+
     public ObjType oType = ObjType.Non;
     public GameObject tileParent;
+    public GameObject tableParent;
     private GameObject tileGrid;
     public GameObject TileGrid
     {
@@ -26,10 +29,18 @@ public class GameManager : Singleton<GameManager>
             return tileGrid;
         }
     }
+    public int tileNum;
+    private void Awake()
+    {
+        tableParent = GameObject.Find("Table Parent");
+        tileParent = GameObject.Find("Tile Parent");
+        seletTile = GameObject.Find("[ SeletTile ]");
+        seletFunniture = GameObject.Find("[ SeletFunniture ]");
+    }
     // Start is called before the first frame update
     void Start()
     {
-        tileParent = GameObject.Find("Tile Parent");
+        
     }
 
     // Update is called once per frame

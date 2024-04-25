@@ -18,6 +18,8 @@ public class Ui : MonoBehaviour
         funnitureWindow = false;
         gm = GameManager.Instance;
         gm.TileGrid.SetActive(false);
+        gm.seletFunniture.SetActive(false);
+        gm.seletTile.SetActive(false);
     }
     // Update is called once per frame
     void Update()
@@ -31,6 +33,7 @@ public class Ui : MonoBehaviour
             tileSeletWindow.transform.
                 GetComponent<RectTransform>().DOMoveY(0 , 1f);
             gm.TileGrid.SetActive(true);
+            gm.seletTile.SetActive(true);
             tileWindow = true;
         }
         else if (tileWindow)
@@ -38,6 +41,7 @@ public class Ui : MonoBehaviour
             tileSeletWindow.transform.
                 GetComponent<RectTransform>().DOMoveY(-240, 1f);
             gm.TileGrid.SetActive(false);
+            gm.seletTile.SetActive(false);
             tileWindow = false;
         }
     }
@@ -48,6 +52,7 @@ public class Ui : MonoBehaviour
             funnitureSeletWindow.transform.
                 GetComponent<RectTransform>().DOMoveY(0, 1f);
             gm.TileGrid.SetActive(true);
+            gm.seletFunniture.SetActive(true);
             funnitureWindow = true;
         }
         else if (funnitureWindow)
@@ -55,6 +60,7 @@ public class Ui : MonoBehaviour
             funnitureSeletWindow.transform.
                 GetComponent<RectTransform>().DOMoveY(-240, 1f);
             gm.TileGrid.SetActive(false);
+            gm.seletFunniture.SetActive(false);
             funnitureWindow = false;
         }
     }
