@@ -32,7 +32,7 @@ public class SeletTile : MonoBehaviour
     {
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            if (gm.oType == ObjType.Tile && hit.transform.CompareTag("Tile"))
+            if (gm.oType == TileType.Tile && hit.transform.CompareTag("Tile"))
             {
                 if (tilePreView == null)
                 {
@@ -48,7 +48,7 @@ public class SeletTile : MonoBehaviour
                     SetTile(hit.transform.position);
                 }
             }
-            else if (gm.oType == ObjType.Wall && hit.transform.CompareTag("Wall"))
+            else if (gm.oType == TileType.Wall && hit.transform.CompareTag("Wall"))
             {
                 if (tilePreView == null)
                 {

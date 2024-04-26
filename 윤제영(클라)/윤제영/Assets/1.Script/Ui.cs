@@ -70,7 +70,6 @@ public class Ui : MonoBehaviour
     }
     public void TileType(int num)
     {
-        GameManager.Instance.oType = ObjType.Non;
-        GameManager.Instance.oType = (ObjType)num;
+        GameManager.Instance.oType = (TileType)num;
     }
 }

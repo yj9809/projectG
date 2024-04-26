@@ -3,18 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum ObjType
+public enum TileType
 {
     Tile,
     Wall,
     Non
 }
+public enum FunnitureType
+{
+    Table,
+    Chair
+}
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField] private GameObject test;
+
     public GameObject seletTile;
     public GameObject seletFunniture;
 
-    public ObjType oType = ObjType.Non;
+    public TileType oType = TileType.Non;
+    public FunnitureType fType = FunnitureType.Table;
     public GameObject tileParent;
     public GameObject tableParent;
     private GameObject tileGrid;
@@ -46,7 +54,7 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     void Update()
     {
-
+        Debug.Log(test.transform.localPosition);
     }
     public void OnLoadScene(string name)
     {
