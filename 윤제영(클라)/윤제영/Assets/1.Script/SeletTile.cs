@@ -104,7 +104,7 @@ public class SeletTile : MonoBehaviour
                     newTile.transform.GetComponent<MeshRenderer>().materials = mate;
                 }
                 newTile.name = tile[gm.tileNum].name;
-                newTile.transform.SetParent(gm.tileParent.transform);
+                newTile.transform.SetParent(gm.tWParent);
             }
             
         } 
@@ -133,7 +133,7 @@ public class SeletTile : MonoBehaviour
                 }
 
                 newWall.name = wall[gm.tileNum].name;
-                newWall.transform.SetParent(gm.tileParent.transform);
+                newWall.transform.SetParent(gm.tWParent);
             }
         }
     }

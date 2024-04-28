@@ -19,9 +19,10 @@ public class FreeCamera : MonoBehaviour
     {
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-        //카메라 이동
+        ////카메라 이동
         Vector3 moveDirection = new Vector3(x, 0f, y).normalized;
         Vector3 move = moveDirection * moveSpeed * Time.deltaTime;
+
         transform.Translate(move);
 
         // 카메라 회전

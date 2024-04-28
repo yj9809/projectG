@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,14 +6,16 @@ public class SeletFunniture : MonoBehaviour
 {
     [SerializeField] private GameObject table;
     [SerializeField] private GameObject chair;
-    Ray ray;
-    RaycastHit hit;
-    private GameManager gm;
-    private Camera mainCamera;
-    private Camera mc;
 
     public GameObject funniturePreView;
-    bool set = true;
+
+    private GameManager gm;
+    private GameObject check;
+    private GameObject chairCheck;
+    private Camera mainCamera;
+
+    Ray ray;
+    RaycastHit hit;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,15 +25,14 @@ public class SeletFunniture : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    { 
         ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (gm.fType == FunnitureType.Table)
             TableSelet();
         else if (gm.fType == FunnitureType.Chair)
             ChairSelet();
-
     }
-    // Å×ÀÌºí ¼¼ÆÃ
+    // ï¾…ï¾—ï¾€ï¾Œï½ºãƒ»ï½¼ï½¼ï¾†ï¾ƒ
     private void TableSelet()
     {
         int tileLayer = LayerMask.GetMask("Tile");
@@ -68,8 +69,7 @@ public class SeletFunniture : MonoBehaviour
     }
     private void SetTable(Vector3 pos, Vector3 rota)
     {
-        int tileLayer = LayerMask.GetMask("Tile");
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, tileLayer))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             foreach (Transform child in gm.tableParent.transform)
             {
@@ -78,10 +78,10 @@ public class SeletFunniture : MonoBehaviour
             }
             GameObject newTable = Instantiate(table, pos, Quaternion.Euler(rota));
             newTable.name = table.name;
-            newTable.transform.SetParent(gm.tableParent.transform);
+            newTable.transform.SetParent(gm.tableParent);
         }
     }
-    // ÀÇÀÚ ¼¼ÆÃ
+    // ï¾€ï¾‡ï¾€ï¾š ï½¼ï½¼ï¾†ï¾ƒ
     private void ChairSelet()
     {
         int interiorLayer = LayerMask.GetMask("Interior Grid");
@@ -89,28 +89,63 @@ public class SeletFunniture : MonoBehaviour
         {
             if (funniturePreView == null)
             {
-                Vector3 pos =
-                    new Vector3(hit.transform.position.x + 0.5425f, hit.transform.position.y, hit.transform.position.z);
-                funniturePreView = Instantiate(chair, pos, Quaternion.identity);
-                funniturePreView.transform.GetComponent<Collider>().enabled = false;
+                funniturePreView = Instantiate(chair, hit.transform.position, Quaternion.identity);
+                funniturePreView.transform.GetChild(0).GetComponent<Collider>().enabled = false;
             }
             else
-            {
-                funniturePreView.transform.position = 
-                    new Vector3(hit.transform.position.x + 0.5425f, hit.transform.position.y, hit.transform.position.z);
-            }
+                funniturePreView.transform.position = hit.transform.position;
+
             if (Input.GetMouseButtonDown(0))
             {
-                Vector3 pos =
-                    new Vector3(hit.transform.position.x + 0.5425f, hit.transform.position.y, hit.transform.position.z);
-                Instantiate(chair, pos, Quaternion.identity);
+                Vector3 chairRotation = funniturePreView.transform.rotation.eulerAngles;
+                SteChair(hit.transform.position, chairRotation);
             }
             else if (Input.GetKeyDown(KeyCode.R))
             {
                 Vector3 chairRotation = funniturePreView.transform.rotation.eulerAngles;
-                chairRotation.y += 90f;
+                if (chairRotation.y == 270)
+                    chairRotation.y = 0;
+                else
+                    chairRotation.y += 90f;
                 funniturePreView.transform.rotation = Quaternion.Euler(chairRotation);
             }
         }
+    }
+    private void SteChair(Vector3 pos, Vector3 rota)
+    {
+        check = funniturePreView.transform.GetChild(0).GetChild(0).gameObject;
+        RaycastHit hitCheck;
+        bool isHit = Physics.Raycast(check.transform.position, Vector3.down, out hitCheck, 1f, LayerMask.GetMask("Interior Grid"));
+
+        Debug.Log(ChairOverLapCheck(rota));
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity) && isHit && ChairOverLapCheck(rota))
+        {
+            if (hit.transform.CompareTag("Chair"))
+                return;
+            else if (!hit.transform.CompareTag("Chair"))
+            {
+                GameObject newChair = Instantiate(chair, pos, Quaternion.Euler(rota));
+                newChair.transform.SetParent(gm.chairParent);
+                newChair.name = chair.name;
+            }
+        }
+    }
+    private bool ChairOverLapCheck(Vector3 rota)
+    {
+        chairCheck = funniturePreView.transform.GetChild(0).GetChild(1).gameObject;
+
+        RaycastHit hitResult;
+
+        if (rota.y == 0)
+            Physics.Raycast(chairCheck.transform.position, Vector3.right, out hitResult, 1f, LayerMask.GetMask("Chair"));
+        else if (rota.y == 90)
+            Physics.Raycast(chairCheck.transform.position, Vector3.back, out hitResult, 1f, LayerMask.GetMask("Chair"));
+        else if (rota.y == 180)
+            Physics.Raycast(chairCheck.transform.position, Vector3.left, out hitResult, 1f, LayerMask.GetMask("Chair"));
+        else
+            Physics.Raycast(chairCheck.transform.position, Vector3.forward, out hitResult, 1f, LayerMask.GetMask("Chair"));
+
+        return !hitResult.collider;
     }
 }

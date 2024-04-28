@@ -17,9 +17,6 @@ public class Ui : MonoBehaviour
         tileWindow = false;
         funnitureWindow = false;
         gm = GameManager.Instance;
-        gm.TileGrid.SetActive(false);
-        gm.seletFunniture.SetActive(false);
-        gm.seletTile.SetActive(false);
     }
     // Update is called once per frame
     void Update()
@@ -28,41 +25,48 @@ public class Ui : MonoBehaviour
     }
     public void TileWindow()
     {
-        if (!tileWindow)
+        if (!funnitureWindow)
         {
-            tileSeletWindow.transform.
-                GetComponent<RectTransform>().DOMoveY(0 , 1f);
-            gm.TileGrid.SetActive(true);
-            gm.seletTile.SetActive(true);
-            tileWindow = true;
-        }
-        else if (tileWindow)
-        {
-            tileSeletWindow.transform.
-                GetComponent<RectTransform>().DOMoveY(-240, 1f);
-            gm.TileGrid.SetActive(false);
-            gm.seletTile.SetActive(false);
-            tileWindow = false;
+            if (!tileWindow)
+            {
+                tileSeletWindow.transform.
+                    GetComponent<RectTransform>().DOMoveY(0, 1f);
+                gm.TileGrid.SetActive(true);
+                gm.seletTile.SetActive(true);
+                tileWindow = true;
+            }
+            else if (tileWindow)
+            {
+                tileSeletWindow.transform.
+                    GetComponent<RectTransform>().DOMoveY(-240, 1f);
+                gm.TileGrid.SetActive(false);
+                gm.seletTile.SetActive(false);
+                tileWindow = false;
+            }
         }
     }
     public void FunnitureWindow()
     {
-        if (!funnitureWindow)
+        if (!tileWindow)
         {
-            funnitureSeletWindow.transform.
-                GetComponent<RectTransform>().DOMoveY(0, 1f);
-            gm.TileGrid.SetActive(true);
-            gm.seletFunniture.SetActive(true);
-            funnitureWindow = true;
+            if (!funnitureWindow)
+            {
+                funnitureSeletWindow.transform.
+                    GetComponent<RectTransform>().DOMoveY(0, 1f);
+                gm.TileGrid.SetActive(true);
+                gm.seletFunniture.SetActive(true);
+                funnitureWindow = true;
+            }
+            else if (funnitureWindow)
+            {
+                funnitureSeletWindow.transform.
+                    GetComponent<RectTransform>().DOMoveY(-240, 1f);
+                gm.TileGrid.SetActive(false);
+                gm.seletFunniture.SetActive(false);
+                funnitureWindow = false;
+            }
         }
-        else if (funnitureWindow)
-        {
-            funnitureSeletWindow.transform.
-                GetComponent<RectTransform>().DOMoveY(-240, 1f);
-            gm.TileGrid.SetActive(false);
-            gm.seletFunniture.SetActive(false);
-            funnitureWindow = false;
-        }
+        
     }
     public void TileNum(int num)
     {

@@ -16,15 +16,14 @@ public enum FunnitureType
 }
 public class GameManager : Singleton<GameManager>
 {
-    [SerializeField] private GameObject test;
-
     public GameObject seletTile;
     public GameObject seletFunniture;
 
     public TileType oType = TileType.Non;
     public FunnitureType fType = FunnitureType.Table;
-    public GameObject tileParent;
-    public GameObject tableParent;
+    public Transform tWParent;
+    public Transform tableParent;
+    public Transform chairParent;
     private GameObject tileGrid;
     public GameObject TileGrid
     {
@@ -38,23 +37,25 @@ public class GameManager : Singleton<GameManager>
         }
     }
     public int tileNum;
-    private void Awake()
-    {
-        tableParent = GameObject.Find("Table Parent");
-        tileParent = GameObject.Find("Tile Parent");
-        seletTile = GameObject.Find("[ SeletTile ]");
-        seletFunniture = GameObject.Find("[ SeletFunniture ]");
-    }
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Selet Obj
+        seletTile = GameObject.Find("[ SeletTile ]");
+        seletFunniture = GameObject.Find("[ SeletFunniture ]");
+        // Parent
+        tWParent = GameObject.Find("Tile/Wall Parent").transform;
+        tableParent = GameObject.Find("Table Parent").transform;
+        chairParent = GameObject.Find("Chair Parent").transform;
+        //SetActive
+        seletTile.SetActive(false);
+        seletFunniture.SetActive(false);
+        TileGrid.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(test.transform.localPosition);
     }
     public void OnLoadScene(string name)
     {
