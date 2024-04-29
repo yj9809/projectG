@@ -76,4 +76,9 @@ public class Ui : MonoBehaviour
     {
         GameManager.Instance.oType = (TileType)num;
     }
+    public void FunnitureType(int num)
+    {
+        GameManager.Instance.fType = (FunnitureType)num;
+        Destroy(GameManager.Instance.seletFunniture.GetComponent<SeletFunniture>().funniturePreView);
+    }
 }

@@ -16,6 +16,8 @@ public enum FunnitureType
 }
 public class GameManager : Singleton<GameManager>
 {
+    private ObjData data;
+
     public GameObject seletTile;
     public GameObject seletFunniture;
 
@@ -51,6 +53,8 @@ public class GameManager : Singleton<GameManager>
         seletTile.SetActive(false);
         seletFunniture.SetActive(false);
         TileGrid.SetActive(false);
+        //Data
+        data = DataManager.Instance.now;
     }
 
     // Update is called once per frame
@@ -60,5 +64,12 @@ public class GameManager : Singleton<GameManager>
     public void OnLoadScene(string name)
     {
         SceneManager.LoadScene(name);
+    }
+    public void OnSave()
+    {
+        data.tWParent = this.tWParent.gameObject;
+        data.tableParent = this.tableParent.gameObject;
+        data.chairParent = this.chairParent.gameObject;
+        DataManager.Instance.Save();
     }
 }

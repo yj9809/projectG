@@ -117,8 +117,6 @@ public class SeletFunniture : MonoBehaviour
         RaycastHit hitCheck;
         bool isHit = Physics.Raycast(check.transform.position, Vector3.down, out hitCheck, 1f, LayerMask.GetMask("Interior Grid"));
 
-        Debug.Log(ChairOverLapCheck(rota));
-
         if (Physics.Raycast(ray, out hit, Mathf.Infinity) && isHit && ChairOverLapCheck(rota))
         {
             if (hit.transform.CompareTag("Chair"))

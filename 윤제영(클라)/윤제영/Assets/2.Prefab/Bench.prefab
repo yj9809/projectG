@@ -40,7 +40,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1256135795516618630}
-  - component: {fileID: 5742193233238215832}
   m_Layer: 11
   m_Name: ChairCheckRay
   m_TagString: Untagged
@@ -63,18 +62,6 @@ Transform:
   m_Father: {fileID: 1786230032884431116}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5742193233238215832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3181299206218977593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01dc2d7bda8caf54fb45f6c8741d622c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3245459748749631552
 GameObject:
   m_ObjectHideFlags: 0
