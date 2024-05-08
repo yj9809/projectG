@@ -32,7 +32,7 @@ public class Ui : MonoBehaviour
                 tileSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveY(0, 1f);
                 gm.TileGrid.SetActive(true);
-                gm.seletTile.SetActive(true);
+                gm.SeletTile.SetActive(true);
                 tileWindow = true;
             }
             else if (tileWindow)
@@ -40,7 +40,7 @@ public class Ui : MonoBehaviour
                 tileSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveY(-240, 1f);
                 gm.TileGrid.SetActive(false);
-                gm.seletTile.SetActive(false);
+                gm.SeletTile.SetActive(false);
                 tileWindow = false;
             }
         }
@@ -54,7 +54,7 @@ public class Ui : MonoBehaviour
                 funnitureSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveY(0, 1f);
                 gm.TileGrid.SetActive(true);
-                gm.seletFunniture.SetActive(true);
+                gm.SeletFunniture.SetActive(true);
                 funnitureWindow = true;
             }
             else if (funnitureWindow)
@@ -62,7 +62,7 @@ public class Ui : MonoBehaviour
                 funnitureSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveY(-240, 1f);
                 gm.TileGrid.SetActive(false);
-                gm.seletFunniture.SetActive(false);
+                gm.SeletFunniture.SetActive(false);
                 funnitureWindow = false;
             }
         }
@@ -79,6 +79,10 @@ public class Ui : MonoBehaviour
     public void FunnitureType(int num)
     {
         GameManager.Instance.fType = (FunnitureType)num;
-        Destroy(GameManager.Instance.seletFunniture.GetComponent<SeletFunniture>().funniturePreView);
+        Destroy(GameManager.Instance.SeletFunniture.GetComponent<SeletFunniture>().funniturePreView);
+    }
+    public void OnSave()
+    {
+        GameManager.Instance.OnSave();
     }
 }

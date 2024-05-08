@@ -71,14 +71,14 @@ public class SeletFunniture : MonoBehaviour
     {
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            foreach (Transform child in gm.tableParent.transform)
+            foreach (Transform child in gm.TableParent.transform)
             {
                 if (child.transform.position == hit.transform.position)
                     return;
             }
             GameObject newTable = Instantiate(table, pos, Quaternion.Euler(rota));
             newTable.name = table.name;
-            newTable.transform.SetParent(gm.tableParent);
+            newTable.transform.SetParent(gm.TableParent);
         }
     }
     // ﾀﾇﾀﾚ ｼｼﾆﾃ
@@ -124,7 +124,7 @@ public class SeletFunniture : MonoBehaviour
             else if (!hit.transform.CompareTag("Chair"))
             {
                 GameObject newChair = Instantiate(chair, pos, Quaternion.Euler(rota));
-                newChair.transform.SetParent(gm.chairParent);
+                newChair.transform.SetParent(gm.ChairParent);
                 newChair.name = chair.name;
             }
         }

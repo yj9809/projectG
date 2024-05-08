@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,14 +19,68 @@ public class GameManager : Singleton<GameManager>
 {
     private ObjData data;
 
-    public GameObject seletTile;
-    public GameObject seletFunniture;
-
+    private GameObject seletTile;
+    public GameObject SeletTile
+    {
+        get
+        {
+            if (seletTile == null)
+            {
+                seletTile = GameObject.Find("[ SeletTile ]");
+            }
+            return seletTile;
+        }
+    }
+    private GameObject seletFunniture;
+    public GameObject SeletFunniture
+    {
+        get
+        {
+            if (seletFunniture == null)
+            {
+                seletFunniture = GameObject.Find("[ SeletFunniture ]");
+            }
+            return seletFunniture;
+        }
+    }
     public TileType oType = TileType.Non;
     public FunnitureType fType = FunnitureType.Table;
-    public Transform tWParent;
-    public Transform tableParent;
-    public Transform chairParent;
+    private Transform twParent;
+    public Transform tWParent
+    {
+        get
+        {
+            if (twParent == null)
+            {
+                twParent = GameObject.Find("Tile/Wall Parent").transform;
+            }
+            return twParent;
+        }
+    }
+    private Transform tableParent;
+    public Transform TableParent
+    {
+        get
+        {
+            if (tableParent == null)
+            {
+                tableParent = GameObject.Find("Table Parent").transform;
+            }
+            return tableParent;
+        }
+    }
+    private Transform chairParent;
+    public Transform ChairParent
+    {
+        get
+        {
+            if (chairParent == null)
+            {
+                chairParent = GameObject.Find("Chair Parent").transform;
+            }
+            return chairParent;
+        }
+    }
     private GameObject tileGrid;
     public GameObject TileGrid
     {
@@ -42,34 +97,38 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
-        // Selet Obj
-        seletTile = GameObject.Find("[ SeletTile ]");
-        seletFunniture = GameObject.Find("[ SeletFunniture ]");
-        // Parent
-        tWParent = GameObject.Find("Tile/Wall Parent").transform;
-        tableParent = GameObject.Find("Table Parent").transform;
-        chairParent = GameObject.Find("Chair Parent").transform;
-        //SetActive
-        seletTile.SetActive(false);
-        seletFunniture.SetActive(false);
-        TileGrid.SetActive(false);
-        //Data
-        data = DataManager.Instance.now;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+
     }
-    public void OnLoadScene(string name)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        SceneManager.LoadScene(name);
+        if (scene.name == "Game")
+        {
+            //SetActive
+            SeletTile.SetActive(false);
+            SeletFunniture.SetActive(false);
+            TileGrid.SetActive(false);
+            //Data
+            data = DataManager.Instance.now;
+            Instantiate(data.chairParent);
+        }
+    }
+    public void OnLoadScene()
+    {
+        SceneManager.LoadScene("Game");
     }
     public void OnSave()
     {
         data.tWParent = this.tWParent.gameObject;
         data.tableParent = this.tableParent.gameObject;
         data.chairParent = this.chairParent.gameObject;
-        DataManager.Instance.Save();
+        data.time = DateTime.Now.ToString("yyyy-MM-dd");
+        DataManager.Instance.SaveData();
     }
 }
