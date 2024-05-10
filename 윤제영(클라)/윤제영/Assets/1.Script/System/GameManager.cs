@@ -98,7 +98,9 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        
+        SeletTile.SetActive(false);
+        SeletFunniture.SetActive(false);
+        TileGrid.SetActive(false);
     }
 
     // Update is called once per frame
