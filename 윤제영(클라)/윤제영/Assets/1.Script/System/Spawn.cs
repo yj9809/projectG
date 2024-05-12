@@ -5,8 +5,8 @@ using UnityEngine;
 public class Spawn : MonoBehaviour
 {
     [SerializeField] private Collider spawnCollider;
-    [SerializeField] private GameObject npc;
-    [SerializeField] private Transform[] target;
+    [SerializeField] private GameObject[] npc;
+    public List<Transform> target;
     public Transform[] end;
 
     private float spwanTime = 1f;
@@ -16,15 +16,14 @@ public class Spawn : MonoBehaviour
     {
         public int index;
         public bool isUse;
-        public float resetTimer;
     }
     private List<TargetSelect> randomTarget = new List<TargetSelect>();
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < target.Length; i++)
+        for (int i = 0; i < target.Count; i++)
         {
-            randomTarget.Add(new TargetSelect { index = i, isUse = false, resetTimer = Time.time});
+            randomTarget.Add(new TargetSelect { index = i, isUse = false});
         }
     }
 
@@ -43,11 +42,12 @@ public class Spawn : MonoBehaviour
     {
         Vector3 randomSpawnPosition = GetRandomPositionInBounds(spawnCollider.bounds);
 
-        if (Random.value < 0.9f)
+        if (Random.value < 0.4f)
         {
             int random = Random.Range(0, end.Length);
-            GameObject npc = Instantiate(this.npc, randomSpawnPosition, Quaternion.identity);
-            npc.transform.GetComponent<Npc>().target = end[random];
+            int randomNpc = Random.Range(0, npc.Length);
+            GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
+            newNpc.transform.GetComponent<Npc>().target = end[random];
         }
         else
         {
@@ -55,7 +55,8 @@ public class Spawn : MonoBehaviour
 
             if (randomIndex != -1)
             {
-                GameObject newNpc = Instantiate(npc, randomSpawnPosition, Quaternion.identity);
+                int randomNpc = Random.Range(0, npc.Length);
+                GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
                 newNpc.GetComponent<Npc>().target = target[randomIndex];
                 randomTarget[randomIndex].isUse = true;
             }
@@ -87,11 +88,15 @@ public class Spawn : MonoBehaviour
     {
         foreach (TargetSelect targetSelect in randomTarget)
         {
-            if (targetSelect.index == System.Array.IndexOf(this.target, target))
+            if (targetSelect.index == this.target.IndexOf(target))
             {
                 targetSelect.isUse = false; 
                 break;
             }
         }
+    }
+    public void SetRandomTarget()
+    {
+        randomTarget.Add(new TargetSelect { index = target.Count - 1, isUse = false });
     }
 }

@@ -17327,7 +17327,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3995854033587824162, guid: a0c9c7d2547e21c408f5e78987448cc5, type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 3995854033587824162, guid: a0c9c7d2547e21c408f5e78987448cc5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -66326,6 +66326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   table: {fileID: 5364223807928495789, guid: b59e410237d34c943989d2a4ec4446dc, type: 3}
   chair: {fileID: 6922627464226156454, guid: e222eba51f34ce140a02428053c0a664, type: 3}
+  spawn: {fileID: 2042414409}
   funniturePreView: {fileID: 0}
 --- !u!4 &1370338017
 Transform:
@@ -69091,7 +69092,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1462089124
 PrefabInstance:
@@ -74388,7 +74389,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3995854033587824162, guid: a0c9c7d2547e21c408f5e78987448cc5, type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 3995854033587824162, guid: a0c9c7d2547e21c408f5e78987448cc5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -84233,7 +84234,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1817227578
 PrefabInstance:
@@ -85454,7 +85455,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1843598100
 PrefabInstance:
@@ -87735,7 +87736,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1894293874
 PrefabInstance:
@@ -95083,7 +95084,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCollider: {fileID: 447173430}
-  npc: {fileID: 5865242113064655406, guid: b70ead7cc88d29b40adfb1049256a3c0, type: 3}
+  npc:
+  - {fileID: 5865242113064655406, guid: d469a3beed75a3b4eb732be6514fe9ce, type: 3}
+  - {fileID: 5865242113064655406, guid: f2408ac8e1b3eb04ca3fd11075e4c557, type: 3}
+  - {fileID: 5865242113064655406, guid: 861fc4a0dfa547c4c9b0ff934ce44934, type: 3}
+  - {fileID: 5865242113064655406, guid: b70ead7cc88d29b40adfb1049256a3c0, type: 3}
   target:
   - {fileID: 957259648}
   - {fileID: 1824470008}
@@ -99013,7 +99018,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3003712164594643825, guid: 9d93a05745096614fb3c3a9c37869122, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3003712164594643825, guid: 9d93a05745096614fb3c3a9c37869122, type: 3}
       propertyPath: m_LocalPosition.x
@@ -99419,7 +99424,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8970583471859239503, guid: 5926d522bc7407842af3cd282e1896c2, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8970583471859239503, guid: 5926d522bc7407842af3cd282e1896c2, type: 3}
       propertyPath: m_LocalPosition.x
