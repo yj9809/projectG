@@ -5,26 +5,36 @@ using UnityEngine.AI;
 
 public class Npc : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-    [SerializeField] private Transform disColl;
+    private Spawn spawn;
+    public Transform target;
     NavMeshAgent nm;
 
+    private void Awake()
+    {
+        nm = GetComponent<NavMeshAgent>();
+        spawn = FindObjectOfType<Spawn>();
+    }
     // Start is called before the first frame update
     void Start()
     {
-        nm = GetComponent<NavMeshAgent>();
-        StartCoroutine(targetChance());
+        StartCoroutine(TargetChange(20f));
     }
-
     // Update is called once per frame
     void Update()
     {
-        nm.SetDestination(target.position);   
+        nm.SetDestination(target.position);
     }
-    IEnumerator targetChance()
+    IEnumerator TargetChange(float time)
     {
-        yield return new WaitForSeconds(10f);
-
-        target = disColl;
+        yield return new WaitForSeconds(time);
+        spawn.ResetTarget(target);
+        target = spawn.end;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.gameObject.tag == "End")
+        {
+            Destroy(transform.gameObject);
+        }
     }
 }

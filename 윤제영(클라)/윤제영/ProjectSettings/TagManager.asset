@@ -9,6 +9,7 @@ TagManager:
   - Interior
   - tilePreView
   - Chair
+  - End
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Wall
   - tilePreView
   - Chair
-  - 
+  - Npc
   - 
   - 
   - 
