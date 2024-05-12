@@ -28,7 +28,8 @@ public class Npc : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         spawn.ResetTarget(target);
-        target = spawn.end;
+        int ran = Random.Range(0, spawn.end.Length);
+        target = spawn.end[ran];
     }
     private void OnTriggerEnter(Collider other)
     {

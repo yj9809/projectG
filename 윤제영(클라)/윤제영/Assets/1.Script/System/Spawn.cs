@@ -7,7 +7,7 @@ public class Spawn : MonoBehaviour
     [SerializeField] private Collider spawnCollider;
     [SerializeField] private GameObject npc;
     [SerializeField] private Transform[] target;
-    public Transform end;
+    public Transform[] end;
 
     private float spwanTime = 1f;
     private float spwanTimer;
@@ -45,8 +45,9 @@ public class Spawn : MonoBehaviour
 
         if (Random.value < 0.9f)
         {
+            int random = Random.Range(0, end.Length);
             GameObject npc = Instantiate(this.npc, randomSpawnPosition, Quaternion.identity);
-            npc.transform.GetComponent<Npc>().target = end;
+            npc.transform.GetComponent<Npc>().target = end[random];
         }
         else
         {
