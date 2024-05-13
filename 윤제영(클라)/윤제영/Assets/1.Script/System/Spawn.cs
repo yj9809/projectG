@@ -7,9 +7,10 @@ public class Spawn : MonoBehaviour
     [SerializeField] private Collider spawnCollider;
     [SerializeField] private GameObject[] npc;
     public List<Transform> target;
+    public Transform[] elementalTarget;
     public Transform[] end;
 
-    private float spwanTime = 1f;
+    private float spwanTime = 3f;
     private float spwanTimer;
 
     private class TargetSelect
@@ -42,7 +43,7 @@ public class Spawn : MonoBehaviour
     {
         Vector3 randomSpawnPosition = GetRandomPositionInBounds(spawnCollider.bounds);
 
-        if (Random.value < 0.4f)
+        if (Random.value < 0.8f)
         {
             int random = Random.Range(0, end.Length);
             int randomNpc = Random.Range(0, npc.Length);
@@ -59,6 +60,13 @@ public class Spawn : MonoBehaviour
                 GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
                 newNpc.GetComponent<Npc>().target = target[randomIndex];
                 randomTarget[randomIndex].isUse = true;
+            }
+            else
+            {
+                int random = Random.Range(0, end.Length);
+                int randomNpc = Random.Range(0, npc.Length);
+                GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
+                newNpc.transform.GetComponent<Npc>().target = end[random];
             }
         }
     }
