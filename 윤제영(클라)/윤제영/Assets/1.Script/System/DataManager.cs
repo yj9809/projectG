@@ -6,7 +6,7 @@ using System.IO;
 
 public class ObjData
 {
-    public string saveName;
+    public string saveName = "aaa";
     public string time;
     public GameObject tWParent;
 }
@@ -23,7 +23,7 @@ public class DataManager : Singleton<DataManager>
         base.Awake();
 
         path = Application.persistentDataPath + "/Save";
-
+        Debug.Log(path);
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);
@@ -42,6 +42,7 @@ public class DataManager : Singleton<DataManager>
     {
         string data = JsonUtility.ToJson(now);
         File.WriteAllText(filePath, data);
+        Debug.Log("½ÇÇà");
     }
     public void LoadData()
     {

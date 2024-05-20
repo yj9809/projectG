@@ -17,6 +17,13 @@ public enum FunnitureType
 }
 public class GameManager : Singleton<GameManager>
 {
+    public TileType oType = TileType.Non;
+    public FunnitureType fType = FunnitureType.Table;
+
+    [SerializeField] private GameObject nomalPrefab;
+    [SerializeField] private GameObject savePrefab;
+    [SerializeField] private Transform prfabPos;
+
     private ObjData data;
 
     private GameObject seletTile;
@@ -31,6 +38,7 @@ public class GameManager : Singleton<GameManager>
             return seletTile;
         }
     }
+
     private GameObject seletFunniture;
     public GameObject SeletFunniture
     {
@@ -43,8 +51,7 @@ public class GameManager : Singleton<GameManager>
             return seletFunniture;
         }
     }
-    public TileType oType = TileType.Non;
-    public FunnitureType fType = FunnitureType.Table;
+
     private Transform twParent;
     public Transform tWParent
     {
@@ -57,6 +64,7 @@ public class GameManager : Singleton<GameManager>
             return twParent;
         }
     }
+
     private Transform tableParent;
     public Transform TableParent
     {
@@ -69,6 +77,7 @@ public class GameManager : Singleton<GameManager>
             return tableParent;
         }
     }
+
     private Transform chairParent;
     public Transform ChairParent
     {
@@ -81,6 +90,7 @@ public class GameManager : Singleton<GameManager>
             return chairParent;
         }
     }
+
     private GameObject tileGrid;
     public GameObject TileGrid
     {
@@ -93,11 +103,15 @@ public class GameManager : Singleton<GameManager>
             return tileGrid;
         }
     }
+
     public int tileNum;
     // Start is called before the first frame update
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        GameObject prefab = Instantiate(nomalPrefab, prfabPos.position, Quaternion.identity);
+        prefab.name = "Save Obj Prefab";
+        savePrefab = GameObject.Find("Save Obj Prefab");
         //SeletTile.SetActive(false);
         //SeletFunniture.SetActive(false);
         //TileGrid.SetActive(false);
@@ -106,7 +120,7 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     void Update()
     {
-
+        
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -118,7 +132,6 @@ public class GameManager : Singleton<GameManager>
             TileGrid.SetActive(false);
             //Data
             data = DataManager.Instance.now;
-            Instantiate(data.chairParent);
         }
     }
     public void OnLoadScene()
@@ -127,10 +140,17 @@ public class GameManager : Singleton<GameManager>
     }
     public void OnSave()
     {
-        data.tWParent = this.tWParent.gameObject;
-        data.tableParent = this.tableParent.gameObject;
-        data.chairParent = this.chairParent.gameObject;
-        data.time = DateTime.Now.ToString("yyyy-MM-dd");
+        SavePrefab(savePrefab);
         DataManager.Instance.SaveData();
+    }
+    void SavePrefab(GameObject temp)
+    {
+        string fileName = "Save Obj Prefab";
+        string path = "Assets/2.Prefab/Test/1/" + fileName + ".prefab";
+
+        bool isSuccess = false;
+        UnityEditor.PrefabUtility.SaveAsPrefabAsset(temp, path, out isSuccess);// ¿˙¿Â
+        Debug.Log(isSuccess);
+        //UnityEngine.Object obj = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
     }
 }
