@@ -12,7 +12,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = (T)FindObjectOfType(typeof(T));
+                instance = FindObjectOfType<T>();
 
                 if (instance == null)
                 {
@@ -23,25 +23,17 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             return instance;
         }
     }
-    private void Awake()
-    {
-        if (transform.parent != null)
-        {
-            DontDestroyOnLoad(transform.parent);
-        }
-        else
-        {
-            if (instance == null)
-            {
-                instance = (T)FindObjectOfType(typeof(T));
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                DontDestroyOnLoad(gameObject);
-            }
-        }
 
-        
+    protected virtual void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this as T;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
     }
 }

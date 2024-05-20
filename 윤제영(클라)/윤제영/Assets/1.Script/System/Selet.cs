@@ -7,35 +7,25 @@ using TMPro;
 
 public class Selet : MonoBehaviour
 {
-    [SerializeField] private TMP_Text[] slotText;
+    [SerializeField] private GameObject load;
     [SerializeField] private GameObject creat;
 
-    bool[] saveFile = new bool[3];
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < 3; i++)
-        {
-            if (File.Exists(DataManager.Instance.path + $"{i}"))
-            {
-                saveFile[i] = true;
-                ObjData od = DataManager.Instance.LoadData(i);
-                slotText[i].text = od.time;
-            }
-            else
-            {
-                slotText[i].text = "New File";
-            }
-        }
+        SaveCheck();
     }
-    public void SaveCheck(int num)
+    public void SaveCheck()
     {
-        DataManager.Instance.nowSlot = num;
-
-        if (saveFile[num])
-            GoGame();
+        Debug.Log(DataManager.Instance.CheckFile());
+        if (DataManager.Instance.CheckFile())
+        {
+            load.SetActive(true);
+        }
         else
-            Creat();
+        {
+            load.SetActive(false);
+        }
     }
     public void GoGame()
     {
