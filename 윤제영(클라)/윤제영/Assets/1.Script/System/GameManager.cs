@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public enum TileType
@@ -23,6 +24,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject nomalPrefab;
     [SerializeField] private GameObject savePrefab;
     [SerializeField] private Transform prfabPos;
+
+    public NavMeshSurface nms;
 
     private ObjData data;
 
@@ -112,9 +115,13 @@ public class GameManager : Singleton<GameManager>
         GameObject prefab = Instantiate(nomalPrefab, prfabPos.position, Quaternion.identity);
         prefab.name = "Save Obj Prefab";
         savePrefab = GameObject.Find("Save Obj Prefab");
-        //SeletTile.SetActive(false);
-        //SeletFunniture.SetActive(false);
-        //TileGrid.SetActive(false);
+
+        nms = GetComponent<NavMeshSurface>();
+        nms.BuildNavMesh();
+
+        SeletTile.SetActive(false);
+        SeletFunniture.SetActive(false);
+        TileGrid.SetActive(false);
     }
 
     // Update is called once per frame
@@ -153,4 +160,5 @@ public class GameManager : Singleton<GameManager>
         Debug.Log(isSuccess);
         //UnityEngine.Object obj = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
     }
+
 }
