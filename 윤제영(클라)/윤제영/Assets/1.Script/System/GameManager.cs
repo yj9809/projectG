@@ -21,10 +21,10 @@ public class GameManager : Singleton<GameManager>
     public TileType oType = TileType.Non;
     public FunnitureType fType = FunnitureType.Table;
 
-    [SerializeField] private GameObject nomalPrefab;
-    [SerializeField] private GameObject savePrefab;
     [SerializeField] private Transform prfabPos;
 
+    public GameObject buildingPrefab;
+    public GameObject savePrefab;
     public NavMeshSurface nms;
 
     private ObjData data;
@@ -108,20 +108,24 @@ public class GameManager : Singleton<GameManager>
     }
 
     public int tileNum;
+    protected override void Awake()
+    {
+        base.Awake();
+    }
     // Start is called before the first frame update
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        GameObject prefab = Instantiate(nomalPrefab, prfabPos.position, Quaternion.identity);
-        prefab.name = "Save Obj Prefab";
-        savePrefab = GameObject.Find("Save Obj Prefab");
+        //GameObject prefab = Instantiate(nomalPrefab, prfabPos.position, Quaternion.identity);
+        //prefab.name = "Save Obj Prefab";
+        //savePrefab = GameObject.Find("Save Obj Prefab");
 
-        nms = GetComponent<NavMeshSurface>();
-        nms.BuildNavMesh();
+        //nms = GetComponent<NavMeshSurface>();
+        //nms.BuildNavMesh();
 
-        SeletTile.SetActive(false);
-        SeletFunniture.SetActive(false);
-        TileGrid.SetActive(false);
+        //SeletTile.SetActive(false);
+        //SeletFunniture.SetActive(false);
+        //TileGrid.SetActive(false);
     }
 
     // Update is called once per frame
@@ -133,12 +137,21 @@ public class GameManager : Singleton<GameManager>
     {
         if (scene.name == "Game")
         {
+            Debug.Log("게임 실행");
             //SetActive
             SeletTile.SetActive(false);
             SeletFunniture.SetActive(false);
             TileGrid.SetActive(false);
             //Data
             data = DataManager.Instance.now;
+            //Prefab
+            prfabPos = GameObject.Find("PrefabPos").transform;
+            GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
+            prefab.name = "Save Obj Prefab";
+            savePrefab = GameObject.Find("Save Obj Prefab");
+            //Nav
+            nms = GetComponent<NavMeshSurface>();
+            nms.BuildNavMesh();
         }
     }
     public void OnLoadScene()
@@ -147,18 +160,9 @@ public class GameManager : Singleton<GameManager>
     }
     public void OnSave()
     {
-        SavePrefab(savePrefab);
+        DataManager.Instance.SavePrefab(savePrefab);
         DataManager.Instance.SaveData();
     }
-    void SavePrefab(GameObject temp)
-    {
-        string fileName = "Save Obj Prefab";
-        string path = "Assets/2.Prefab/Test/1/" + fileName + ".prefab";
-
-        bool isSuccess = false;
-        UnityEditor.PrefabUtility.SaveAsPrefabAsset(temp, path, out isSuccess);// 저장
-        Debug.Log(isSuccess);
-        //UnityEngine.Object obj = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
-    }
+    
 
 }

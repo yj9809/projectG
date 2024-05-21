@@ -42,7 +42,6 @@ public class DataManager : Singleton<DataManager>
     {
         string data = JsonUtility.ToJson(now);
         File.WriteAllText(filePath, data);
-        Debug.Log("실행");
     }
     public void LoadData()
     {
@@ -52,5 +51,15 @@ public class DataManager : Singleton<DataManager>
     public bool CheckFile()
     {
         return File.Exists(filePath);
+    }
+    public void SavePrefab(GameObject temp)
+    {
+        string fileName = "Save Obj Prefab";
+        string path = "Assets/Resources/Test/" + fileName + ".prefab";
+
+        bool isSuccess = false;
+        UnityEditor.PrefabUtility.SaveAsPrefabAsset(temp, path, out isSuccess);// 저장
+        Debug.Log(isSuccess);
+        //UnityEngine.Object obj = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
     }
 }

@@ -9,7 +9,7 @@ public class Selet : MonoBehaviour
 {
     [SerializeField] private GameObject load;
     [SerializeField] private GameObject creat;
-
+    [SerializeField] private TMP_Text creatName;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,13 +27,21 @@ public class Selet : MonoBehaviour
             load.SetActive(false);
         }
     }
-    public void GoGame()
-    {
-        DataManager.Instance.LoadData();
-        GameManager.Instance.OnLoadScene();
-    }
     public void Creat()
     {
         creat.gameObject.SetActive(true);
+    }
+    public void NewGame()
+    {
+        GameManager.Instance.buildingPrefab = Resources.Load<GameObject>("Test/Nomal Obj Prefab");
+        DataManager.Instance.now.saveName = creatName.text;
+        DataManager.Instance.SaveData();
+        GameManager.Instance.OnLoadScene();
+    }
+    public void LoadGame()
+    {
+        GameManager.Instance.buildingPrefab = Resources.Load<GameObject>("Test/Save Obj Prefab");
+        DataManager.Instance.LoadData();
+        GameManager.Instance.OnLoadScene();
     }
 }
