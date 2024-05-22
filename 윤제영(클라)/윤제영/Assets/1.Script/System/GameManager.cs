@@ -126,6 +126,21 @@ public class GameManager : Singleton<GameManager>
         //SeletTile.SetActive(false);
         //SeletFunniture.SetActive(false);
         //TileGrid.SetActive(false);
+
+        //SetActive
+        SeletTile.SetActive(false);
+        SeletFunniture.SetActive(false);
+        TileGrid.SetActive(false);
+        //Data
+        data = DataManager.Instance.now;
+        //Prefab
+        prfabPos = GameObject.Find("PrefabPos").transform;
+        GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
+        prefab.name = "Save Obj Prefab";
+        savePrefab = GameObject.Find("Save Obj Prefab");
+        //Nav
+        nms = GetComponent<NavMeshSurface>();
+        nms.BuildNavMesh();
     }
 
     // Update is called once per frame

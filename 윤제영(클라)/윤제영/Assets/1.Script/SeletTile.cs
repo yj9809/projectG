@@ -134,6 +134,7 @@ public class SeletTile : MonoBehaviour
 
                 newWall.name = wall[gm.tileNum].name;
                 newWall.transform.SetParent(gm.tWParent);
+                gm.nms.BuildNavMesh();
             }
         }
     }
