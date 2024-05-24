@@ -6,7 +6,8 @@ public class Spawn : MonoBehaviour
 {
     [SerializeField] private Collider spawnCollider;
     [SerializeField] private GameObject[] npc;
-    public List<Transform> target;
+    public List<Transform> npcTarget;
+    public List<GameObject> elemental;
     public Transform[] elementalTarget;
     public Transform[] end;
 
@@ -18,13 +19,22 @@ public class Spawn : MonoBehaviour
         public int index;
         public bool isUse;
     }
-    private List<TargetSelect> randomTarget = new List<TargetSelect>();
+    [SerializeField] private List<TargetSelect> randomTarget = new List<TargetSelect>();
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < target.Count; i++)
+        for (int i = 0; i < npcTarget.Count; i++)
         {
             randomTarget.Add(new TargetSelect { index = i, isUse = false});
+        }
+
+        foreach (Transform child in GameManager.Instance.allChair)
+        {
+            npcTarget.Add(child);
+        }
+        foreach (Transform elemental in GameManager.Instance.elementals)
+        {
+            this.elemental.Add(elemental.gameObject);
         }
     }
 
@@ -58,7 +68,7 @@ public class Spawn : MonoBehaviour
             {
                 int randomNpc = Random.Range(0, npc.Length);
                 GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
-                newNpc.GetComponent<Npc>().target = target[randomIndex];
+                newNpc.GetComponent<Npc>().target = npcTarget[randomIndex];
                 randomTarget[randomIndex].isUse = true;
             }
             else
@@ -96,7 +106,7 @@ public class Spawn : MonoBehaviour
     {
         foreach (TargetSelect targetSelect in randomTarget)
         {
-            if (targetSelect.index == this.target.IndexOf(target))
+            if (targetSelect.index == this.npcTarget.IndexOf(target))
             {
                 targetSelect.isUse = false; 
                 break;
@@ -105,6 +115,6 @@ public class Spawn : MonoBehaviour
     }
     public void SetRandomTarget()
     {
-        randomTarget.Add(new TargetSelect { index = target.Count - 1, isUse = false });
+        randomTarget.Add(new TargetSelect { index = npcTarget.Count - 1, isUse = false });
     }
 }

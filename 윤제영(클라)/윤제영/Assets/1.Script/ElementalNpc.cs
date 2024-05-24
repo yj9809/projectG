@@ -29,14 +29,18 @@ public class ElementalNpc : MonoBehaviour
         changeTargetTime += Time.deltaTime;
         if (changeTargetTime >= changeTargetTimer)
         {
-            int randomTarget = Random.Range(0, spawn.elementalTarget.Length);
-            target = spawn.elementalTarget[randomTarget];
-
-            changeTargetTimer = RandomTime();
-            changeTargetTime = 0;
+            RandomTarget();
         }
 
         nm.SetDestination(target.position);
+    }
+    private void RandomTarget()
+    {
+        int randomTarget = Random.Range(0, spawn.elementalTarget.Length);
+        target = spawn.elementalTarget[randomTarget];
+
+        changeTargetTimer = RandomTime();
+        changeTargetTime = 0;
     }
     private int RandomTime()
     {

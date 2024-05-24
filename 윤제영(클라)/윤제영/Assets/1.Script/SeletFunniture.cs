@@ -137,7 +137,7 @@ public class SeletFunniture : MonoBehaviour
                 newChair.name = chair.name;
 
                 gm.nms.BuildNavMesh();
-                spawn.target.Add(newChair.transform);
+                spawn.npcTarget.Add(newChair.transform);
                 spawn.SetRandomTarget();
             }
         }

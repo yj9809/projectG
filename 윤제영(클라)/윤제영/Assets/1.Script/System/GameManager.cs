@@ -22,12 +22,15 @@ public class GameManager : Singleton<GameManager>
     public FunnitureType fType = FunnitureType.Table;
 
     [SerializeField] private Transform prfabPos;
+    
+    private ObjData data;
 
+    public NavMeshSurface nms;
+    public Transform allChair;
+    public Transform elementals;
     public GameObject buildingPrefab;
     public GameObject savePrefab;
-    public NavMeshSurface nms;
 
-    private ObjData data;
 
     private GameObject seletTile;
     public GameObject SeletTile
@@ -127,6 +130,8 @@ public class GameManager : Singleton<GameManager>
         //SeletFunniture.SetActive(false);
         //TileGrid.SetActive(false);
 
+        //SetElementals
+        elementals = GameObject.Find("Elementals").transform;
         //SetActive
         SeletTile.SetActive(false);
         SeletFunniture.SetActive(false);
@@ -137,6 +142,7 @@ public class GameManager : Singleton<GameManager>
         prfabPos = GameObject.Find("PrefabPos").transform;
         GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
         prefab.name = "Save Obj Prefab";
+        allChair = prefab.transform.GetChild(2).transform;
         savePrefab = GameObject.Find("Save Obj Prefab");
         //Nav
         nms = GetComponent<NavMeshSurface>();
@@ -163,6 +169,7 @@ public class GameManager : Singleton<GameManager>
             prfabPos = GameObject.Find("PrefabPos").transform;
             GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
             prefab.name = "Save Obj Prefab";
+            allChair = prefab.transform.GetChild(2).transform;
             savePrefab = GameObject.Find("Save Obj Prefab");
             //Nav
             nms = GetComponent<NavMeshSurface>();
