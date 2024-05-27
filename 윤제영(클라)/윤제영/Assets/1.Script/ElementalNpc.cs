@@ -6,12 +6,14 @@ using UnityEngine.AI;
 public class ElementalNpc : MonoBehaviour
 {
     private Spawn spawn;
-    private Transform target;
     private NavMeshAgent nm;
+
+    public Transform target;
 
     private float changeTargetTimer = 1;
     private float changeTargetTime = float.MaxValue;
 
+    public bool setTaget = false;
     private void Awake()
     {
         nm = GetComponent<NavMeshAgent>();
@@ -26,12 +28,15 @@ public class ElementalNpc : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        changeTargetTime += Time.deltaTime;
-        if (changeTargetTime >= changeTargetTimer)
+        if (!setTaget)
         {
-            RandomTarget();
-        }
+            changeTargetTime += Time.deltaTime;
 
+            if (changeTargetTime >= changeTargetTimer)
+            {
+                RandomTarget();
+            }
+        }
         nm.SetDestination(target.position);
     }
     private void RandomTarget()

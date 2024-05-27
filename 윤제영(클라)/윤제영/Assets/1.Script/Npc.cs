@@ -6,9 +6,10 @@ using UnityEngine.AI;
 public class Npc : MonoBehaviour
 {
     private Spawn spawn;
-    public Transform target;
-    NavMeshAgent nm;
+    private NavMeshAgent nm;
 
+    public Transform target;
+    public bool move = true;
     private void Awake()
     {
         nm = GetComponent<NavMeshAgent>();
@@ -17,12 +18,22 @@ public class Npc : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(TargetChange(20f));
+        //StartCoroutine(TargetChange(20f));
     }
     // Update is called once per frame
     void Update()
     {
-        nm.SetDestination(target.position);
+        if (move)
+        {
+            nm.SetDestination(target.position);
+
+            if (nm.velocity.sqrMagnitude >= 0.2f * 0.2f && nm.remainingDistance <= 0.5f)
+            {
+                Debug.Log("½ÇÇà");
+                spawn.SetElementalTaget(transform);
+                move = false;
+            }
+        }
     }
     IEnumerator TargetChange(float time)
     {

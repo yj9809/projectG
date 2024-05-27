@@ -19,22 +19,31 @@ public class Spawn : MonoBehaviour
         public int index;
         public bool isUse;
     }
-    [SerializeField] private List<TargetSelect> randomTarget = new List<TargetSelect>();
+    private class ElementalSelect
+    {
+        public int index;
+        public bool isUse;
+    }
+    private List<TargetSelect> randomTarget = new List<TargetSelect>();
+    private List<ElementalSelect> randomElemental = new List<ElementalSelect>();
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < npcTarget.Count; i++)
-        {
-            randomTarget.Add(new TargetSelect { index = i, isUse = false});
-        }
-
         foreach (Transform child in GameManager.Instance.allChair)
         {
             npcTarget.Add(child);
         }
+        for (int i = 0; i < npcTarget.Count; i++)
+        {
+            randomTarget.Add(new TargetSelect { index = i, isUse = false});
+        }
         foreach (Transform elemental in GameManager.Instance.elementals)
         {
             this.elemental.Add(elemental.gameObject);
+        }
+        for (int i = 0; i < elemental.Count; i++)
+        {
+            randomElemental.Add(new ElementalSelect { index = i, isUse = false });
         }
     }
 
@@ -53,7 +62,7 @@ public class Spawn : MonoBehaviour
     {
         Vector3 randomSpawnPosition = GetRandomPositionInBounds(spawnCollider.bounds);
 
-        if (Random.value < 0.8f)
+        if (Random.value < 0.5f)
         {
             int random = Random.Range(0, end.Length);
             int randomNpc = Random.Range(0, npc.Length);
@@ -77,6 +86,19 @@ public class Spawn : MonoBehaviour
                 int randomNpc = Random.Range(0, npc.Length);
                 GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
                 newNpc.transform.GetComponent<Npc>().target = end[random];
+            }
+        }
+    }
+    public void SetElementalTaget(Transform pos)
+    {
+        for (int i = 0; i < elemental.Count; i++)
+        {
+            if (!randomElemental[i].isUse)
+            {
+                elemental[i].transform.GetComponent<ElementalNpc>().target = pos;
+                elemental[i].transform.GetComponent<ElementalNpc>().setTaget = true;
+                randomElemental[i].isUse = true;
+                break;
             }
         }
     }
