@@ -11,7 +11,7 @@ public class Spawn : MonoBehaviour
     public Transform[] elementalTarget;
     public Transform[] end;
 
-    private float spwanTime = 3f;
+    private float spwanTime = 1f;
     private float spwanTimer;
 
     private class TargetSelect
