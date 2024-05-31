@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 1bc6f643607559745b351f4d57d447d2
+guid: 6a2a67559f45dd84c8120e7d4f16f090
 ModelImporter:
-  serializedVersion: 21300
+  serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: Customer_Sit_Chair_Enter_Front
+    second: Customer_Sit_Chair_Idle_WaveHello_Left
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -17,7 +17,6 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
-    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -25,9 +24,6 @@ ModelImporter:
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
       to improve retargeting quality.\n\t'spine_01' has translation animation that
-      will be discarded.\n\t'foot_l' has translation animation that will be discarded.\n\t'ball_l'
-      has translation animation that will be discarded.\n\t'foot_r' has translation
-      animation that will be discarded.\n\t'ball_r' has translation animation that
       will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
@@ -42,11 +38,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Customer_Sit_Chair_Enter_Front
+      name: Customer_Sit_Chair_Idle_WaveHello_Left
       takeName: Take 001
       internalID: 0
       firstFrame: 0
-      lastFrame: 45
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -82,7 +78,6 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -94,7 +89,6 @@ ModelImporter:
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
-    optimizeBones: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -893,7 +887,6 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 2
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
-  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
