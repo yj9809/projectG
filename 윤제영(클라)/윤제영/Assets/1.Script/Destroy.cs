@@ -28,7 +28,9 @@ public class Destroy : MonoBehaviour
     {
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            if (hit.transform.gameObject.tag == "Tile" || hit.transform.gameObject.tag == "Wall")
+            if (hit.transform.gameObject.tag == "Tile" || hit.transform.gameObject.tag == "Wall" || 
+            hit.transform.gameObject.tag == "Table" ||
+            hit.transform.gameObject.tag == "Chair")
             {
                 Debug.Log(hit.transform.gameObject.name);
                 if (Input.GetMouseButtonDown(0))

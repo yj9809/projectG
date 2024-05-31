@@ -10,6 +10,7 @@ TagManager:
   - tilePreView
   - Chair
   - End
+  - Table
   layers:
   - Default
   - TransparentFX

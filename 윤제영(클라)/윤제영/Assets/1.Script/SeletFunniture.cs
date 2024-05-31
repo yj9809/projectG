@@ -92,7 +92,7 @@ public class SeletFunniture : MonoBehaviour
             if (funniturePreView == null)
             {
                 funniturePreView = Instantiate(chair, hit.transform.position, Quaternion.identity);
-                funniturePreView.transform.GetChild(0).GetComponent<Collider>().enabled = false;
+                funniturePreView.transform.GetComponent<Collider>().enabled = false;
             }
             else
                 funniturePreView.transform.position = hit.transform.position;
@@ -122,16 +122,22 @@ public class SeletFunniture : MonoBehaviour
 }
     private void SteChair(Vector3 pos, Vector3 rota)
     {
-        check = funniturePreView.transform.GetChild(0).GetChild(0).gameObject;
+        check = funniturePreView.transform.gameObject;
+        Vector3 checkPos = new Vector3(check.transform.position.x, check.transform.position.y + 0.2f, check.transform.position.z);
         RaycastHit hitCheck;
-        bool isHit = Physics.Raycast(check.transform.position, Vector3.down, out hitCheck, 1f, LayerMask.GetMask("Interior Grid"));
+        bool isHit = Physics.Raycast(checkPos, Vector3.down, out hitCheck, 1f, LayerMask.GetMask("Interior Grid"));
+        Debug.Log(isHit);
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity) && isHit && ChairOverLapCheck(rota))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity) && isHit)
         {
             if (hit.transform.CompareTag("Chair"))
+            {
+                Debug.Log("실행1");
                 return;
+            }  
             else if (!hit.transform.CompareTag("Chair"))    
             {
+                Debug.Log("실행");
                 GameObject newChair = Instantiate(chair, pos, Quaternion.Euler(rota));
                 newChair.transform.SetParent(gm.ChairParent);
                 newChair.name = chair.name;

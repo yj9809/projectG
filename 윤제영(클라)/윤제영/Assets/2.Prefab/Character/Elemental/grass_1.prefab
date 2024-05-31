@@ -49,6 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4038456bc99b9d47877d1d18243e21e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  setTaget: 0
 --- !u!33 &2890825286511911919
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -149,4 +151,4 @@ NavMeshAgent:
   m_Height: 0.7
   m_BaseOffset: 0.7
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 1

@@ -26,14 +26,17 @@ public class Npc : MonoBehaviour
     void Update()
     {
         if (move)
+        {
             nm.SetDestination(target.position);
+        }
         if (nm.velocity.sqrMagnitude >= 0.2f * 0.2f && nm.remainingDistance <= 0.5f && !ani.GetBool("SitChair"))
         {
             //spawn.SetElementalTaget(transform);
+            Vector3 ChairPos = new Vector3(target.GetChild(0).transform.position.x, 1.66f, target.GetChild(0).transform.position.z);
+            nm.enabled = false;
             move = false;
-            transform.position = 
-                new Vector3(target.GetChild(0).transform.position.x, target.GetChild(0).transform.position.y + 1, target.GetChild(0).transform.position.z);
             transform.rotation = Quaternion.Euler(new Vector3(0, target.GetComponent<Chair>().Check(), 0));
+            transform.position = ChairPos;
             ani.SetBool("SitChair", true);
         }
     }
