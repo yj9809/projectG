@@ -5,20 +5,20 @@ using UnityEngine;
 public class Chair : MonoBehaviour
 {
     private  GameObject chair;
+    private Vector3 chairPos;
     // Update is called once per frame
     void Update()
     {
-        chair = transform.GetChild(0).gameObject;
-        Debug.DrawRay(chair.transform.position, Vector3.forward, Color.red);
-        Debug.Log(Check());
+        chair = transform.gameObject;
+        chairPos = new Vector3(chair.transform.position.x, chair.transform.position.y + 0.2f, chair.transform.position.z);
     }
     public int Check()
     {
         int rotaY = 200;
-        if (Physics.Raycast(chair.transform.position, Vector3.forward, 1f, LayerMask.GetMask("Table")))
-            rotaY = 180;
-        else if (Physics.Raycast(chair.transform.position, Vector3.back, 1f, LayerMask.GetMask("Table")))
+        if (Physics.Raycast(chairPos, Vector3.forward, 1f, LayerMask.GetMask("Table")))
             rotaY = 0;
+        else if (Physics.Raycast(chairPos, Vector3.back, 1f, LayerMask.GetMask("Table")))
+            rotaY = 180;
 
         return rotaY;
     }

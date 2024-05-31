@@ -158,7 +158,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (scene.name == "Game")
         {
-            Debug.Log("°ÔÀÓ ½ÇÇà");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
             //SetActive
             SeletTile.SetActive(false);
             SeletFunniture.SetActive(false);
