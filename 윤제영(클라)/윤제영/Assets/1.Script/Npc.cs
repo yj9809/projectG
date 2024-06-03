@@ -10,6 +10,7 @@ public class Npc : MonoBehaviour
     private Animator ani;
 
     public Transform target;
+
     public bool move = true;
     private void Awake()
     {
@@ -20,7 +21,7 @@ public class Npc : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //StartCoroutine(TargetChange(20f));
+
     }
     // Update is called once per frame
     void Update()
@@ -43,11 +44,23 @@ public class Npc : MonoBehaviour
             transform.rotation = Quaternion.Euler(new Vector3(0, target.GetComponent<Chair>().Check(), 0));
             transform.position = ChairPos;
             ani.SetBool("SitChair", true);
+            //StartCoroutine(TargetChange(20f));
+            StartCoroutine(NpcOrder());
         }
+    }
+    IEnumerator NpcOrder()
+    {
+        yield return new WaitForSeconds(5f);
+
+        ani.SetBool("Order", true);
+        spawn.OrderTarget.Enqueue(transform);
     }
     IEnumerator TargetChange(float time)
     {
         yield return new WaitForSeconds(time);
+        nm.enabled = true;
+        move = true;
+        ani.SetBool("SitChair", false);
         spawn.ResetTarget(target);
         int ran = Random.Range(0, spawn.end.Length);
         target = spawn.end[ran];
@@ -56,7 +69,7 @@ public class Npc : MonoBehaviour
     {
         if (other.transform.gameObject.tag == "End")
         {
-            Destroy(transform.gameObject);
+            spawn.pool.ReturnNpc(this.gameObject);
         }
     }
 }

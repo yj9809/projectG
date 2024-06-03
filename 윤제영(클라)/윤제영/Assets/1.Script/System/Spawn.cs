@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
-    [SerializeField] private Collider spawnCollider;
     [SerializeField] private GameObject[] npc;
+    public PoolManager pool;
     public List<Transform> npcTarget;
     public List<GameObject> elemental;
     public Transform[] elementalTarget;
@@ -24,6 +24,7 @@ public class Spawn : MonoBehaviour
         public int index;
         public bool isUse;
     }
+    public Queue<Transform> OrderTarget = new Queue<Transform>();
     private List<TargetSelect> randomTarget = new List<TargetSelect>();
     private List<ElementalSelect> randomElemental = new List<ElementalSelect>();
     // Start is called before the first frame update
@@ -60,13 +61,12 @@ public class Spawn : MonoBehaviour
     }
     private void SpawnNpc()
     {
-        Vector3 randomSpawnPosition = GetRandomPositionInBounds(spawnCollider.bounds);
-
         if (Random.value < 0.5f)
         {
             int random = Random.Range(0, end.Length);
-            int randomNpc = Random.Range(0, npc.Length);
-            GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
+            //int randomNpc = Random.Range(0, npc.Length);
+            //GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
+            GameObject newNpc = pool.CreatNpc();
             newNpc.transform.GetComponent<Npc>().target = end[random];
         }
         else
@@ -75,16 +75,18 @@ public class Spawn : MonoBehaviour
 
             if (randomIndex != -1)
             {
-                int randomNpc = Random.Range(0, npc.Length);
-                GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
+                //int randomNpc = Random.Range(0, npc.Length);
+                //GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
+                GameObject newNpc = pool.CreatNpc();
                 newNpc.GetComponent<Npc>().target = npcTarget[randomIndex];
                 randomTarget[randomIndex].isUse = true;
             }
             else
             {
                 int random = Random.Range(0, end.Length);
-                int randomNpc = Random.Range(0, npc.Length);
-                GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
+                //int randomNpc = Random.Range(0, npc.Length);
+                //GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
+                GameObject newNpc = pool.CreatNpc();
                 newNpc.transform.GetComponent<Npc>().target = end[random];
             }
         }
@@ -101,14 +103,6 @@ public class Spawn : MonoBehaviour
                 break;
             }
         }
-    }
-    private Vector3 GetRandomPositionInBounds(Bounds bounds)
-    {
-        float randomX = Random.Range(bounds.min.x, bounds.max.x);
-        float randomY = Random.Range(bounds.min.y, bounds.max.y);
-        float randomZ = Random.Range(bounds.min.z, bounds.max.z);
-
-        return new Vector3(randomX, randomY, randomZ);
     }
     private int RandomTargetIndex()
     {

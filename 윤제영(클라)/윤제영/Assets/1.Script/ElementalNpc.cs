@@ -41,11 +41,19 @@ public class ElementalNpc : MonoBehaviour
     }
     private void RandomTarget()
     {
-        int randomTarget = Random.Range(0, spawn.elementalTarget.Length);
-        target = spawn.elementalTarget[randomTarget];
+        if (spawn.OrderTarget.Count > 0)
+        {
+            setTaget = true;
+            target = spawn.OrderTarget.Dequeue();
+        }
+        else
+        {
+            int randomTarget = Random.Range(0, spawn.elementalTarget.Length);
+            target = spawn.elementalTarget[randomTarget];
 
-        changeTargetTimer = RandomTime();
-        changeTargetTime = 0;
+            changeTargetTimer = RandomTime();
+            changeTargetTime = 0;
+        }
     }
     private int RandomTime()
     {
