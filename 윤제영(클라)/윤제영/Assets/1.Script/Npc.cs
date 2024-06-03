@@ -44,7 +44,6 @@ public class Npc : MonoBehaviour
             transform.rotation = Quaternion.Euler(new Vector3(0, target.GetComponent<Chair>().Check(), 0));
             transform.position = ChairPos;
             ani.SetBool("SitChair", true);
-            //StartCoroutine(TargetChange(20f));
             StartCoroutine(NpcOrder());
         }
     }
