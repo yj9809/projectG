@@ -50,9 +50,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4038456bc99b9d47877d1d18243e21e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  food: {fileID: 0}
+  food: {fileID: 4746062644466096498, guid: 90e3e8a4d6c54f54b82d777b8b3d0e6d, type: 3}
+  foodPrefab: {fileID: 0}
+  orderTarget: {fileID: 0}
   target: {fileID: 0}
-  setTarget: 0
+  sType: 0
 --- !u!33 &2890825286511911919
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -144,7 +146,7 @@ NavMeshAgent:
   m_Radius: 0.2
   m_Speed: 3.5
   m_Acceleration: 8
-  avoidancePriority: 51
+  avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
@@ -153,7 +155,7 @@ NavMeshAgent:
   m_Height: 0.7
   m_BaseOffset: 0.7
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1
+  m_ObstacleAvoidanceType: 0
 --- !u!1 &7536088384774715996
 GameObject:
   m_ObjectHideFlags: 0

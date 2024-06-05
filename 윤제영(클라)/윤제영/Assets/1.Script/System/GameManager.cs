@@ -31,16 +31,16 @@ public class GameManager : Singleton<GameManager>
     public GameObject buildingPrefab;
     public GameObject savePrefab;
 
-    private Transform countePos;
-    public Transform CountePos
+    private Transform counterPos;
+    public Transform CounterPos
     {
         get 
         {
-            if (countePos == null)
+            if (counterPos == null)
             {
-                countePos = GameObject.Find("Count Pos").transform;
+                counterPos = GameObject.Find("Counter Pos").transform;
             }
-            return countePos;
+            return counterPos;
         }
     }
     private GameObject seletTile;

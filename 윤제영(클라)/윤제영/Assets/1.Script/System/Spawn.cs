@@ -64,8 +64,6 @@ public class Spawn : MonoBehaviour
         if (Random.value < 0.5f)
         {
             int random = Random.Range(0, end.Length);
-            //int randomNpc = Random.Range(0, npc.Length);
-            //GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
             GameObject newNpc = pool.CreatNpc();
             newNpc.transform.GetComponent<Npc>().target = end[random];
         }
@@ -75,8 +73,6 @@ public class Spawn : MonoBehaviour
 
             if (randomIndex != -1)
             {
-                //int randomNpc = Random.Range(0, npc.Length);
-                //GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
                 GameObject newNpc = pool.CreatNpc();
                 newNpc.GetComponent<Npc>().target = npcTarget[randomIndex];
                 randomTarget[randomIndex].isUse = true;
@@ -84,8 +80,6 @@ public class Spawn : MonoBehaviour
             else
             {
                 int random = Random.Range(0, end.Length);
-                //int randomNpc = Random.Range(0, npc.Length);
-                //GameObject newNpc = Instantiate(npc[randomNpc], randomSpawnPosition, Quaternion.identity);
                 GameObject newNpc = pool.CreatNpc();
                 newNpc.transform.GetComponent<Npc>().target = end[random];
             }
@@ -98,7 +92,7 @@ public class Spawn : MonoBehaviour
             if (!randomElemental[i].isUse)
             {
                 elemental[i].transform.GetComponent<ElementalNpc>().target = pos;
-                elemental[i].transform.GetComponent<ElementalNpc>().setTarget = true;
+                //elemental[i].transform.GetComponent<ElementalNpc>().setTarget = true;
                 randomElemental[i].isUse = true;
                 break;
             }

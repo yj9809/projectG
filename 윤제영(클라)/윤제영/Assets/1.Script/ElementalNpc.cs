@@ -3,20 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum ServingType
+{
+    Idle,
+    GoCounte,
+    GoServing
+}
 public class ElementalNpc : MonoBehaviour
 {
     [SerializeField] private GameObject food;
+    [SerializeField] private GameObject foodPrefab;
+    [SerializeField] private Transform orderTarget;
 
     private Spawn spawn;
     private NavMeshAgent nm;
-    private Transform orderTarget;
 
     public Transform target;
+
+    public ServingType sType = ServingType.Idle;
     
     private float changeTargetTimer = 1;
     private float changeTargetTime = float.MaxValue;
-
-    public bool setTarget = false;
     private void Awake()
     {
         nm = GetComponent<NavMeshAgent>();
@@ -31,7 +38,8 @@ public class ElementalNpc : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!setTarget)
+        Debug.Log($"{this.gameObject.name} + {nm.remainingDistance}");
+        if (sType == ServingType.Idle)
         {
             changeTargetTime += Time.deltaTime;
 
@@ -40,24 +48,39 @@ public class ElementalNpc : MonoBehaviour
                 RandomTarget();
             }
         }
+        else if(sType == ServingType.GoCounte)
+        {
+            GoCounte();
+        }
+        else if (sType == ServingType.GoServing)
+        {
+            GoServing();
+        }
         nm.SetDestination(target.position);
     }
     private void RandomTarget()
     {
-        if (spawn.OrderTarget.Count > 0)
+        if (nm.remainingDistance <= nm.stoppingDistance)
         {
-            setTarget = true;
-            orderTarget = spawn.OrderTarget.Dequeue();
-            target = orderTarget;
-            StartCoroutine(GoCounte()); 
-        }
-        else
-        {
-            int randomTarget = Random.Range(0, spawn.elementalTarget.Length);
-            target = spawn.elementalTarget[randomTarget];
+            if (spawn.OrderTarget.Count > 0)
+            {
+                orderTarget = spawn.OrderTarget.Dequeue();
+                target = orderTarget;
 
-            changeTargetTimer = RandomTime();
-            changeTargetTime = 0;
+                if (nm.remainingDistance <= 0.5f)
+                {
+                    sType = ServingType.GoCounte;
+                }
+            }
+            else
+            {
+                Debug.Log("실행 2");
+                int randomTarget = Random.Range(0, spawn.elementalTarget.Length);
+                target = spawn.elementalTarget[randomTarget];
+
+                changeTargetTime = 0;
+                changeTargetTimer = RandomTime();
+            }
         }
     }
     private int RandomTime()
@@ -66,25 +89,25 @@ public class ElementalNpc : MonoBehaviour
 
         return randomTime;
     }
-    private void GoServing(GameObject food)
+    private void GoCounte()
     {
-        target = orderTarget;
-        if (nm.velocity.sqrMagnitude >= 0.2f * 0.2f && nm.remainingDistance <= 0.5f)
+        target = GameManager.Instance.CounterPos;
+
+        if (nm.remainingDistance <= nm.stoppingDistance)
         {
-            Debug.Log("실행");
-            Destroy(food);
-            RandomTarget();
+            sType = ServingType.GoServing;
+            foodPrefab = Instantiate(food, transform.GetChild(0).transform);
         }
     }
-    IEnumerator GoCounte()
+    private void GoServing()
     {
-        yield return new WaitForSeconds(3f);
+        target = orderTarget;
 
-        target = GameManager.Instance.CountePos;
-
-        yield return new WaitForSeconds(3f);
-
-        GameObject foodPrefab = Instantiate(food, transform.GetChild(0).transform);
-        GoServing(foodPrefab);
+        if (nm.remainingDistance <= nm.stoppingDistance)
+        {
+            Debug.Log($"실행 +{this.gameObject.name}  ");
+            //Destroy(food);
+            sType = ServingType.Idle;
+        }
     }
 }
