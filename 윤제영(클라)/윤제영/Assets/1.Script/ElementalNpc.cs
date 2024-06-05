@@ -5,15 +5,18 @@ using UnityEngine.AI;
 
 public class ElementalNpc : MonoBehaviour
 {
+    [SerializeField] private GameObject food;
+
     private Spawn spawn;
     private NavMeshAgent nm;
+    private Transform orderTarget;
 
     public Transform target;
-
+    
     private float changeTargetTimer = 1;
     private float changeTargetTime = float.MaxValue;
 
-    public bool setTaget = false;
+    public bool setTarget = false;
     private void Awake()
     {
         nm = GetComponent<NavMeshAgent>();
@@ -28,7 +31,7 @@ public class ElementalNpc : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!setTaget)
+        if (!setTarget)
         {
             changeTargetTime += Time.deltaTime;
 
@@ -43,8 +46,10 @@ public class ElementalNpc : MonoBehaviour
     {
         if (spawn.OrderTarget.Count > 0)
         {
-            setTaget = true;
-            target = spawn.OrderTarget.Dequeue();
+            setTarget = true;
+            orderTarget = spawn.OrderTarget.Dequeue();
+            target = orderTarget;
+            StartCoroutine(GoCounte()); 
         }
         else
         {
@@ -60,5 +65,26 @@ public class ElementalNpc : MonoBehaviour
         int randomTime = Random.Range(3, 6);
 
         return randomTime;
+    }
+    private void GoServing(GameObject food)
+    {
+        target = orderTarget;
+        if (nm.velocity.sqrMagnitude >= 0.2f * 0.2f && nm.remainingDistance <= 0.5f)
+        {
+            Debug.Log("½ÇÇà");
+            Destroy(food);
+            RandomTarget();
+        }
+    }
+    IEnumerator GoCounte()
+    {
+        yield return new WaitForSeconds(3f);
+
+        target = GameManager.Instance.CountePos;
+
+        yield return new WaitForSeconds(3f);
+
+        GameObject foodPrefab = Instantiate(food, transform.GetChild(0).transform);
+        GoServing(foodPrefab);
     }
 }
