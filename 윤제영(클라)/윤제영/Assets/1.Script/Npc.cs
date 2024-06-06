@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Npc : MonoBehaviour
 {
+    [SerializeField] GameObject foodPrefab;
     private Spawn spawn;
     private NavMeshAgent nm;
     private Animator ani;
@@ -47,6 +48,12 @@ public class Npc : MonoBehaviour
             StartCoroutine(NpcOrder());
         }
     }
+    public void Eat(GameObject food)
+    {
+        foodPrefab = Instantiate(food, transform.GetChild(0));
+        ani.SetTrigger("Eat");
+        Invoke("TargetChange", 10f);
+    }
     IEnumerator NpcOrder()
     {
         yield return new WaitForSeconds(5f);
@@ -54,9 +61,10 @@ public class Npc : MonoBehaviour
         ani.SetBool("Order", true);
         spawn.OrderTarget.Enqueue(transform);
     }
-    IEnumerator TargetChange(float time)
+    private void TargetChange()
     {
-        yield return new WaitForSeconds(time);
+        Debug.Log("Start");
+        Destroy(foodPrefab);
         nm.enabled = true;
         move = true;
         ani.SetBool("SitChair", false);
