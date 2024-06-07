@@ -12,6 +12,7 @@ public class PoolManager : MonoBehaviour
     public GameObject CreatNpc()
     {
         Vector3 randomSpawnPosition = GetRandomPositionInBounds(spawnCollider.bounds);
+
         if (poolNpc.Count > 0)
         {
             GameObject newNpc = poolNpc.Dequeue();

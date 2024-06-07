@@ -26,6 +26,10 @@ public class Ui : MonoBehaviour
     {
         
     }
+    public void OnStart()
+    {
+        GameManager.Instance.gamestate = GameState.Start;
+    }
     public void TileWindow()
     {
         if (!funnitureWindow)

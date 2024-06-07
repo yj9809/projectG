@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
-    [SerializeField] private GameObject[] npc;
     public PoolManager pool;
     public List<Transform> npcTarget;
     public List<GameObject> elemental;
     public Transform[] elementalTarget;
     public Transform[] end;
 
-    private float spwanTime = 1f;
+    [SerializeField] private float spwanTime = 1f;
     private float spwanTimer;
+
+    public bool onSpawn = false;
 
     private class TargetSelect
     {
@@ -51,17 +52,23 @@ public class Spawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        spwanTimer += Time.deltaTime;
-        if (spwanTimer >= spwanTime)
-        {
-            spwanTimer = 0;
+        if (GameManager.Instance.gamestate == GameState.Stop)
+            return;
 
-            SpawnNpc();
+        if (onSpawn)
+        {
+            spwanTimer += Time.deltaTime;
+            if (spwanTimer >= spwanTime)
+            {
+                spwanTimer = 0;
+
+                SpawnNpc();
+            }
         }
     }
     private void SpawnNpc()
     {
-        if (Random.value < 0.5f)
+        if (Random.value < 0.8f)
         {
             int random = Random.Range(0, end.Length);
             GameObject newNpc = pool.CreatNpc();

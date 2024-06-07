@@ -16,13 +16,20 @@ public enum FunnitureType
     Table,
     Chair
 }
+public enum GameState
+{
+    Start,
+    Stop
+}
 public class GameManager : Singleton<GameManager>
 {
     public TileType oType = TileType.Non;
     public FunnitureType fType = FunnitureType.Table;
 
     [SerializeField] private Transform prfabPos;
-    
+
+    public GameState gamestate = GameState.Start;
+
     private ObjData data;
 
     public NavMeshSurface nms;
@@ -121,6 +128,18 @@ public class GameManager : Singleton<GameManager>
             return tileGrid;
         }
     }
+    private Spawn spawn;
+    public Spawn Spawn
+    {
+        get
+        {
+            if (spawn == null)
+            {
+                spawn = FindObjectOfType<Spawn>();
+            }
+            return spawn;
+        }
+    }
 
     public int tileNum;
     protected override void Awake()
@@ -131,17 +150,6 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        //GameObject prefab = Instantiate(nomalPrefab, prfabPos.position, Quaternion.identity);
-        //prefab.name = "Save Obj Prefab";
-        //savePrefab = GameObject.Find("Save Obj Prefab");
-
-        //nms = GetComponent<NavMeshSurface>();
-        //nms.BuildNavMesh();
-
-        //SeletTile.SetActive(false);
-        //SeletFunniture.SetActive(false);
-        //TileGrid.SetActive(false);
-
         //SetElementals
         elementals = GameObject.Find("Elementals").transform;
         //SetActive
@@ -164,12 +172,14 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Game")
         {
+            //SetElementals
+            elementals = GameObject.Find("Elementals").transform;
             //SetActive
             SeletTile.SetActive(false);
             SeletFunniture.SetActive(false);

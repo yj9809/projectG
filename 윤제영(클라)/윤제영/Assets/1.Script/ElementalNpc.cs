@@ -40,6 +40,9 @@ public class ElementalNpc : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.gamestate == GameState.Stop)
+            return;
+
         if (sType == ServingType.Idle)
         {
             if (isMove)

@@ -50,14 +50,16 @@ public class SeletTile : MonoBehaviour
             }
             else if (gm.oType == TileType.Wall && hit.transform.CompareTag("Wall"))
             {
+                Vector3 pos = new Vector3(hit.transform.position.x, hit.transform.position.y + 1.25f, hit.transform.position.z);
                 if (tilePreView == null)
                 {
-                    tilePreView = Instantiate(wall[gm.tileNum], hit.transform.position, hit.transform.rotation);
+                    
+                    tilePreView = Instantiate(wall[gm.tileNum], pos, hit.transform.rotation);
                     tilePreView.transform.GetComponent<Collider>().enabled = false;
                 }
                 else
                 {
-                    tilePreView.transform.position = hit.transform.position;
+                    tilePreView.transform.position = pos;
                     tilePreView.transform.rotation = hit.transform.rotation;
                 }
                 if (Input.GetMouseButtonDown(0))
@@ -120,10 +122,12 @@ public class SeletTile : MonoBehaviour
             {
                 GameObject newWall;
 
+                Vector3 pos = new Vector3(position.x, position.y + 1.25f, position.z);
+
                 if (hit.transform.gameObject.layer == 6)
-                    newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
+                    newWall = Instantiate(wall[gm.tileNum], pos, tilePreView.transform.rotation);
                 else if (hit.transform.CompareTag("Tile"))
-                    newWall = Instantiate(wall[gm.tileNum], position, tilePreView.transform.rotation);
+                    newWall = Instantiate(wall[gm.tileNum], pos, tilePreView.transform.rotation);
                 else
                 {
                     newWall = hit.transform.gameObject;
