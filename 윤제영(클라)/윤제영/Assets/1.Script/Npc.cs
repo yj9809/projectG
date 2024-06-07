@@ -63,7 +63,6 @@ public class Npc : MonoBehaviour
     }
     private void TargetChange()
     {
-        Debug.Log("Start");
         Destroy(foodPrefab);
         nm.enabled = true;
         move = true;

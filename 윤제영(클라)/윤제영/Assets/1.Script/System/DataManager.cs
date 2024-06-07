@@ -8,6 +8,7 @@ public class ObjData
 {
     public string saveName = "aaa";
     public string time;
+    public int day;
     public GameObject tWParent;
 }
 public class DataManager : Singleton<DataManager>

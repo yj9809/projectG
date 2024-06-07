@@ -43,31 +43,6 @@ public class GameManager : Singleton<GameManager>
             return counterPos;
         }
     }
-    private GameObject seletTile;
-    public GameObject SeletTile
-    {
-        get
-        {
-            if (seletTile == null)
-            {
-                seletTile = GameObject.Find("[ SeletTile ]");
-            }
-            return seletTile;
-        }
-    }
-
-    private GameObject seletFunniture;
-    public GameObject SeletFunniture
-    {
-        get
-        {
-            if (seletFunniture == null)
-            {
-                seletFunniture = GameObject.Find("[ SeletFunniture ]");
-            }
-            return seletFunniture;
-        }
-    }
 
     private Transform twParent;
     public Transform tWParent
@@ -105,6 +80,32 @@ public class GameManager : Singleton<GameManager>
                 chairParent = GameObject.Find("Chair Parent").transform;
             }
             return chairParent;
+        }
+    }
+
+    private GameObject seletTile;
+    public GameObject SeletTile
+    {
+        get
+        {
+            if (seletTile == null)
+            {
+                seletTile = GameObject.Find("[ SeletTile ]");
+            }
+            return seletTile;
+        }
+    }
+
+    private GameObject seletFunniture;
+    public GameObject SeletFunniture
+    {
+        get
+        {
+            if (seletFunniture == null)
+            {
+                seletFunniture = GameObject.Find("[ SeletFunniture ]");
+            }
+            return seletFunniture;
         }
     }
 
