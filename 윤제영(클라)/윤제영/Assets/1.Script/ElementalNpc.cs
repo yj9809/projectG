@@ -18,6 +18,7 @@ public class ElementalNpc : MonoBehaviour
 
     private Spawn spawn;
     private NavMeshAgent nm;
+    private GameManager gm;
 
     public Transform target;
 
@@ -26,11 +27,13 @@ public class ElementalNpc : MonoBehaviour
     private float changeTargetTimer = 1;
     private float changeTargetTime = float.MaxValue;
 
+    public bool isRandom = true;
     public bool isMove = true;
     private void Awake()
     {
         nm = GetComponent<NavMeshAgent>();
         spawn = FindObjectOfType<Spawn>();
+        gm = FindObjectOfType<GameManager>();
     }
     // Start is called before the first frame update
     void Start()
@@ -42,10 +45,11 @@ public class ElementalNpc : MonoBehaviour
     {
         if (GameManager.Instance.gamestate == GameState.Stop)
             return;
+        
 
         if (sType == ServingType.Idle)
         {
-            if (isMove)
+            if (isRandom)
             {
                 changeTargetTime += Time.deltaTime;
 
@@ -67,7 +71,8 @@ public class ElementalNpc : MonoBehaviour
         {
             GoServing(foodPrefab);
         }
-        nm.SetDestination(target.position);
+        if (isMove)
+            nm.SetDestination(target.position);
     }
     private void RandomTarget()
     {
@@ -76,7 +81,7 @@ public class ElementalNpc : MonoBehaviour
             orderTarget = spawn.OrderTarget.Dequeue();
             target = orderTarget;
             sType = ServingType.GoGuest;
-            isMove = false;
+            isRandom = false;
         }
         else
         {
@@ -116,8 +121,18 @@ public class ElementalNpc : MonoBehaviour
         {
             target.GetComponent<Npc>().Eat(food);
             Destroy(food);
-            isMove = true;
+            isRandom = true;
             sType = ServingType.Idle;
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "House")
+        {
+            nm.enabled = false;
+            isMove = false;
+            transform.position = gm.House.houseInPos.position;
+            gm.House.partner.Add(gameObject);
         }
     }
 }

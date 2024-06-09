@@ -14,6 +14,8 @@ public class ControlSkyBox : MonoBehaviour
     private GameManager gm;
 
     private float sunInitIntensity;
+
+    public bool onGame = true;
     private void Start()
     {
         sunInitIntensity = sun.intensity;
@@ -29,12 +31,22 @@ public class ControlSkyBox : MonoBehaviour
 
         Sun();
         OnSpawn();
-        currentTime += (Time.deltaTime / dayTIme) * timeMultiplier;
 
-        if (currentTime >= 1)
+        if (onGame)
         {
-            currentTime = 0;
-            GameManager.Instance.gamestate = GameState.Stop;
+            currentTime += (Time.deltaTime / dayTIme) * timeMultiplier;
+
+            if (currentTime >= 1)
+            {
+                currentTime = 0;
+                onGame = false;
+                for (int i = 0; i < gm.Spawn.elemental.Count; i++)
+                { 
+                    gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>().isRandom = false;
+                    gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>().target = gm.House.housePos;
+                }
+                //GameManager.Instance.gamestate = GameState.Stop;
+            }
         }
     }
     private void Sun()

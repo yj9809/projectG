@@ -38,15 +38,26 @@ public class GameManager : Singleton<GameManager>
     public GameObject buildingPrefab;
     public GameObject savePrefab;
 
+    private House house;
+    public House House
+    {
+        get
+        {
+            if (house == null)
+                house = FindObjectOfType<House>();
+
+            return house;
+        }
+    }
+
     private Transform counterPos;
     public Transform CounterPos
     {
         get 
         {
             if (counterPos == null)
-            {
                 counterPos = GameObject.Find("Counter Pos").transform;
-            }
+
             return counterPos;
         }
     }
