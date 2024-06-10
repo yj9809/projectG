@@ -23,11 +23,11 @@ public enum GameState
 }
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField] private Transform prfabPos;
+    [SerializeField] private GameObject mainChar;
+
     public TileType oType = TileType.Non;
     public FunnitureType fType = FunnitureType.Table;
-
-    [SerializeField] private Transform prfabPos;
-
     public GameState gamestate = GameState.Start;
 
     private ObjData data;
@@ -59,6 +59,18 @@ public class GameManager : Singleton<GameManager>
                 counterPos = GameObject.Find("Counter Pos").transform;
 
             return counterPos;
+        }
+    }
+
+    private Transform protagonistPos;
+    public Transform ProtagonistPos
+    {
+        get
+        {
+            if (protagonistPos == null)
+                protagonistPos = GameObject.Find("Protagonist Pos").transform;
+
+            return protagonistPos;
         }
     }
 
@@ -172,6 +184,7 @@ public class GameManager : Singleton<GameManager>
         //Prefab
         prfabPos = GameObject.Find("PrefabPos").transform;
         GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
+        GameObject main = Instantiate(mainChar, ProtagonistPos.position, Quaternion.identity);
         prefab.name = "Save Obj Prefab";
         allChair = prefab.transform.GetChild(2).transform;
         savePrefab = GameObject.Find("Save Obj Prefab");

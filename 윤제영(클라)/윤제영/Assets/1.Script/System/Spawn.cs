@@ -68,7 +68,7 @@ public class Spawn : MonoBehaviour
     }
     private void SpawnNpc()
     {
-        if (Random.value < 0.8f)
+        if (Random.value < 0.6f)
         {
             int random = Random.Range(0, end.Length);
             GameObject newNpc = pool.CreatNpc();

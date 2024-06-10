@@ -61,6 +61,5 @@ public class DataManager : Singleton<DataManager>
         bool isSuccess = false;
         UnityEditor.PrefabUtility.SaveAsPrefabAsset(temp, path, out isSuccess);// ¿˙¿Â
         Debug.Log(isSuccess);
-        //UnityEngine.Object obj = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
     }
 }

@@ -10,6 +10,7 @@ public class ControlSkyBox : MonoBehaviour
     [SerializeField, Range(0, 1)] private float currentTime = 0f;
     [SerializeField] private float timeMultiplier = 1f;
     [SerializeField] private Material[] skyBoxMaterial;
+    [SerializeField] private Color[] color;
 
     private GameManager gm;
 
@@ -31,6 +32,7 @@ public class ControlSkyBox : MonoBehaviour
 
         Sun();
         OnSpawn();
+        SkyBoxChange();
 
         if (onGame)
         {
@@ -38,21 +40,21 @@ public class ControlSkyBox : MonoBehaviour
 
             if (currentTime >= 1)
             {
-                currentTime = 0;
                 onGame = false;
+
                 for (int i = 0; i < gm.Spawn.elemental.Count; i++)
                 { 
                     gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>().isRandom = false;
+                    gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>().goHome = true;
                     gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>().target = gm.House.housePos;
                 }
-                //GameManager.Instance.gamestate = GameState.Stop;
             }
         }
     }
     private void Sun()
     {
-        sun.transform.localRotation = Quaternion.Euler((currentTime * 360f) - 90, 170, 0);
-        moon.transform.localRotation = Quaternion.Euler((currentTime * 360f) - 90, 170, 0);
+        sun.transform.localRotation = Quaternion.Euler((currentTime * 360f) - 50, 170, 0);
+        moon.transform.localRotation = Quaternion.Euler((currentTime * 360f) - 50, 170, 0);
     }
     private void OnSpawn()
     {
@@ -63,6 +65,30 @@ public class ControlSkyBox : MonoBehaviour
         else
         {
             GameManager.Instance.Spawn.onSpawn = false;
+        }
+    }
+    private void SkyBoxChange()
+    {
+        if (currentTime >= 0.5f && currentTime <0.8f)
+        {
+            RenderSettings.skybox = skyBoxMaterial[1];
+            sun.color = color[1];
+            RenderSettings.fogColor = color[1];
+        }
+        else if (currentTime >=0.8f)
+        {
+            RenderSettings.skybox = skyBoxMaterial[2];
+            RenderSettings.fogColor = color[2];
+            moon.gameObject.SetActive(true);
+            sun.gameObject.SetActive(false);
+        }
+        else
+        {
+            RenderSettings.skybox = skyBoxMaterial[0];
+            sun.color = color[0];
+            RenderSettings.fogColor = color[0];
+            moon.gameObject.SetActive(false);
+            sun.gameObject.SetActive(true);
         }
     }
 }

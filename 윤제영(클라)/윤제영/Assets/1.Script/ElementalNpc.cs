@@ -29,6 +29,7 @@ public class ElementalNpc : MonoBehaviour
 
     public bool isRandom = true;
     public bool isMove = true;
+    public bool goHome = false;
     private void Awake()
     {
         nm = GetComponent<NavMeshAgent>();
@@ -127,7 +128,7 @@ public class ElementalNpc : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "House")
+        if (other.gameObject.tag == "House" && goHome)
         {
             nm.enabled = false;
             isMove = false;
