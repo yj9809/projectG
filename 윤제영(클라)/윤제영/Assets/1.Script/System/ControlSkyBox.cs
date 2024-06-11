@@ -14,12 +14,9 @@ public class ControlSkyBox : MonoBehaviour
 
     private GameManager gm;
 
-    private float sunInitIntensity;
-
     public bool onGame = true;
     private void Start()
     {
-        sunInitIntensity = sun.intensity;
         gm = GameManager.Instance;
     }
     // Update is called once per frame
@@ -42,8 +39,10 @@ public class ControlSkyBox : MonoBehaviour
             {
                 onGame = false;
 
+                gm.MainCharacter.GoHouse();
+
                 for (int i = 0; i < gm.Spawn.elemental.Count; i++)
-                { 
+                {
                     gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>().isRandom = false;
                     gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>().goHome = true;
                     gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>().target = gm.House.housePos;
@@ -90,5 +89,11 @@ public class ControlSkyBox : MonoBehaviour
             moon.gameObject.SetActive(false);
             sun.gameObject.SetActive(true);
         }
+    }
+    public void NextDay()
+    {
+        onGame = true;
+        currentTime = 0;
+        gm.gamestate = GameState.Start;
     }
 }

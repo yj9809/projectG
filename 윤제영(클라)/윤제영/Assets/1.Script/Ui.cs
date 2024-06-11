@@ -8,6 +8,7 @@ public class Ui : MonoBehaviour
 {
     [SerializeField] private Image tileSeletWindow;
     [SerializeField] private Image funnitureSeletWindow;
+    [SerializeField] private Button next;
     [SerializeField] private GameObject destroy;
     private GameManager gm;
 
@@ -104,5 +105,24 @@ public class Ui : MonoBehaviour
     public void OnSave()
     {
         GameManager.Instance.OnSave();
+    }
+    public void TimeScaleChange(int speed)
+    {
+        switch (speed)
+        {
+            case 1:
+                Time.timeScale = 1f;
+                break;
+            case 2:
+                Time.timeScale = 2f;
+                break;
+            case 3:
+                Time.timeScale = 3f;
+                break;
+        }
+    }
+    public void OnNextButton()
+    {
+        next.gameObject.SetActive(true);
     }
 }

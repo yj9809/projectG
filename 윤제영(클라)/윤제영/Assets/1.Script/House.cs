@@ -18,9 +18,10 @@ public class House : MonoBehaviour
     void Update()
     {
         int allPartner = 1 + GameManager.Instance.Spawn.elemental.Count;
-        if (partner.Count == allPartner -1)
+        if (partner.Count == allPartner)
         {
             GameManager.Instance.gamestate = GameState.Stop;
+            GameManager.Instance.Ui.OnNextButton();
         }
     }
 }

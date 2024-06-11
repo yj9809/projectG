@@ -46,31 +46,31 @@ public class ElementalNpc : MonoBehaviour
     {
         if (GameManager.Instance.gamestate == GameState.Stop)
             return;
-        
 
-        if (sType == ServingType.Idle)
+        switch (sType)
         {
-            if (isRandom)
-            {
-                changeTargetTime += Time.deltaTime;
-
-                if (changeTargetTime >= changeTargetTimer)
+            case ServingType.Idle:
+                if (isRandom)
                 {
-                    RandomTarget();
+                    changeTargetTime += Time.deltaTime;
+
+                    if (changeTargetTime >= changeTargetTimer)
+                    {
+                        RandomTarget();
+                    }
                 }
-            }
-        }
-        else if (sType == ServingType.GoGuest)
-        {
-            GoGuest();
-        }
-        else if(sType == ServingType.GoCounte)
-        {
-            GoCounte();
-        }
-        else if (sType == ServingType.GoServing)
-        {
-            GoServing(foodPrefab);
+                break;
+            case ServingType.GoGuest:
+                GoGuest();
+                break;
+            case ServingType.GoCounte:
+                GoCounte();
+                break;
+            case ServingType.GoServing:
+                GoServing(foodPrefab);
+                break;
+            default:
+                break;
         }
         if (isMove)
             nm.SetDestination(target.position);
@@ -103,11 +103,12 @@ public class ElementalNpc : MonoBehaviour
     {
         if (nm.remainingDistance <= nm.stoppingDistance)
         {
+            target.GetComponent<Npc>().Order();
             target = GameManager.Instance.CounterPos;
             sType = ServingType.GoCounte;
         }
     }
-    private void GoCounte()
+    public void GoCounte()
     {
         if (nm.remainingDistance <= nm.stoppingDistance)
         {

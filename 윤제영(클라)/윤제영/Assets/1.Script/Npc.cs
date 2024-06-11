@@ -9,6 +9,7 @@ public class Npc : MonoBehaviour
     private Spawn spawn;
     private NavMeshAgent nm;
     private Animator ani;
+    private ElementalNpc elementalNpc;
 
     public Transform target;
 
@@ -45,21 +46,25 @@ public class Npc : MonoBehaviour
             transform.rotation = Quaternion.Euler(new Vector3(0, target.GetComponent<Chair>().Check(), 0));
             transform.position = ChairPos;
             ani.SetBool("SitChair", true);
-            StartCoroutine(NpcOrder());
+            StartCoroutine(NpcCall());
         }
+    }
+    IEnumerator NpcCall()
+    {
+        yield return new WaitForSeconds(5f);
+
+        ani.SetBool("Call", true);
+        spawn.OrderTarget.Enqueue(transform);
+    }
+    public void Order()
+    {
+        ani.SetBool("Call", false);
     }
     public void Eat(GameObject food)
     {
         foodPrefab = Instantiate(food, transform.GetChild(0));
         ani.SetTrigger("Eat");
         Invoke("TargetChange", 10f);
-    }
-    IEnumerator NpcOrder()
-    {
-        yield return new WaitForSeconds(5f);
-
-        ani.SetBool("Order", true);
-        spawn.OrderTarget.Enqueue(transform);
     }
     private void TargetChange()
     {

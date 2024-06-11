@@ -99,7 +99,6 @@ public class Spawn : MonoBehaviour
             if (!randomElemental[i].isUse)
             {
                 elemental[i].transform.GetComponent<ElementalNpc>().target = pos;
-                //elemental[i].transform.GetComponent<ElementalNpc>().setTarget = true;
                 randomElemental[i].isUse = true;
                 break;
             }
