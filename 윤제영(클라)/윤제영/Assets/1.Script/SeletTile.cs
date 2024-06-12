@@ -59,7 +59,7 @@ public class SeletTile : MonoBehaviour
                 }
                 else
                 {
-                    tilePreView.transform.position = pos;
+                    tilePreView.transform.position = hit.transform.position;
                     tilePreView.transform.rotation = hit.transform.rotation;
                 }
                 if (Input.GetMouseButtonDown(0))
@@ -107,8 +107,8 @@ public class SeletTile : MonoBehaviour
                 }
                 newTile.name = tile[gm.tileNum].name;
                 newTile.transform.SetParent(gm.tWParent);
+                gm.nms.BuildNavMesh();
             }
-            
         } 
     }
     //º® »ý¼º

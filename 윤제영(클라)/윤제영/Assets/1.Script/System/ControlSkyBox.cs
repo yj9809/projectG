@@ -43,9 +43,9 @@ public class ControlSkyBox : MonoBehaviour
 
                 for (int i = 0; i < gm.Spawn.elemental.Count; i++)
                 {
-                    gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>().isRandom = false;
-                    gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>().goHome = true;
-                    gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>().target = gm.House.housePos;
+                    ElementalNpc elem = gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>();
+                    elem.GoHouse();
+                    elem.sType = ServingType.Idle;
                 }
             }
         }
@@ -94,6 +94,16 @@ public class ControlSkyBox : MonoBehaviour
     {
         onGame = true;
         currentTime = 0;
+
+        gm.MainCharacter.GoCounter();
+
+        for (int i = 0; i < gm.Spawn.elemental.Count; i++)
+        {
+            Debug.Log("½ÇÇà");
+            ElementalNpc elem = gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>();
+            elem.GoStore();
+        }
+        gm.House.partner.Clear();
         gm.gamestate = GameState.Start;
     }
 }

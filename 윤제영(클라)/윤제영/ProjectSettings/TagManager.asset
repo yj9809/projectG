@@ -12,6 +12,7 @@ TagManager:
   - End
   - Table
   - House
+  - Counte
   layers:
   - Default
   - TransparentFX

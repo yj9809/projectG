@@ -193,24 +193,24 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        ////SetElementals
-        //elementals = GameObject.Find("Elementals").transform;
-        ////SetActive
-        //SeletTile.SetActive(false);
-        //SeletFunniture.SetActive(false);
-        //TileGrid.SetActive(false);
-        ////Data
-        //data = DataManager.Instance.now;
-        ////Prefab
-        //prfabPos = GameObject.Find("PrefabPos").transform;
-        //GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
-        //GameObject main = Instantiate(mainChar, ProtagonistPos.position, Quaternion.identity);
-        //prefab.name = "Save Obj Prefab";
-        //allChair = prefab.transform.GetChild(2).transform;
-        //savePrefab = GameObject.Find("Save Obj Prefab");
-        ////Nav
-        //nms = GetComponent<NavMeshSurface>();
-        //nms.BuildNavMesh();
+        //SetElementals
+        elementals = GameObject.Find("Elementals").transform;
+        //SetActive
+        SeletTile.SetActive(false);
+        SeletFunniture.SetActive(false);
+        TileGrid.SetActive(false);
+        //Data
+        data = DataManager.Instance.now;
+        //Prefab
+        prfabPos = GameObject.Find("PrefabPos").transform;
+        GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
+        GameObject main = Instantiate(mainChar, ProtagonistPos.position, Quaternion.identity);
+        prefab.name = "Save Obj Prefab";
+        allChair = prefab.transform.GetChild(2).transform;
+        savePrefab = GameObject.Find("Save Obj Prefab");
+        //Nav
+        nms = GetComponent<NavMeshSurface>();
+        nms.BuildNavMesh();
     }
 
     // Update is called once per frame
@@ -240,6 +240,7 @@ public class GameManager : Singleton<GameManager>
             //Nav
             nms = GetComponent<NavMeshSurface>();
             nms.BuildNavMesh();
+            DataManager.Instance.SavePrefab(savePrefab);
         }
     }
     public void OnLoadScene()

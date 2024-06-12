@@ -69,8 +69,6 @@ public class ElementalNpc : MonoBehaviour
             case ServingType.GoServing:
                 GoServing(foodPrefab);
                 break;
-            default:
-                break;
         }
         if (isMove)
             nm.SetDestination(target.position);
@@ -126,6 +124,22 @@ public class ElementalNpc : MonoBehaviour
             isRandom = true;
             sType = ServingType.Idle;
         }
+    }
+    public void GoHouse()
+    {
+        goHome = true;
+        isMove = true;
+        isRandom = false;
+        target = gm.House.housePos;
+    }
+    public void GoStore()
+    {
+        transform.position = gm.House.housePos.position;
+        RandomTarget();
+        nm.enabled = true;
+        goHome = false;
+        isMove = true;
+        isRandom = true;
     }
     private void OnTriggerEnter(Collider other)
     {

@@ -13,6 +13,7 @@ public class MainCharacter : MonoBehaviour
 
     public bool isMove = false;
     public bool goHome = false;
+    public bool goCounter = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,14 +35,32 @@ public class MainCharacter : MonoBehaviour
         goHome = true;
         isMove = true;
     }
+    public void GoCounter()
+    {
+        transform.position = gm.House.housePos.position;
+        nm.enabled = true;
+        ani.SetBool("Move", true);
+        target = gm.ProtagonistPos;
+        goHome = false;
+        goCounter = true;
+        isMove = true;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "House" && goHome)
         {
+            ani.SetBool("Move", false);
             nm.enabled = false;
             isMove = false;
             transform.position = gm.House.houseInPos.position;
             gm.House.partner.Add(gameObject);
+        }
+        if (other.gameObject.tag == "Counte" && goCounter)
+        {
+            ani.SetBool("Move", false);
+            isMove = false;
+            goCounter = false;
+            transform.position = gm.ProtagonistPos.position;
         }
     }
 }
