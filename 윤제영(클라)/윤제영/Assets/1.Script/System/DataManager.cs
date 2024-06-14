@@ -7,8 +7,8 @@ using System.IO;
 public class ObjData
 {
     public string saveName = "aaa";
-    public string time;
     public int day = 1;
+    public int happy = 0;
 }
 public class DataManager : Singleton<DataManager>
 {

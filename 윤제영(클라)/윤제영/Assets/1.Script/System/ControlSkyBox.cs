@@ -7,11 +7,11 @@ public class ControlSkyBox : MonoBehaviour
     [SerializeField] private Light sun;
     [SerializeField] private Light moon;
     [SerializeField] private float dayTIme = 120f;
-    [SerializeField, Range(0, 1)] private float currentTime = 0f;
     [SerializeField] private float timeMultiplier = 1f;
     [SerializeField] private Material[] skyBoxMaterial;
     [SerializeField] private Color[] color;
 
+    [Range(0, 1)] public float currentTime = 0f;
     private GameManager gm;
 
     public bool onGame = true;
@@ -34,7 +34,8 @@ public class ControlSkyBox : MonoBehaviour
         if (onGame)
         {
             currentTime += (Time.deltaTime / dayTIme) * timeMultiplier;
-            gm.Ui.RotationClockHand(currentTime);
+            //gm.Ui.RotationClockHand(currentTime);
+
             if (currentTime >= 1 && gm.Spawn.customerList.Count == 0)
             {
                 onGame = false;

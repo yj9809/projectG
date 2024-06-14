@@ -6,13 +6,19 @@ using DG.Tweening;
 
 public class Ui : MonoBehaviour
 {
+    [SerializeField] private GameObject destroy;
+
     [SerializeField] private Image tileSeletWindow;
     [SerializeField] private Image funnitureSeletWindow;
-    [SerializeField] private Image clockHand;
+
     [SerializeField] private Button next;
-    [SerializeField] private GameObject destroy;
+
+    [SerializeField] private Button timeScaleButton;
+    [SerializeField] private Sprite[] timeScaleSprite;
+
     private GameManager gm;
 
+    private int timeScaleValue = 0;
     private bool tileWindow = false;
     private bool funnitureWindow = false;
     private bool destroySystem = false;
@@ -107,18 +113,24 @@ public class Ui : MonoBehaviour
     {
         GameManager.Instance.OnSave();
     }
-    public void TimeScaleChange(int speed)
+    public void TimeScaleChange()
     {
-        switch (speed)
+        timeScaleValue++;
+
+        switch (timeScaleValue)
         {
             case 1:
-                Time.timeScale = 1f;
+                Time.timeScale = 2f;
+                timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
                 break;
             case 2:
-                Time.timeScale = 2f;
+                Time.timeScale = 3f;
+                timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
                 break;
             case 3:
-                Time.timeScale = 3f;
+                timeScaleValue = 0;
+                Time.timeScale = 1f;
+                timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
                 break;
         }
     }
@@ -126,10 +138,10 @@ public class Ui : MonoBehaviour
     {
             next.gameObject.SetActive(true);
     }
-    public void RotationClockHand(float time)
-    {
-        float rotationZ = Mathf.Lerp(-70f, 70, time);
+    //public void RotationClockHand(float time)
+    //{
+    //    float rotationZ = Mathf.Lerp(-70f, 70, time);
 
-        clockHand.rectTransform.rotation = Quaternion.Euler(0, 0, rotationZ);
-    }
+    //    clockHand.rectTransform.rotation = Quaternion.Euler(0, 0, rotationZ);
+    //}
 }

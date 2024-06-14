@@ -184,6 +184,17 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private ControlSkyBox sky;
+    public ControlSkyBox Sky
+    {
+        get
+        {
+            if (sky == null)
+                sky = FindObjectOfType<ControlSkyBox>();
+
+            return sky;
+        }
+    }
     public int tileNum;
     protected override void Awake()
     {
