@@ -132,12 +132,10 @@ public class SeletFunniture : MonoBehaviour
         {
             if (hit.transform.CompareTag("Chair"))
             {
-                Debug.Log("실행1");
                 return;
             }  
             else if (!hit.transform.CompareTag("Chair"))    
             {
-                Debug.Log("실행");
                 GameObject newChair = Instantiate(chair, pos, Quaternion.Euler(rota));
                 newChair.transform.SetParent(gm.ChairParent);
                 newChair.name = chair.name;

@@ -75,9 +75,9 @@ public class ElementalNpc : MonoBehaviour
     }
     private void RandomTarget()
     {
-        if (spawn.OrderTarget.Count > 0)
+        if (spawn.orderTarget.Count > 0)
         {
-            orderTarget = spawn.OrderTarget.Dequeue();
+            orderTarget = spawn.orderTarget.Dequeue();
             target = orderTarget;
             sType = ServingType.GoGuest;
             isRandom = false;

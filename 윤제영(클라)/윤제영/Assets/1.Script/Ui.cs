@@ -8,18 +8,16 @@ public class Ui : MonoBehaviour
 {
     [SerializeField] private Image tileSeletWindow;
     [SerializeField] private Image funnitureSeletWindow;
+    [SerializeField] private Image clockHand;
     [SerializeField] private Button next;
     [SerializeField] private GameObject destroy;
     private GameManager gm;
 
-    private bool tileWindow;
-    private bool funnitureWindow;
-    private bool destroySystem;
+    private bool tileWindow = false;
+    private bool funnitureWindow = false;
+    private bool destroySystem = false;
     private void Start()
     {
-        tileWindow = false;
-        funnitureWindow = false;
-        destroySystem = false;
         gm = GameManager.Instance;
     }
     // Update is called once per frame
@@ -33,7 +31,7 @@ public class Ui : MonoBehaviour
     }
     public void TileWindow()
     {
-        if (!funnitureWindow)
+        if (!funnitureWindow && !destroySystem)
         {
             if (!tileWindow)
             {
@@ -55,7 +53,7 @@ public class Ui : MonoBehaviour
     }
     public void FunnitureWindow()
     {
-        if (!tileWindow)
+        if (!tileWindow && !destroySystem)
         {
             if (!funnitureWindow)
             {
@@ -76,6 +74,22 @@ public class Ui : MonoBehaviour
         }
         
     }
+    public void OnDestroySystem()
+    {
+        if (!tileWindow && ! funnitureWindow)
+        {
+            if (destroySystem)
+            {
+                destroy.SetActive(false);
+                destroySystem = false;
+            }
+            else if (!destroySystem)
+            {
+                destroy.SetActive(true);
+                destroySystem = true;
+            }
+        }
+    }
     public void TileNum(int num)
     {
         GameManager.Instance.tileNum = num;
@@ -88,19 +102,6 @@ public class Ui : MonoBehaviour
     {
         GameManager.Instance.fType = (FunnitureType)num;
         Destroy(GameManager.Instance.SeletFunniture.GetComponent<SeletFunniture>().funniturePreView);
-    }
-    public void OnDestroySystem()
-    {
-        if (destroySystem)
-        {
-            destroy.SetActive(false);
-            destroySystem = false;
-        }
-        else if (!destroySystem)
-        {
-            destroy.SetActive(true);
-            destroySystem = true;
-        }
     }
     public void OnSave()
     {
@@ -123,6 +124,12 @@ public class Ui : MonoBehaviour
     }
     public void OnNextButton()
     {
-        next.gameObject.SetActive(true);
+            next.gameObject.SetActive(true);
+    }
+    public void RotationClockHand(float time)
+    {
+        float rotationZ = Mathf.Lerp(-70f, 70, time);
+
+        clockHand.rectTransform.rotation = Quaternion.Euler(0, 0, rotationZ);
     }
 }

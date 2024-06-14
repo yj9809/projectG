@@ -17,7 +17,6 @@ public class Selet : MonoBehaviour
     }
     public void SaveCheck()
     {
-        Debug.Log(DataManager.Instance.CheckFile());
         if (DataManager.Instance.CheckFile())
         {
             load.SetActive(true);

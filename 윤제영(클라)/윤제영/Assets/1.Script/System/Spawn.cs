@@ -25,7 +25,8 @@ public class Spawn : MonoBehaviour
         public int index;
         public bool isUse;
     }
-    public Queue<Transform> OrderTarget = new Queue<Transform>();
+    public Queue<Transform> orderTarget = new Queue<Transform>();
+    public List<GameObject> customerList = new List<GameObject>();
     private List<TargetSelect> randomTarget = new List<TargetSelect>();
     private List<ElementalSelect> randomElemental = new List<ElementalSelect>();
     // Start is called before the first frame update
@@ -47,6 +48,7 @@ public class Spawn : MonoBehaviour
         {
             randomElemental.Add(new ElementalSelect { index = i, isUse = false });
         }
+        customerList.Clear();
     }
 
     // Update is called once per frame
@@ -82,6 +84,7 @@ public class Spawn : MonoBehaviour
             {
                 GameObject newNpc = pool.CreatNpc();
                 newNpc.GetComponent<Npc>().target = npcTarget[randomIndex];
+                customerList.Add(newNpc);
                 randomTarget[randomIndex].isUse = true;
             }
             else
@@ -132,5 +135,10 @@ public class Spawn : MonoBehaviour
     public void SetRandomTarget()
     {
         randomTarget.Add(new TargetSelect { index = npcTarget.Count - 1, isUse = false });
+    }
+    public void CheckCustomer(GameObject npc)
+    {
+        if (customerList.Contains(npc))
+            customerList.Remove(npc);
     }
 }

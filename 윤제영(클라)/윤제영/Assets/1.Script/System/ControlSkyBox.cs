@@ -34,13 +34,12 @@ public class ControlSkyBox : MonoBehaviour
         if (onGame)
         {
             currentTime += (Time.deltaTime / dayTIme) * timeMultiplier;
-
-            if (currentTime >= 1)
+            gm.Ui.RotationClockHand(currentTime);
+            if (currentTime >= 1 && gm.Spawn.customerList.Count == 0)
             {
                 onGame = false;
 
                 gm.MainCharacter.GoHouse();
-
                 for (int i = 0; i < gm.Spawn.elemental.Count; i++)
                 {
                     ElementalNpc elem = gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>();
@@ -94,16 +93,16 @@ public class ControlSkyBox : MonoBehaviour
     {
         onGame = true;
         currentTime = 0;
-
+        gm.Ui.OnNextButton();
         gm.MainCharacter.GoCounter();
 
         for (int i = 0; i < gm.Spawn.elemental.Count; i++)
         {
-            Debug.Log("½ÇÇà");
             ElementalNpc elem = gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>();
             elem.GoStore();
         }
         gm.House.partner.Clear();
+        gm.Spawn.customerList.Clear();
         gm.gamestate = GameState.Start;
     }
 }

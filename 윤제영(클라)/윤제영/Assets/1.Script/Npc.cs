@@ -51,10 +51,10 @@ public class Npc : MonoBehaviour
     }
     IEnumerator NpcCall()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
         ani.SetBool("Call", true);
-        spawn.OrderTarget.Enqueue(transform);
+        spawn.orderTarget.Enqueue(transform);
     }
     public void Order()
     {
@@ -80,6 +80,7 @@ public class Npc : MonoBehaviour
     {
         if (other.transform.gameObject.tag == "End")
         {
+            GameManager.Instance.Spawn.CheckCustomer(this.gameObject);
             spawn.pool.ReturnNpc(this.gameObject);
         }
     }
