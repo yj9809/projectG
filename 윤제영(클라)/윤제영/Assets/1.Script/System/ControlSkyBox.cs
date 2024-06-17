@@ -34,7 +34,7 @@ public class ControlSkyBox : MonoBehaviour
         if (onGame)
         {
             currentTime += (Time.deltaTime / dayTIme) * timeMultiplier;
-            //gm.Ui.RotationClockHand(currentTime);
+            gm.Ui.RotationClockHand(currentTime);
 
             if (currentTime >= 1 && gm.Spawn.customerList.Count == 0)
             {

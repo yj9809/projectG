@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class FreeCamera : MonoBehaviour
 {
@@ -23,8 +24,11 @@ public class FreeCamera : MonoBehaviour
     {
         thisCamera = GetComponent<Camera>();
     }
-    // Update is called once per frame
-    void Update()
+    private void Update()
+    {
+        CameraMove();
+    }
+    private void CameraMove()
     {
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");

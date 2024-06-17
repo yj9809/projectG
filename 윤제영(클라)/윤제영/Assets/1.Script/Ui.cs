@@ -16,6 +16,8 @@ public class Ui : MonoBehaviour
     [SerializeField] private Button timeScaleButton;
     [SerializeField] private Sprite[] timeScaleSprite;
 
+    [SerializeField] private Image clockBackGround;
+
     private GameManager gm;
 
     private int timeScaleValue = 0;
@@ -29,7 +31,14 @@ public class Ui : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TimeScaleChange();
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Time.timeScale = 0;
+        }
     }
     public void OnStart()
     {
@@ -42,7 +51,7 @@ public class Ui : MonoBehaviour
             if (!tileWindow)
             {
                 tileSeletWindow.transform.
-                    GetComponent<RectTransform>().DOMoveY(0, 1f);
+                    GetComponent<RectTransform>().DOMoveY(0, 1f).SetUpdate(true);
                 gm.TileGrid.SetActive(true);
                 gm.SeletTile.SetActive(true);
                 tileWindow = true;
@@ -50,7 +59,7 @@ public class Ui : MonoBehaviour
             else if (tileWindow)
             {
                 tileSeletWindow.transform.
-                    GetComponent<RectTransform>().DOMoveY(-240, 1f);
+                    GetComponent<RectTransform>().DOMoveY(-240, 1f).SetUpdate(true);
                 gm.TileGrid.SetActive(false);
                 gm.SeletTile.SetActive(false);
                 tileWindow = false;
@@ -64,7 +73,7 @@ public class Ui : MonoBehaviour
             if (!funnitureWindow)
             {
                 funnitureSeletWindow.transform.
-                    GetComponent<RectTransform>().DOMoveY(0, 1f);
+                    GetComponent<RectTransform>().DOMoveY(0, 1f).SetUpdate(true);
                 gm.TileGrid.SetActive(true);
                 gm.SeletFunniture.SetActive(true);
                 funnitureWindow = true;
@@ -72,7 +81,7 @@ public class Ui : MonoBehaviour
             else if (funnitureWindow)
             {
                 funnitureSeletWindow.transform.
-                    GetComponent<RectTransform>().DOMoveY(-240, 1f);
+                    GetComponent<RectTransform>().DOMoveY(-240, 1f).SetUpdate(true);
                 gm.TileGrid.SetActive(false);
                 gm.SeletFunniture.SetActive(false);
                 funnitureWindow = false;
@@ -128,20 +137,25 @@ public class Ui : MonoBehaviour
                 timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
                 break;
             case 3:
+                Time.timeScale = 0f;
+                timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
+                break;
+            case 4:
                 timeScaleValue = 0;
                 Time.timeScale = 1f;
                 timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
                 break;
+
         }
     }
     public void OnNextButton()
     {
             next.gameObject.SetActive(true);
     }
-    //public void RotationClockHand(float time)
-    //{
-    //    float rotationZ = Mathf.Lerp(-70f, 70, time);
+    public void RotationClockHand(float time)
+    {
+        float rotationZ = Mathf.Lerp(0f, -180f, time);
 
-    //    clockHand.rectTransform.rotation = Quaternion.Euler(0, 0, rotationZ);
-    //}
+        clockBackGround.rectTransform.rotation = Quaternion.Euler(0, 0, rotationZ);
+    }
 }

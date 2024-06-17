@@ -25,6 +25,9 @@ public class MainCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gm.gamestate == GameState.Stop)
+            return;
+
         if (isMove)
             nm.SetDestination(target.position);
     }
