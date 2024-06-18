@@ -48,6 +48,7 @@ public class GameManager : Singleton<GameManager>
             return ui;
         }
     }
+
     private MainCharacter mainCharacter;
     public MainCharacter MainCharacter
     {
@@ -58,6 +59,7 @@ public class GameManager : Singleton<GameManager>
             return mainCharacter;
         }
     }
+
     private House house;
     public House House
     {
@@ -171,6 +173,7 @@ public class GameManager : Singleton<GameManager>
             return tileGrid;
         }
     }
+
     private Spawn spawn;
     public Spawn Spawn
     {
@@ -195,7 +198,18 @@ public class GameManager : Singleton<GameManager>
             return sky;
         }
     }
+
+    public int Happy
+    {
+        get { return data.happy; }
+        set
+        {
+            data.happy = value;
+            Ui.HappyPoint();
+        }
+    }
     public int tileNum;
+    public int funnitureNum;
     protected override void Awake()
     {
         base.Awake();
@@ -204,6 +218,7 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+
         //SetElementals
         elementals = GameObject.Find("Elementals").transform;
         //SetActive
@@ -222,8 +237,9 @@ public class GameManager : Singleton<GameManager>
         //Nav
         nms = GetComponent<NavMeshSurface>();
         nms.BuildNavMesh();
+        // Ui Set
+        Ui.HappyPoint();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -252,6 +268,8 @@ public class GameManager : Singleton<GameManager>
             nms = GetComponent<NavMeshSurface>();
             nms.BuildNavMesh();
             DataManager.Instance.SavePrefab(savePrefab);
+            // Ui Set
+            Ui.HappyPoint();
         }
     }
     public void OnLoadScene()

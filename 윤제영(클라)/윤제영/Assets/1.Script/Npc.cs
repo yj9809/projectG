@@ -63,6 +63,7 @@ public class Npc : MonoBehaviour
     public void Eat(GameObject food)
     {
         foodPrefab = Instantiate(food, transform.GetChild(0));
+        GameManager.Instance.Happy += 1;
         ani.SetTrigger("Eat");
         Invoke("TargetChange", 10f);
     }

@@ -61,6 +61,16 @@ public class FreeCamera : MonoBehaviour
             }
         }
 
+        RaycastHit hit;
+        Vector3 desiredPosition = transform.position;
+
+        if (Physics.Linecast(Camera.main.transform.position, desiredPosition, out hit))
+        {
+            Debug.Log("충돌");
+            // 충돌이 감지되면 카메라 위치를 조정
+            transform.position = hit.point;
+        }
+
         // 카메라 이동 제한
         Vector3 clampedPosition = transform.position;
         clampedPosition.x = Mathf.Clamp(clampedPosition.x, minX, maxX);

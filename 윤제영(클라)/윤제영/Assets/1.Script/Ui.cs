@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using DG.Tweening;
 
 public class Ui : MonoBehaviour
 {
     [SerializeField] private GameObject destroy;
+    [SerializeField] private GameObject destryoCloseButton;
 
     [SerializeField] private Image tileSeletWindow;
     [SerializeField] private Image funnitureSeletWindow;
+    [SerializeField] private GameObject buttons;
 
     [SerializeField] private Button next;
 
@@ -18,13 +21,15 @@ public class Ui : MonoBehaviour
 
     [SerializeField] private Image clockBackGround;
 
+    [SerializeField] private TMP_Text happyPointTxt;
+
     private GameManager gm;
 
     private int timeScaleValue = 0;
     private bool tileWindow = false;
     private bool funnitureWindow = false;
     private bool destroySystem = false;
-    private void Start()
+    private void Awake()
     {
         gm = GameManager.Instance;
     }
@@ -51,17 +56,19 @@ public class Ui : MonoBehaviour
             if (!tileWindow)
             {
                 tileSeletWindow.transform.
-                    GetComponent<RectTransform>().DOMoveY(0, 1f).SetUpdate(true);
+                    GetComponent<RectTransform>().DOMoveX(1900, 1f).SetUpdate(true);
                 gm.TileGrid.SetActive(true);
                 gm.SeletTile.SetActive(true);
+                buttons.transform.DOMoveX(2120, 1f).SetUpdate(true);
                 tileWindow = true;
             }
             else if (tileWindow)
             {
                 tileSeletWindow.transform.
-                    GetComponent<RectTransform>().DOMoveY(-240, 1f).SetUpdate(true);
+                    GetComponent<RectTransform>().DOMoveX(2520, 1f).SetUpdate(true);
                 gm.TileGrid.SetActive(false);
                 gm.SeletTile.SetActive(false);
+                buttons.transform.DOMoveX(1920, 1f).SetUpdate(true);
                 tileWindow = false;
             }
         }
@@ -73,17 +80,19 @@ public class Ui : MonoBehaviour
             if (!funnitureWindow)
             {
                 funnitureSeletWindow.transform.
-                    GetComponent<RectTransform>().DOMoveY(0, 1f).SetUpdate(true);
+                    GetComponent<RectTransform>().DOMoveX(1900, 1f).SetUpdate(true);
                 gm.TileGrid.SetActive(true);
                 gm.SeletFunniture.SetActive(true);
+                buttons.transform.DOMoveX(2120, 1f).SetUpdate(true);
                 funnitureWindow = true;
             }
             else if (funnitureWindow)
             {
                 funnitureSeletWindow.transform.
-                    GetComponent<RectTransform>().DOMoveY(-240, 1f).SetUpdate(true);
+                    GetComponent<RectTransform>().DOMoveX(2520, 1f).SetUpdate(true);
                 gm.TileGrid.SetActive(false);
                 gm.SeletFunniture.SetActive(false);
+                buttons.transform.DOMoveX(1920, 1f).SetUpdate(true);
                 funnitureWindow = false;
             }
         }
@@ -93,15 +102,19 @@ public class Ui : MonoBehaviour
     {
         if (!tileWindow && ! funnitureWindow)
         {
-            if (destroySystem)
+            if (!destroySystem)
             {
-                destroy.SetActive(false);
-                destroySystem = false;
-            }
-            else if (!destroySystem)
-            {
+                destryoCloseButton.transform.DOMoveX(1900, 1f).SetUpdate(true);
+                buttons.transform.DOMoveX(2120, 1f).SetUpdate(true);
                 destroy.SetActive(true);
                 destroySystem = true;
+            }
+            else if (destroySystem)
+            {
+                destryoCloseButton.transform.DOMoveX(2220, 1f).SetUpdate(true);
+                buttons.transform.DOMoveX(1920, 1f).SetUpdate(true);
+                destroy.SetActive(false);
+                destroySystem = false;
             }
         }
     }
@@ -112,6 +125,10 @@ public class Ui : MonoBehaviour
     public void TileType(int num)
     {
         GameManager.Instance.oType = (TileType)num;
+    }
+    public void FunnitureNum(int num)
+    {
+        GameManager.Instance.funnitureNum = num;
     }
     public void FunnitureType(int num)
     {
@@ -157,5 +174,9 @@ public class Ui : MonoBehaviour
         float rotationZ = Mathf.Lerp(0f, -180f, time);
 
         clockBackGround.rectTransform.rotation = Quaternion.Euler(0, 0, rotationZ);
+    }
+    public void HappyPoint()
+    {
+        happyPointTxt.text = $"{gm.Happy}";
     }
 }
