@@ -58,7 +58,7 @@ public class FarmManager : MonoBehaviour
         for (int i = 0; i < farm.Length; i++)
         {
             float randomValue = Random.value;
-            int random = randomValue < 0.5f ? 0 : randomValue < 0.75f ? 1 : randomValue < 0.9f ? 2 : 3;
+            int random = randomValue < 0.7f ? 0 : randomValue < 0.85f ? 1 : randomValue < 0.95f ? 2 : 3;
             Destroy(seeds[i]);
             seeds[i] = Instantiate(crops[random], farm[i].transform.GetChild(0));
             seeds[i].name = crops[random].name;
@@ -71,17 +71,17 @@ public class FarmManager : MonoBehaviour
         {
             switch (seeds[i].name)
             {
-                case "Cabbage":
-                    gm.CabbageEa += 1;
-                    break;
-                case "Carrot":
-                    gm.CarrotEa += 1;
-                    break;
-                case "Corn":
-                    gm.CornEa += 1;
-                    break;
                 case "Wheat":
                     gm.WheatEa += 1;
+                    break;
+                case "Potato":
+                    gm.PotatoEa += 1;
+                    break;
+                case "Tomato":
+                    gm.TomatoEa += 1;
+                    break;
+                case "ButterMushroom":
+                    gm.ButterMushroomEa += 1;
                     break;
             }
             Destroy(seeds[i]);

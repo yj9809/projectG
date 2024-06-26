@@ -210,7 +210,6 @@ public class GameManager : Singleton<GameManager>
             return sky;
         }
     }
-
     public int Happy
     {
         get { return data.happy; }
@@ -218,30 +217,6 @@ public class GameManager : Singleton<GameManager>
         {
             data.happy = value;
             Ui.HappyPoint();
-        }
-    }
-    public int CabbageEa
-    {
-        get { return data.cabbageEa; }
-        set
-        {
-            data.cabbageEa = value;
-        }
-    }
-    public int CarrotEa
-    {
-        get { return data.carrotEa; }
-        set
-        {
-            data.carrotEa = value;
-        }
-    }
-    public int CornEa
-    {
-        get { return data.cornEa; }
-        set
-        {
-            data.cornEa = value;
         }
     }
     public int WheatEa
@@ -252,6 +227,30 @@ public class GameManager : Singleton<GameManager>
             data.wheatEa = value;
         }
     }
+    public int PotatoEa
+    {
+        get { return data.potatoEa; }
+        set
+        {
+            data.potatoEa = value;
+        }
+    }
+    public int TomatoEa
+    {
+        get { return data.tomatoEa; }
+        set
+        {
+            data.tomatoEa = value;
+        }
+    }
+    public int ButterMushroomEa
+    {
+        get { return data.butterMushroomEa; }
+        set
+        {
+            data.butterMushroomEa = value;
+        }
+    }
     public int Day
     {
         get { return data.day; }
@@ -259,6 +258,10 @@ public class GameManager : Singleton<GameManager>
         {
             data.day = value;
         }
+    }
+    public string PlayerName
+    {
+        get { return data.saveName; }
     }
     public int tileNum;
     public int funnitureNum;

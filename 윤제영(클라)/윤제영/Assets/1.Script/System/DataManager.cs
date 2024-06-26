@@ -7,13 +7,13 @@ using System.IO;
 public class ObjData
 {
     public string saveName = "aaa";
-    public int day = 0;
+    public int day = 1;
     public int happy = 0;
-    public int CounteEa = 0;
-    public int cabbageEa = 0;
-    public int carrotEa = 0;
-    public int cornEa = 0;
+    public int counteEa = 0;
     public int wheatEa = 0;
+    public int potatoEa = 0;
+    public int tomatoEa = 0;
+    public int butterMushroomEa = 0;
 }
 public class DataManager : Singleton<DataManager>
 {

@@ -7,21 +7,25 @@ using DG.Tweening;
 
 public class Ui : MonoBehaviour
 {
+    //DestroyWindow
     [SerializeField] private GameObject destroy;
     [SerializeField] private GameObject destryoCloseButton;
-
+    //SeletWindow
     [SerializeField] private Image tileSeletWindow;
     [SerializeField] private Image funnitureSeletWindow;
     [SerializeField] private GameObject buttons;
-
+    //closing
     [SerializeField] private Image closing;
+    [SerializeField] private TMP_Text closingMainTitle;
+    [SerializeField] private TMP_Text closingTitleDay;
     [SerializeField] private TMP_Text closingHappyTxt;
-
+    [SerializeField] private TMP_Text[] cropTxt;
+    //TimeScale
     [SerializeField] private Button timeScaleButton;
     [SerializeField] private Sprite[] timeScaleSprite;
-
+    //Clock
     [SerializeField] private Image clockBackGround;
-
+    //Ui Txt
     [SerializeField] private TMP_Text happyPointTxt;
 
     private GameManager gm;
@@ -205,6 +209,8 @@ public class Ui : MonoBehaviour
     }
     public void Closing()
     {
+        closingMainTitle.text = gm.PlayerName;
+        closingTitleDay.text = $"Day {gm.Day}";
 
         if (!onClosing)
         {
@@ -220,5 +226,9 @@ public class Ui : MonoBehaviour
             happyDown = 0;
             onClosing = false;
         }
+    }
+    private void FoodCheck()
+    {
+
     }
 }
