@@ -135,8 +135,8 @@ public class ElementalNpc : MonoBehaviour
     public void GoStore()
     {
         transform.position = gm.House.housePos.position;
-        RandomTarget();
         nm.enabled = true;
+        RandomTarget();
         goHome = false;
         isMove = true;
         isRandom = true;

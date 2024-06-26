@@ -5,30 +5,86 @@ using UnityEngine;
 public enum FarmType
 {
     Seed,
-    Sprout
+    Sprout,
+    Crops,
+    Null
 }
 public class FarmManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] farm;
+    [SerializeField] private GameObject[] seeds;
+    [SerializeField] private GameObject[] crops;
     [SerializeField] private GameObject seed;
     [SerializeField] private GameObject sprout;
-    [SerializeField] private GameObject seeds;
 
-    private FarmType fType = FarmType.Seed;
+    private GameManager gm;
+    private FarmType fType = FarmType.Null;
     // Start is called before the first frame update
     void Start()
     {
-        seeds = Instantiate(seed, farm[0].transform.GetChild(0));
+        gm = GameManager.Instance;
     }
 
     // Update is called once per frame
     void Update()
     {
         if (GameManager.Instance.Sky.currentTime >= 0.3f && fType == FarmType.Seed)
+            SeedGrowth();
+        else if (GameManager.Instance.Sky.currentTime >= 0.6f && fType == FarmType.Sprout)
+            SproutGrowth();
+    }
+    public void PlantingSeed()
+    {
+        Debug.Log("½ÇÇà");
+        for (int i = 0; i < farm.Length; i++)
         {
-            Destroy(seeds);
-            seeds = Instantiate(sprout, farm[0].transform.GetChild(0));
+            seeds[i]= Instantiate(seed, farm[i].transform.GetChild(0));
+            seeds[i].name = seed.name;
+            fType = FarmType.Seed;
+        }
+    }
+    private void SeedGrowth()
+    {
+        for (int i = 0; i < farm.Length; i++)
+        {
+            Destroy(seeds[i]);
+            seeds[i] = Instantiate(sprout, farm[i].transform.GetChild(0));
+            seeds[i].name = sprout.name;
             fType = FarmType.Sprout;
+        }
+    }
+    private void SproutGrowth()
+    {
+        for (int i = 0; i < farm.Length; i++)
+        {
+            float randomValue = Random.value;
+            int random = randomValue < 0.5f ? 0 : randomValue < 0.75f ? 1 : randomValue < 0.9f ? 2 : 3;
+            Destroy(seeds[i]);
+            seeds[i] = Instantiate(crops[random], farm[i].transform.GetChild(0));
+            seeds[i].name = crops[random].name;
+            fType = FarmType.Crops;
+        }
+    }
+    public void Harvest()
+    {
+        for (int i = 0; i < farm.Length; i++)
+        {
+            switch (seeds[i].name)
+            {
+                case "Cabbage":
+                    gm.CabbageEa += 1;
+                    break;
+                case "Carrot":
+                    gm.CarrotEa += 1;
+                    break;
+                case "Corn":
+                    gm.CornEa += 1;
+                    break;
+                case "Wheat":
+                    gm.WheatEa += 1;
+                    break;
+            }
+            Destroy(seeds[i]);
         }
     }
 }

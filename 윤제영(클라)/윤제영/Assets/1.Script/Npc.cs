@@ -32,15 +32,17 @@ public class Npc : MonoBehaviour
         {
             nm.SetDestination(target.position);
         }
-        OnSit();
+        if (target.gameObject.name != "End")
+        {
+            OnSit();
+        }
     }
     private void OnSit()
     {
         if (nm.velocity.sqrMagnitude >= 0.2f * 0.2f && nm.remainingDistance <= 0.5f && !ani.GetBool("SitChair"))
         {
-            //spawn.SetElementalTaget(transform);
             Vector3 ChairPos = 
-            new Vector3(target.GetChild(0).transform.position.x, 1.66f, target.GetChild(0).transform.position.z);
+                new Vector3(target.GetChild(0).transform.position.x, 1.66f, target.GetChild(0).transform.position.z);
             nm.enabled = false;
             move = false;
             transform.rotation = Quaternion.Euler(new Vector3(0, target.GetComponent<Chair>().Check(), 0));
@@ -64,6 +66,7 @@ public class Npc : MonoBehaviour
     {
         foodPrefab = Instantiate(food, transform.GetChild(0));
         GameManager.Instance.Happy += 1;
+        GameManager.Instance.Ui.happyUp += 1;
         ani.SetTrigger("Eat");
         Invoke("TargetChange", 10f);
     }

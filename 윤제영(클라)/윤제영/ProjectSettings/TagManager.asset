@@ -13,6 +13,7 @@ TagManager:
   - Table
   - House
   - Counte
+  - Farm
   layers:
   - Default
   - TransparentFX
@@ -31,7 +32,7 @@ TagManager:
   - Fairy
   - Counte
   - House
-  - 
+  - Kitchen
   - 
   - 
   - 

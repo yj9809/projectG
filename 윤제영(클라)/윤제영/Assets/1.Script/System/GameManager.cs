@@ -9,6 +9,7 @@ public enum TileType
 {
     Tile,
     Wall,
+    Counter,
     Non
 }
 public enum FunnitureType
@@ -93,6 +94,17 @@ public class GameManager : Singleton<GameManager>
                 protagonistPos = GameObject.Find("Protagonist Pos").transform;
 
             return protagonistPos;
+        }
+    }
+
+    private Transform kitchenPos;
+    public Transform KitchenPos
+    {
+        get
+        {
+            if (kitchenPos == null)
+                kitchenPos = GameObject.Find("Kitchen Pos").transform;
+            return kitchenPos;
         }
     }
 
@@ -208,37 +220,58 @@ public class GameManager : Singleton<GameManager>
             Ui.HappyPoint();
         }
     }
+    public int CabbageEa
+    {
+        get { return data.cabbageEa; }
+        set
+        {
+            data.cabbageEa = value;
+        }
+    }
+    public int CarrotEa
+    {
+        get { return data.carrotEa; }
+        set
+        {
+            data.carrotEa = value;
+        }
+    }
+    public int CornEa
+    {
+        get { return data.cornEa; }
+        set
+        {
+            data.cornEa = value;
+        }
+    }
+    public int WheatEa
+    {
+        get { return data.wheatEa; }
+        set
+        {
+            data.wheatEa = value;
+        }
+    }
+    public int Day
+    {
+        get { return data.day; }
+        set
+        {
+            data.day = value;
+        }
+    }
     public int tileNum;
     public int funnitureNum;
+
     protected override void Awake()
     {
         base.Awake();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
     // Start is called before the first frame update
     void Start()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
 
-        //SetElementals
-        elementals = GameObject.Find("Elementals").transform;
-        //SetActive
-        SeletTile.SetActive(false);
-        SeletFunniture.SetActive(false);
-        TileGrid.SetActive(false);
-        //Data
-        data = DataManager.Instance.now;
-        //Prefab
-        prfabPos = GameObject.Find("PrefabPos").transform;
-        GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
-        GameObject main = Instantiate(mainChar, ProtagonistPos.position, Quaternion.identity);
-        prefab.name = "Save Obj Prefab";
-        allChair = prefab.transform.GetChild(2).transform;
-        savePrefab = GameObject.Find("Save Obj Prefab");
-        //Nav
-        nms = GetComponent<NavMeshSurface>();
-        nms.BuildNavMesh();
-        // Ui Set
-        Ui.HappyPoint();
     }
     // Update is called once per frame
     void Update()
@@ -249,27 +282,45 @@ public class GameManager : Singleton<GameManager>
     {
         if (scene.name == "Game")
         {
-            //SetElementals
-            elementals = GameObject.Find("Elementals").transform;
-            //SetActive
-            SeletTile.SetActive(false);
-            SeletFunniture.SetActive(false);
-            TileGrid.SetActive(false);
-            //Data
+            // SetElementals
+            elementals = GameObject.Find("Elementals")?.transform;
+            // SetActive
+            SeletTile?.SetActive(false);
+            SeletFunniture?.SetActive(false);
+            TileGrid?.SetActive(false);
+            // Data
             data = DataManager.Instance.now;
-            //Prefab
-            prfabPos = GameObject.Find("PrefabPos").transform;
+            // Prefab
+            prfabPos = GameObject.Find("PrefabPos")?.transform;
+
             GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
-            GameObject main = Instantiate(mainChar, ProtagonistPos.position, Quaternion.identity);
             prefab.name = "Save Obj Prefab";
             allChair = prefab.transform.GetChild(2).transform;
             savePrefab = GameObject.Find("Save Obj Prefab");
-            //Nav
+
+            // Instantiate Main Character
+            mainCharacter =
+                Instantiate(mainChar, House?.housePos?.position ?? Vector3.zero, Quaternion.identity).GetComponent<MainCharacter>();
+
+            // Nav
             nms = GetComponent<NavMeshSurface>();
             nms.BuildNavMesh();
             DataManager.Instance.SavePrefab(savePrefab);
+
             // Ui Set
-            Ui.HappyPoint();
+            Ui?.HappyPoint();
+
+            // Elementals initialization
+            for (int i = 0; i < Spawn?.elemental?.Count; i++)
+            {
+                ElementalNpc elem = Spawn.elemental[i]?.GetComponent<ElementalNpc>();
+                elem?.GoStore();
+            }
+
+            // GameStart logic
+            Spawn.customerList.Clear();
+            House.partner.Clear();
+            MainCharacter.GoFarm();
         }
     }
     public void OnLoadScene()

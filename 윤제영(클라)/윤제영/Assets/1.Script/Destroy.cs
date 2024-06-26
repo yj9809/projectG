@@ -31,7 +31,8 @@ public class Destroy : MonoBehaviour
             if (hit.transform.gameObject.tag == "Tile" || 
                 hit.transform.gameObject.tag == "Wall" || 
                 hit.transform.gameObject.tag == "Table" ||
-                hit.transform.gameObject.tag == "Chair")
+                hit.transform.gameObject.tag == "Chair" ||
+                hit.transform.gameObject.tag == "Counte")
             {
                 if (Input.GetMouseButtonDown(0))
                 {

@@ -14,7 +14,8 @@ public class Ui : MonoBehaviour
     [SerializeField] private Image funnitureSeletWindow;
     [SerializeField] private GameObject buttons;
 
-    [SerializeField] private Button next;
+    [SerializeField] private Image closing;
+    [SerializeField] private TMP_Text closingHappyTxt;
 
     [SerializeField] private Button timeScaleButton;
     [SerializeField] private Sprite[] timeScaleSprite;
@@ -26,9 +27,14 @@ public class Ui : MonoBehaviour
     private GameManager gm;
 
     private int timeScaleValue = 0;
+    private int time;
+    public int happyUp = 0;
+    public int happyDown = 0;
+
     private bool tileWindow = false;
     private bool funnitureWindow = false;
     private bool destroySystem = false;
+    private bool onClosing = false;
     private void Awake()
     {
         gm = GameManager.Instance;
@@ -53,12 +59,16 @@ public class Ui : MonoBehaviour
     {
         if (!funnitureWindow && !destroySystem)
         {
+            
             if (!tileWindow)
             {
                 tileSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveX(1900, 1f).SetUpdate(true);
                 gm.TileGrid.SetActive(true);
                 gm.SeletTile.SetActive(true);
+                time = timeScaleValue -1;
+                timeScaleValue = 2;
+                TimeScaleChange();
                 buttons.transform.DOMoveX(2120, 1f).SetUpdate(true);
                 tileWindow = true;
             }
@@ -68,8 +78,10 @@ public class Ui : MonoBehaviour
                     GetComponent<RectTransform>().DOMoveX(2520, 1f).SetUpdate(true);
                 gm.TileGrid.SetActive(false);
                 gm.SeletTile.SetActive(false);
-                buttons.transform.DOMoveX(1920, 1f).SetUpdate(true);
                 tileWindow = false;
+                timeScaleValue = time;
+                TimeScaleChange();
+                buttons.transform.DOMoveX(1920, 1f).SetUpdate(true);
             }
         }
     }
@@ -83,6 +95,9 @@ public class Ui : MonoBehaviour
                     GetComponent<RectTransform>().DOMoveX(1900, 1f).SetUpdate(true);
                 gm.TileGrid.SetActive(true);
                 gm.SeletFunniture.SetActive(true);
+                time = timeScaleValue - 1;
+                timeScaleValue = 2;
+                TimeScaleChange();
                 buttons.transform.DOMoveX(2120, 1f).SetUpdate(true);
                 funnitureWindow = true;
             }
@@ -92,8 +107,10 @@ public class Ui : MonoBehaviour
                     GetComponent<RectTransform>().DOMoveX(2520, 1f).SetUpdate(true);
                 gm.TileGrid.SetActive(false);
                 gm.SeletFunniture.SetActive(false);
-                buttons.transform.DOMoveX(1920, 1f).SetUpdate(true);
                 funnitureWindow = false;
+                timeScaleValue = time;
+                TimeScaleChange();
+                buttons.transform.DOMoveX(1920, 1f).SetUpdate(true);
             }
         }
         
@@ -107,6 +124,9 @@ public class Ui : MonoBehaviour
                 destryoCloseButton.transform.DOMoveX(1900, 1f).SetUpdate(true);
                 buttons.transform.DOMoveX(2120, 1f).SetUpdate(true);
                 destroy.SetActive(true);
+                time = timeScaleValue - 1;
+                timeScaleValue = 2;
+                TimeScaleChange();
                 destroySystem = true;
             }
             else if (destroySystem)
@@ -115,6 +135,8 @@ public class Ui : MonoBehaviour
                 buttons.transform.DOMoveX(1920, 1f).SetUpdate(true);
                 destroy.SetActive(false);
                 destroySystem = false;
+                timeScaleValue = time;
+                TimeScaleChange();
             }
         }
     }
@@ -141,33 +163,35 @@ public class Ui : MonoBehaviour
     }
     public void TimeScaleChange()
     {
-        timeScaleValue++;
-
-        switch (timeScaleValue)
+        if (!tileWindow && !funnitureWindow && !destroySystem)
         {
-            case 1:
-                Time.timeScale = 2f;
-                timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
-                break;
-            case 2:
-                Time.timeScale = 3f;
-                timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
-                break;
-            case 3:
-                Time.timeScale = 0f;
-                timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
-                break;
-            case 4:
-                timeScaleValue = 0;
-                Time.timeScale = 1f;
-                timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
-                break;
+            timeScaleValue++;
 
+            switch (timeScaleValue)
+            {
+                case 0:
+                    Time.timeScale = 1f;
+                    timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
+                    break;
+                case 1:
+                    Time.timeScale = 2f;
+                    timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
+                    break;
+                case 2:
+                    Time.timeScale = 3f;
+                    timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
+                    break;
+                case 3:
+                    Time.timeScale = 0f;
+                    timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
+                    break;
+                case 4:
+                    timeScaleValue = 0;
+                    Time.timeScale = 1f;
+                    timeScaleButton.image.sprite = timeScaleSprite[timeScaleValue];
+                    break;
+            }
         }
-    }
-    public void OnNextButton()
-    {
-            next.gameObject.SetActive(true);
     }
     public void RotationClockHand(float time)
     {
@@ -178,5 +202,23 @@ public class Ui : MonoBehaviour
     public void HappyPoint()
     {
         happyPointTxt.text = $"{gm.Happy}";
+    }
+    public void Closing()
+    {
+
+        if (!onClosing)
+        {
+            closing.transform.DOScale(new Vector3(1, 1, 1), 0.5f).SetUpdate(true);
+            int happySum = happyUp + happyDown;
+            closingHappyTxt.text = happySum >= 0 ? $"<color=green>+ {happySum}</color>" : $"<color=red>= {happySum}</color>";
+            onClosing = true;
+        }
+        else if(onClosing)
+        {
+            closing.transform.DOScale(new Vector3(0, 0, 0), 0.1f);
+            happyUp = 0;
+            happyDown = 0;
+            onClosing = false;
+        }
     }
 }

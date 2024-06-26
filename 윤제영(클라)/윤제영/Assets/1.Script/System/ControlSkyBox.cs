@@ -40,7 +40,8 @@ public class ControlSkyBox : MonoBehaviour
             {
                 onGame = false;
 
-                gm.MainCharacter.GoHouse();
+                gm.MainCharacter.GoFarm();
+
                 for (int i = 0; i < gm.Spawn.elemental.Count; i++)
                 {
                     ElementalNpc elem = gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>();
@@ -94,9 +95,7 @@ public class ControlSkyBox : MonoBehaviour
     {
         onGame = true;
         currentTime = 0;
-        gm.Ui.OnNextButton();
-        gm.MainCharacter.GoCounter();
-
+        gm.MainCharacter.GoFarm();
         for (int i = 0; i < gm.Spawn.elemental.Count; i++)
         {
             ElementalNpc elem = gm.Spawn.elemental[i].transform.GetComponent<ElementalNpc>();
@@ -104,6 +103,8 @@ public class ControlSkyBox : MonoBehaviour
         }
         gm.House.partner.Clear();
         gm.Spawn.customerList.Clear();
+        gm.Day += 1;
         gm.gamestate = GameState.Start;
+        gm.Ui.Closing();
     }
 }

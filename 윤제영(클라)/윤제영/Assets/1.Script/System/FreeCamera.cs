@@ -33,9 +33,9 @@ public class FreeCamera : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
         float moveSpeed = Input.GetKey(KeyCode.LeftShift) ? fastMove : nomalMove;
-        ////카메라 이동
+        //카메라 이동
         Vector3 moveDirection = new Vector3(x, 0f, y).normalized;
-        Vector3 move = moveDirection * moveSpeed * Time.deltaTime;
+        Vector3 move = moveDirection * moveSpeed * 0.01f;
 
         transform.Translate(move);
 

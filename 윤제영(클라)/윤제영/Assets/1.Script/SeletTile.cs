@@ -6,6 +6,7 @@ public class SeletTile : MonoBehaviour
 {
     [SerializeField] private GameObject[] tile;
     [SerializeField] private GameObject[] wall;
+    [SerializeField] private GameObject[] counter;
     [SerializeField] private Material[] wallMate;
     [SerializeField] private Material[] tileMate;
 
@@ -32,20 +33,40 @@ public class SeletTile : MonoBehaviour
     {
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            if (gm.oType == TileType.Tile && hit.transform.CompareTag("Tile"))
+            if (hit.transform.CompareTag("Tile"))
             {
-                if (tilePreView == null)
+                if (gm.oType == TileType.Tile)
                 {
-                    tilePreView = Instantiate(tile[gm.tileNum], hit.transform.position, Quaternion.identity);
-                    tilePreView.transform.GetComponent<Collider>().enabled = false;
+                    if (tilePreView == null)
+                    {
+                        tilePreView = Instantiate(tile[gm.tileNum], hit.transform.position, Quaternion.identity);
+                        tilePreView.transform.GetComponent<Collider>().enabled = false;
+                    }
+                    else
+                    {
+                        tilePreView.transform.position = hit.transform.position;
+                    }
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetTile(hit.transform.position);
+                    }
                 }
-                else
+                else if(gm.oType == TileType.Counter)
                 {
-                    tilePreView.transform.position = hit.transform.position;
-                }
-                if (Input.GetMouseButton(0))
-                {
-                    SetTile(hit.transform.position);
+                    Vector3 pos = new Vector3(hit.transform.position.x +1, hit.transform.position.y + 0.01f, hit.transform.position.z);
+                    if (tilePreView == null)
+                    {
+                        tilePreView = Instantiate(counter[gm.tileNum], pos, Quaternion.identity);
+                        tilePreView.transform.GetComponent<Collider>().enabled = false;
+                    }
+                    else
+                    {
+                        tilePreView.transform.position = pos;
+                    }
+                    if (Input.GetMouseButton(0))
+                    {
+                        SetCounter(pos);
+                    }
                 }
             }
             else if (gm.oType == TileType.Wall && hit.transform.CompareTag("Wall"))
@@ -83,6 +104,27 @@ public class SeletTile : MonoBehaviour
             }
         }
     }
+    private void SetCounter(Vector3 position)
+    {
+        if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            if (hit.transform.gameObject.name == counter[gm.tileNum].name)
+                return;
+            else if(hit.transform.gameObject.name != counter[gm.tileNum].name)
+            {
+
+                if (hit.transform.gameObject.layer == 6)
+                {
+                    GameObject newCounter = Instantiate(counter[gm.tileNum], position, Quaternion.identity);
+                    newCounter.name = counter[gm.tileNum].name;
+                    newCounter.transform.SetParent(gm.tWParent);
+                    gm.nms.BuildNavMesh();
+                }
+                else if (hit.transform.CompareTag("Wall") && hit.transform.CompareTag("Tile"))
+                    return;
+            }
+        }
+    }
     //타일 생성
     public void SetTile(Vector3 position)
     {
@@ -96,7 +138,7 @@ public class SeletTile : MonoBehaviour
 
                 if (hit.transform.gameObject.layer == 6)
                     newTile = Instantiate(tile[gm.tileNum], position, Quaternion.identity);
-                else if (hit.transform.CompareTag("Wall"))
+                else if (hit.transform.CompareTag("Wall") && hit.transform.CompareTag("Counte"))
                     return;
                 else
                 {
@@ -126,7 +168,7 @@ public class SeletTile : MonoBehaviour
 
                 if (hit.transform.gameObject.layer == 6)
                     newWall = Instantiate(wall[gm.tileNum], pos, tilePreView.transform.rotation);
-                else if (hit.transform.CompareTag("Tile"))
+                else if (hit.transform.CompareTag("Tile") && hit.transform.CompareTag("Counte"))
                     newWall = Instantiate(wall[gm.tileNum], pos, tilePreView.transform.rotation);
                 else
                 {
