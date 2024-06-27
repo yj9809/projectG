@@ -72,16 +72,20 @@ public class FarmManager : MonoBehaviour
             switch (seeds[i].name)
             {
                 case "Wheat":
-                    gm.WheatEa += 1;
+                    gm.WheatEa += 3;
+                    gm.Ui.cropOneDayEa[0] += 3;
                     break;
                 case "Potato":
-                    gm.PotatoEa += 1;
+                    gm.PotatoEa += 3;
+                    gm.Ui.cropOneDayEa[1] += 3;
                     break;
                 case "Tomato":
-                    gm.TomatoEa += 1;
+                    gm.TomatoEa += 3;
+                    gm.Ui.cropOneDayEa[2] += 3;
                     break;
                 case "ButterMushroom":
-                    gm.ButterMushroomEa += 1;
+                    gm.ButterMushroomEa += 3;
+                    gm.Ui.cropOneDayEa[3] += 3;
                     break;
             }
             Destroy(seeds[i]);

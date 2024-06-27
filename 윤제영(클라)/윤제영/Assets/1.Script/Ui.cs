@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 
+
 public class Ui : MonoBehaviour
 {
     //DestroyWindow
@@ -16,17 +17,30 @@ public class Ui : MonoBehaviour
     [SerializeField] private GameObject buttons;
     //closing
     [SerializeField] private Image closing;
+    [SerializeField] private Image point;
+    [SerializeField] private Image food;
     [SerializeField] private TMP_Text closingMainTitle;
     [SerializeField] private TMP_Text closingTitleDay;
     [SerializeField] private TMP_Text closingHappyTxt;
-    [SerializeField] private TMP_Text[] cropTxt;
+    [SerializeField] private TMP_Text[] closingCropTxt;
+    //Food Station
+    [System.Serializable]
+    public class Food
+    {
+        public TMP_Text[] ingredient;
+        public Button preparation;
+    }
+    [SerializeField] private List<Food> foodStation;
+    [SerializeField] private GameObject[] foodPrefab;
     //TimeScale
     [SerializeField] private Button timeScaleButton;
     [SerializeField] private Sprite[] timeScaleSprite;
     //Clock
     [SerializeField] private Image clockBackGround;
+    [SerializeField] private Image clockForwordGround;
     //Ui Txt
     [SerializeField] private TMP_Text happyPointTxt;
+    [SerializeField] private TMP_Text[] cropTxt;
 
     private GameManager gm;
 
@@ -34,6 +48,7 @@ public class Ui : MonoBehaviour
     private int time;
     public int happyUp = 0;
     public int happyDown = 0;
+    public int[] cropOneDayEa = new int[4];
 
     private bool tileWindow = false;
     private bool funnitureWindow = false;
@@ -203,14 +218,26 @@ public class Ui : MonoBehaviour
 
         clockBackGround.rectTransform.rotation = Quaternion.Euler(0, 0, rotationZ);
     }
-    public void HappyPoint()
+    public void MainTxt()
     {
         happyPointTxt.text = $"{gm.Happy}";
+        cropTxt[0].text = gm.WheatEa.ToString();
+        cropTxt[1].text = gm.PotatoEa.ToString();
+        cropTxt[2].text = gm.TomatoEa.ToString();
+        cropTxt[3].text = gm.ButterMushroomEa.ToString();
     }
     public void Closing()
     {
         closingMainTitle.text = gm.PlayerName;
         closingTitleDay.text = $"Day {gm.Day}";
+
+        for (int i = 0; i < cropOneDayEa.Length; i++)
+        {
+            if (cropOneDayEa[i] != 0)
+                closingCropTxt[i].text = $" <color=green> + {cropOneDayEa[i]}</color>";
+            else
+                closingCropTxt[i].text = cropOneDayEa[i].ToString();
+        }
 
         if (!onClosing)
         {
@@ -221,14 +248,78 @@ public class Ui : MonoBehaviour
         }
         else if(onClosing)
         {
-            closing.transform.DOScale(new Vector3(0, 0, 0), 0.1f);
+            closing.transform.DOScale(new Vector3(0, 0, 0), 0.1f).SetUpdate(true);
             happyUp = 0;
             happyDown = 0;
+            point.gameObject.SetActive(true);
+            food.gameObject.SetActive(false);
+            for (int i = 0; i < cropOneDayEa.Length; i++)
+            {
+                cropOneDayEa[i] = 0;
+            }
             onClosing = false;
         }
     }
-    private void FoodCheck()
+    public void FoodCheck()
     {
-
+        for (int i = 0; i < foodStation.Count; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    foodStation[0].ingredient[0].text = gm.WheatEa >= 2 ? "<color=green>: 2" : "<color=red>: 2";
+                    foodStation[0].ingredient[1].text = gm.TomatoEa >= 5 ? "<color=green>: 5" : "<color=red>: 5";
+                    if (gm.WheatEa >= 2 && gm.TomatoEa >= 5)
+                        foodStation[0].preparation.interactable = true;
+                    else
+                        foodStation[0].preparation.interactable = false;
+                    break;
+                case 1:
+                    foodStation[1].ingredient[0].text = gm.WheatEa >= 1 ? "<color=green>: 1" : "<color=red>: 1";
+                    foodStation[1].ingredient[1].text = gm.PotatoEa >= 5 ? "<color=green>: 5" : "<color=red>: 5";
+                    if (gm.WheatEa >= 1 && gm.PotatoEa >= 5)
+                        foodStation[1].preparation.interactable = true;
+                    else
+                        foodStation[1].preparation.interactable = false;
+                    break;
+                case 2:
+                    foodStation[2].ingredient[0].text = gm.WheatEa >= 10 ? "<color=green>: 10" : "<color=red>: 10";
+                    if (gm.WheatEa >= 10)
+                        foodStation[2].preparation.interactable = true;
+                    else
+                        foodStation[2].preparation.interactable = false;
+                    break;
+                case 3:
+                    foodStation[3].ingredient[0].text = gm.WheatEa >= 10 ? "<color=green>: 10" : "<color=red>: 10";
+                    foodStation[3].ingredient[1].text = gm.ButterMushroomEa >= 3 ? "<color=green>: 3" : "<color=red>: 3";
+                    if (gm.WheatEa >= 10 && gm.ButterMushroomEa >= 3)
+                        foodStation[3].preparation.interactable = true;
+                    else
+                        foodStation[3].preparation.interactable = false;
+                    break;
+            }
+        }
+    }
+    public void FoodSet(int num)
+    {
+        switch(num)
+        {
+            case 0:
+                for (int i = 0; i < 20; i++)
+                    gm.foods.Enqueue(foodPrefab[num]);
+                break;
+            case 1:
+                for (int i = 0; i < 20; i++)
+                    gm.foods.Enqueue(foodPrefab[num]);
+                break;
+            case 2:
+                for (int i = 0; i < 20; i++)
+                    gm.foods.Enqueue(foodPrefab[num]);
+                break;
+            case 3:
+                for (int i = 0; i < 20; i++)
+                    gm.foods.Enqueue(foodPrefab[num]);
+                break;
+        }
     }
 }

@@ -111,7 +111,7 @@ public class MainCharacter : MonoBehaviour
                 ani.SetBool("Move", false);
                 isMove = false;
                 goFarm = false;
-                //fm.Harvest();
+                fm.Harvest();
                 Invoke("GoHouse", 4f);
             }
         }

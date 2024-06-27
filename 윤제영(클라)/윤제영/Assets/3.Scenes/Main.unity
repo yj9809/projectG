@@ -2788,7 +2788,7 @@ MonoBehaviour:
   nms: {fileID: 0}
   allChair: {fileID: 0}
   elementals: {fileID: 0}
-  buildingPrefab: {fileID: 5714802809297158953, guid: 48dda88c8f0ac0c4788c07ebacd06fa8, type: 3}
+  buildingPrefab: {fileID: 0}
   savePrefab: {fileID: 0}
   tileNum: 0
   funnitureNum: 0

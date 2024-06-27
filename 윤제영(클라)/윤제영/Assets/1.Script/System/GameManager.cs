@@ -26,7 +26,6 @@ public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private Transform prfabPos;
     [SerializeField] private GameObject mainChar;
-
     public TileType oType = TileType.Non;
     public FunnitureType fType = FunnitureType.Table;
     public GameState gamestate = GameState.Start;
@@ -38,6 +37,7 @@ public class GameManager : Singleton<GameManager>
     public Transform elementals;
     public GameObject buildingPrefab;
     public GameObject savePrefab;
+    public Queue<GameObject> foods = new Queue<GameObject>();
 
     private Ui ui;
     public Ui Ui
@@ -216,7 +216,7 @@ public class GameManager : Singleton<GameManager>
         set
         {
             data.happy = value;
-            Ui.HappyPoint();
+            Ui.MainTxt();
         }
     }
     public int WheatEa
@@ -225,6 +225,7 @@ public class GameManager : Singleton<GameManager>
         set
         {
             data.wheatEa = value;
+            Ui.MainTxt();
         }
     }
     public int PotatoEa
@@ -233,6 +234,7 @@ public class GameManager : Singleton<GameManager>
         set
         {
             data.potatoEa = value;
+            Ui.MainTxt();
         }
     }
     public int TomatoEa
@@ -241,6 +243,7 @@ public class GameManager : Singleton<GameManager>
         set
         {
             data.tomatoEa = value;
+            Ui.MainTxt();
         }
     }
     public int ButterMushroomEa
@@ -249,6 +252,7 @@ public class GameManager : Singleton<GameManager>
         set
         {
             data.butterMushroomEa = value;
+            Ui.MainTxt();
         }
     }
     public int Day
@@ -274,7 +278,44 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
+        // SetElementals
+        elementals = GameObject.Find("Elementals").transform;
+        // SetActive
+        SeletTile.SetActive(false);
+        SeletFunniture.SetActive(false);
+        TileGrid.SetActive(false);
+        // Data
+        data = DataManager.Instance.now;
+        // Prefab
+        prfabPos = GameObject.Find("PrefabPos").transform;
 
+        GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
+        prefab.name = "Save Obj Prefab";
+        allChair = prefab.transform.GetChild(2).transform;
+        savePrefab = GameObject.Find("Save Obj Prefab");
+
+        // Instantiate Main Character
+        mainCharacter =
+            Instantiate(mainChar, House.housePos.position,Quaternion.identity).GetComponent<MainCharacter>();
+
+        // Nav
+        nms = GetComponent<NavMeshSurface>();
+        nms.BuildNavMesh();
+        DataManager.Instance.SavePrefab(savePrefab);
+
+        // Ui Set
+        Ui.MainTxt();
+        // Elementals initialization
+        for (int i = 0; i < Spawn.elemental.Count; i++)
+        {
+            ElementalNpc elem = Spawn.elemental[i].GetComponent<ElementalNpc>();
+            elem.GoStore();
+        }
+
+        // GameStart logic
+        Spawn.customerList.Clear();
+        House.partner.Clear();
+        MainCharacter.GoFarm();
     }
     // Update is called once per frame
     void Update()
@@ -286,15 +327,15 @@ public class GameManager : Singleton<GameManager>
         if (scene.name == "Game")
         {
             // SetElementals
-            elementals = GameObject.Find("Elementals")?.transform;
+            elementals = GameObject.Find("Elementals").transform;
             // SetActive
-            SeletTile?.SetActive(false);
-            SeletFunniture?.SetActive(false);
-            TileGrid?.SetActive(false);
+            SeletTile.SetActive(false);
+            SeletFunniture.SetActive(false);
+            TileGrid.SetActive(false);
             // Data
             data = DataManager.Instance.now;
             // Prefab
-            prfabPos = GameObject.Find("PrefabPos")?.transform;
+            prfabPos = GameObject.Find("PrefabPos").transform;
 
             GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
             prefab.name = "Save Obj Prefab";
@@ -303,7 +344,7 @@ public class GameManager : Singleton<GameManager>
 
             // Instantiate Main Character
             mainCharacter =
-                Instantiate(mainChar, House?.housePos?.position ?? Vector3.zero, Quaternion.identity).GetComponent<MainCharacter>();
+                Instantiate(mainChar, House.housePos.position, Quaternion.identity).GetComponent<MainCharacter>();
 
             // Nav
             nms = GetComponent<NavMeshSurface>();
@@ -311,13 +352,13 @@ public class GameManager : Singleton<GameManager>
             DataManager.Instance.SavePrefab(savePrefab);
 
             // Ui Set
-            Ui?.HappyPoint();
+            Ui.MainTxt();
 
             // Elementals initialization
-            for (int i = 0; i < Spawn?.elemental?.Count; i++)
+            for (int i = 0; i < Spawn.elemental.Count; i++)
             {
-                ElementalNpc elem = Spawn.elemental[i]?.GetComponent<ElementalNpc>();
-                elem?.GoStore();
+                ElementalNpc elem = Spawn.elemental[i].GetComponent<ElementalNpc>();
+                elem.GoStore();
             }
 
             // GameStart logic
@@ -335,6 +376,4 @@ public class GameManager : Singleton<GameManager>
         DataManager.Instance.SavePrefab(savePrefab);
         DataManager.Instance.SaveData();
     }
-    
-
 }

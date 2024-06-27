@@ -44,6 +44,7 @@ public class ElementalNpc : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(gm.foods.Count);
         if (GameManager.Instance.gamestate == GameState.Stop)
             return;
 
@@ -110,7 +111,11 @@ public class ElementalNpc : MonoBehaviour
     {
         if (nm.remainingDistance <= nm.stoppingDistance)
         {
-            foodPrefab = Instantiate(food, transform.GetChild(0).transform);
+            if (gm.foods.Count <= 0)
+                foodPrefab = Instantiate(food, transform.GetChild(0).transform);
+            else
+                foodPrefab = Instantiate(gm.foods.Dequeue(), transform.GetChild(0).transform);
+
             target = orderTarget;
             sType = ServingType.GoServing;
         }
