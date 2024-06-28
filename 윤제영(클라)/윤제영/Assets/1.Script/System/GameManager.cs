@@ -173,19 +173,6 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private GameObject tileGrid;
-    public GameObject TileGrid
-    {
-        get
-        {
-            if (tileGrid == null)
-            {
-                tileGrid = GameObject.Find("Tile Grid");
-            }
-            return tileGrid;
-        }
-    }
-
     private Spawn spawn;
     public Spawn Spawn
     {
@@ -263,6 +250,14 @@ public class GameManager : Singleton<GameManager>
             data.day = value;
         }
     }
+    public int Step
+    {
+        get { return data.tileGridStep; }
+        set
+        {
+            data.tileGridStep = value;
+        }
+    }
     public string PlayerName
     {
         get { return data.saveName; }
@@ -283,7 +278,12 @@ public class GameManager : Singleton<GameManager>
         // SetActive
         SeletTile.SetActive(false);
         SeletFunniture.SetActive(false);
-        TileGrid.SetActive(false);
+        //TileGrid.SetActive(false);
+        for (int i = 0; i < Ui.tileGrid.Length; i++)
+        {
+            Ui.tileGrid[i].SetActive(false);
+            Ui.InteriorGrid[i].SetActive(false);
+        }
         // Data
         data = DataManager.Instance.now;
         // Prefab
@@ -331,7 +331,7 @@ public class GameManager : Singleton<GameManager>
             // SetActive
             SeletTile.SetActive(false);
             SeletFunniture.SetActive(false);
-            TileGrid.SetActive(false);
+            //TileGrid.SetActive(false);
             // Data
             data = DataManager.Instance.now;
             // Prefab

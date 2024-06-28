@@ -8,6 +8,8 @@ using DG.Tweening;
 
 public class Ui : MonoBehaviour
 {
+    public GameObject[] tileGrid;
+    public GameObject[] InteriorGrid;
     //DestroyWindow
     [SerializeField] private GameObject destroy;
     [SerializeField] private GameObject destryoCloseButton;
@@ -83,7 +85,7 @@ public class Ui : MonoBehaviour
             {
                 tileSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveX(1900, 1f).SetUpdate(true);
-                gm.TileGrid.SetActive(true);
+                OnTile(tileWindow, gm.Step);
                 gm.SeletTile.SetActive(true);
                 time = timeScaleValue -1;
                 timeScaleValue = 2;
@@ -95,7 +97,7 @@ public class Ui : MonoBehaviour
             {
                 tileSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveX(2520, 1f).SetUpdate(true);
-                gm.TileGrid.SetActive(false);
+                OnTile(tileWindow, gm.Step);
                 gm.SeletTile.SetActive(false);
                 tileWindow = false;
                 timeScaleValue = time;
@@ -112,7 +114,7 @@ public class Ui : MonoBehaviour
             {
                 funnitureSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveX(1900, 1f).SetUpdate(true);
-                gm.TileGrid.SetActive(true);
+                tileGrid[0].SetActive(true);
                 gm.SeletFunniture.SetActive(true);
                 time = timeScaleValue - 1;
                 timeScaleValue = 2;
@@ -124,7 +126,7 @@ public class Ui : MonoBehaviour
             {
                 funnitureSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveX(2520, 1f).SetUpdate(true);
-                gm.TileGrid.SetActive(false);
+                tileGrid[0].SetActive(false);
                 gm.SeletFunniture.SetActive(false);
                 funnitureWindow = false;
                 timeScaleValue = time;
@@ -133,6 +135,68 @@ public class Ui : MonoBehaviour
             }
         }
         
+    }
+    public void OnTile(bool on, int step)
+    {
+        if(!on)
+            switch (step)
+            {
+                case 0:
+                    tileGrid[step].SetActive(true);
+                    InteriorGrid[step].SetActive(true);
+                    break;
+                case 1:
+                    for (int i = 0; i < step + 1; i++)
+                    {
+                        tileGrid[i].SetActive(true);
+                        InteriorGrid[i].SetActive(true);
+                    }
+                    break;
+                case 2:
+                    for (int i = 0; i < step + 1; i++)
+                    {
+                        tileGrid[i].SetActive(true);
+                        InteriorGrid[i].SetActive(true);
+                    }
+                    break;
+                case 3:
+                    for (int i = 0; i < step + 1; i++)
+                    {
+                        tileGrid[i].SetActive(true);
+                        InteriorGrid[i].SetActive(true);
+                    }
+                    break;
+            }
+        else
+            switch (step)
+            {
+                case 0:
+                    tileGrid[step].SetActive(false);
+                    InteriorGrid[step].SetActive(false);
+                    break;
+                case 1:
+                    for (int i = 0; i < step + 1; i++)
+                    {
+                        tileGrid[i].SetActive(false);
+                        InteriorGrid[i].SetActive(false);
+                    }
+                    break;
+                case 2:
+                    for (int i = 0; i < step + 1; i++)
+                    {
+                        tileGrid[i].SetActive(false);
+                        InteriorGrid[i].SetActive(false);
+                    }
+                    break;
+                case 3:
+                    for (int i = 0; i < step + 1; i++)
+                    {
+                        tileGrid[i].SetActive(false);
+                        InteriorGrid[i].SetActive(false);
+                    }
+                    break;
+            }
+
     }
     public void OnDestroySystem()
     {
@@ -307,18 +371,29 @@ public class Ui : MonoBehaviour
             case 0:
                 for (int i = 0; i < 20; i++)
                     gm.foods.Enqueue(foodPrefab[num]);
+                gm.WheatEa -= 2;
+                gm.TomatoEa -= 5;
+                FoodCheck();
                 break;
             case 1:
                 for (int i = 0; i < 20; i++)
                     gm.foods.Enqueue(foodPrefab[num]);
+                gm.WheatEa -= 1;
+                gm.PotatoEa -= 5;
+                FoodCheck();
                 break;
             case 2:
                 for (int i = 0; i < 20; i++)
                     gm.foods.Enqueue(foodPrefab[num]);
+                gm.WheatEa -= 10;
+                FoodCheck();
                 break;
             case 3:
                 for (int i = 0; i < 20; i++)
                     gm.foods.Enqueue(foodPrefab[num]);
+                gm.WheatEa -= 10;
+                gm.ButterMushroomEa -= 3;
+                FoodCheck();
                 break;
         }
     }

@@ -8,6 +8,7 @@ public class ObjData
 {
     public string saveName = "aaa";
     public int day = 1;
+    public int tileGridStep = 0;
     public int happy = 0;
     public int counteEa = 0;
     public int wheatEa = 0;
