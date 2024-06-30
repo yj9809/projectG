@@ -262,6 +262,14 @@ public class GameManager : Singleton<GameManager>
     {
         get { return data.saveName; }
     }
+    public int CounteEa
+    {
+        get { return data.counteEa; }
+        set
+        {
+            data.counteEa = value;
+        }
+    }
     public int tileNum;
     public int funnitureNum;
 
@@ -332,6 +340,11 @@ public class GameManager : Singleton<GameManager>
             SeletTile.SetActive(false);
             SeletFunniture.SetActive(false);
             //TileGrid.SetActive(false);
+            for (int i = 0; i < Ui.tileGrid.Length; i++)
+            {
+                Ui.tileGrid[i].SetActive(false);
+                Ui.InteriorGrid[i].SetActive(false);
+            }
             // Data
             data = DataManager.Instance.now;
             // Prefab

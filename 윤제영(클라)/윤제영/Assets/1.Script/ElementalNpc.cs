@@ -44,7 +44,6 @@ public class ElementalNpc : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(gm.foods.Count);
         if (GameManager.Instance.gamestate == GameState.Stop)
             return;
 

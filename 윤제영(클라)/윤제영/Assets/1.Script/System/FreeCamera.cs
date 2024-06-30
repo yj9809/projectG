@@ -35,7 +35,7 @@ public class FreeCamera : MonoBehaviour
         float moveSpeed = Input.GetKey(KeyCode.LeftShift) ? fastMove : nomalMove;
         //카메라 이동
         Vector3 moveDirection = new Vector3(x, 0f, y).normalized;
-        Vector3 move = moveDirection * moveSpeed * 0.01f;
+        Vector3 move = moveDirection * moveSpeed * Time.deltaTime;
 
         transform.Translate(move);
 
@@ -59,16 +59,6 @@ public class FreeCamera : MonoBehaviour
             {
                 transform.position -= Vector3.up * moveSpeed * Time.deltaTime;
             }
-        }
-
-        RaycastHit hit;
-        Vector3 desiredPosition = transform.position;
-
-        if (Physics.Linecast(Camera.main.transform.position, desiredPosition, out hit))
-        {
-            Debug.Log("충돌");
-            // 충돌이 감지되면 카메라 위치를 조정
-            transform.position = hit.point;
         }
 
         // 카메라 이동 제한

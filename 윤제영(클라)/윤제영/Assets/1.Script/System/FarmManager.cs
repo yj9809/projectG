@@ -35,7 +35,6 @@ public class FarmManager : MonoBehaviour
     }
     public void PlantingSeed()
     {
-        Debug.Log("½ÇÇà");
         for (int i = 0; i < farm.Length; i++)
         {
             seeds[i]= Instantiate(seed, farm[i].transform.GetChild(0));

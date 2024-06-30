@@ -13,6 +13,8 @@ public class Ui : MonoBehaviour
     //DestroyWindow
     [SerializeField] private GameObject destroy;
     [SerializeField] private GameObject destryoCloseButton;
+    public Button destroyExecution;
+    public TMP_Text destroyExecutionEa;
     //SeletWindow
     [SerializeField] private Image tileSeletWindow;
     [SerializeField] private Image funnitureSeletWindow;

@@ -9,6 +9,8 @@ public class Destroy : MonoBehaviour
 
     private Ray ray;
     private RaycastHit hit;
+    [SerializeField] private List<Outline> outLine;
+    [SerializeField] private List<GameObject> seletObj;
 
     [SerializeField] private Color originalColor;
     // Start is called before the first frame update
@@ -23,6 +25,7 @@ public class Destroy : MonoBehaviour
     {
         ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         ObjDestroy();
+        DestroyExecutionButton();
     }
     private void ObjDestroy()
     {
@@ -34,12 +37,53 @@ public class Destroy : MonoBehaviour
                 hit.transform.gameObject.tag == "Chair" ||
                 hit.transform.gameObject.tag == "Counte")
             {
+                
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Destroy(hit.transform.gameObject);
+                    foreach (GameObject obj in seletObj)
+                        if (obj.transform.position == hit.transform.position)
+                            return;
+
+                    seletObj.Add(hit.transform.gameObject);
+                    outLine.Add(hit.transform.gameObject.AddComponent<Outline>());
+                    outLine[outLine.Count - 1].OutlineWidth = 6f;
+                    outLine[outLine.Count - 1].OutlineColor = Color.green;
                     gm.nms.BuildNavMesh();
                 }
             }
         }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            ClearList();
+        }
+    }
+    public void ClearList()
+    {
+        foreach (Outline outLine in outLine)
+        {
+            Destroy(outLine);
+        }
+        outLine.Clear();
+        seletObj.Clear();
+        DestroyExecutionButton();
+    }
+    private void DestroyExecutionButton()
+    {
+        if (outLine.Count > 0)
+        {
+            gm.Ui.destroyExecution.transform.gameObject.SetActive(true);
+            gm.Ui.destroyExecutionEa.text = $"ªË¡¶ ({outLine.Count})";
+        }
+        else
+            gm.Ui.destroyExecution.transform.gameObject.SetActive(false);
+    }
+    public void DestroyExecution()
+    {
+        foreach (GameObject obj in seletObj)
+        {
+            Destroy(obj);
+        }
+        ClearList();
+        gm.nms.BuildNavMesh();
     }
 }

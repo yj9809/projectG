@@ -53,17 +53,18 @@ public class SeletTile : MonoBehaviour
                 }
                 else if(gm.oType == TileType.Counter)
                 {
-                    Vector3 pos = new Vector3(hit.transform.position.x +1, hit.transform.position.y + 0.01f, hit.transform.position.z);
+                    Vector3 pos = new Vector3(hit.transform.position.x + 1f, hit.transform.position.y + 0.01f, hit.transform.position.z);
                     if (tilePreView == null)
                     {
                         tilePreView = Instantiate(counter[gm.tileNum], pos, Quaternion.identity);
                         tilePreView.transform.GetComponent<Collider>().enabled = false;
+                        tilePreView.transform.GetChild(9).GetChild(1).GetComponent<Collider>().enabled = false;
                     }
                     else
                     {
                         tilePreView.transform.position = pos;
                     }
-                    if (Input.GetMouseButton(0))
+                    if (Input.GetMouseButtonDown(0))
                     {
                         SetCounter(pos);
                     }
@@ -74,7 +75,6 @@ public class SeletTile : MonoBehaviour
                 Vector3 pos = new Vector3(hit.transform.position.x, hit.transform.position.y + 1.25f, hit.transform.position.z);
                 if (tilePreView == null)
                 {
-                    
                     tilePreView = Instantiate(wall[gm.tileNum], pos, hit.transform.rotation);
                     tilePreView.transform.GetComponent<Collider>().enabled = false;
                 }
@@ -106,18 +106,21 @@ public class SeletTile : MonoBehaviour
     }
     private void SetCounter(Vector3 position)
     {
-        if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (!tilePreView.transform.GetComponent<Counter>().TileCheck())
+            return;
+
+        if(Physics.Raycast(ray, out hit, Mathf.Infinity) && gm.CounteEa == 0)
         {
             if (hit.transform.gameObject.name == counter[gm.tileNum].name)
                 return;
             else if(hit.transform.gameObject.name != counter[gm.tileNum].name)
             {
-
                 if (hit.transform.gameObject.layer == 6)
                 {
                     GameObject newCounter = Instantiate(counter[gm.tileNum], position, Quaternion.identity);
                     newCounter.name = counter[gm.tileNum].name;
                     newCounter.transform.SetParent(gm.tWParent);
+                    gm.CounteEa += 1;
                     gm.nms.BuildNavMesh();
                 }
                 else if (hit.transform.CompareTag("Wall") && hit.transform.CompareTag("Tile"))

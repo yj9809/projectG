@@ -146,21 +146,4 @@ public class SeletFunniture : MonoBehaviour
             }
         }
     }
-    private bool ChairOverLapCheck(Vector3 rota)
-    {
-        chairCheck = funniturePreView.transform.GetChild(0).GetChild(1).gameObject;
-
-        RaycastHit hitResult;
-
-        if (rota.y == 0)
-            Physics.Raycast(chairCheck.transform.position, Vector3.right, out hitResult, 1f, LayerMask.GetMask("Chair"));
-        else if (rota.y == 90)
-            Physics.Raycast(chairCheck.transform.position, Vector3.back, out hitResult, 1f, LayerMask.GetMask("Chair"));
-        else if (rota.y == 180)
-            Physics.Raycast(chairCheck.transform.position, Vector3.left, out hitResult, 1f, LayerMask.GetMask("Chair"));
-        else
-            Physics.Raycast(chairCheck.transform.position, Vector3.forward, out hitResult, 1f, LayerMask.GetMask("Chair"));
-
-        return !hitResult.collider;
-    }
 }
