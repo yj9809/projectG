@@ -52,7 +52,7 @@ public class Destroy : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             ClearList();
         }

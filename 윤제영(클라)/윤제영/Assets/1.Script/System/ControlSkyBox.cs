@@ -105,6 +105,7 @@ public class ControlSkyBox : MonoBehaviour
         gm.Spawn.customerList.Clear();
         gm.Day += 1;
         gm.gamestate = GameState.Start;
+        AudioManager.Instance.PlaySfx(AudioManager.Sfx.Click);
         gm.Ui.Closing();
     }
 }

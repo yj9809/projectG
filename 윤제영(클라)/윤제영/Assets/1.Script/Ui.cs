@@ -23,6 +23,7 @@ public class Ui : MonoBehaviour
     [SerializeField] private Image closing;
     [SerializeField] private Image point;
     [SerializeField] private Image food;
+    [SerializeField] private TMP_Text step;
     [SerializeField] private TMP_Text closingMainTitle;
     [SerializeField] private TMP_Text closingTitleDay;
     [SerializeField] private TMP_Text closingHappyTxt;
@@ -67,11 +68,7 @@ public class Ui : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            TimeScaleChange();
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Time.timeScale = 0;
+            TimeScaleChangeButton();
         }
     }
     public void OnStart()
@@ -80,6 +77,7 @@ public class Ui : MonoBehaviour
     }
     public void TileWindow()
     {
+        AudioManager.Instance.PlaySfx(AudioManager.Sfx.Click);
         if (!funnitureWindow && !destroySystem)
         {
             
@@ -110,13 +108,14 @@ public class Ui : MonoBehaviour
     }
     public void FunnitureWindow()
     {
+        AudioManager.Instance.PlaySfx(AudioManager.Sfx.Click);
         if (!tileWindow && !destroySystem)
         {
             if (!funnitureWindow)
             {
                 funnitureSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveX(1900, 1f).SetUpdate(true);
-                tileGrid[0].SetActive(true);
+                OnTile(funnitureWindow, gm.Step);
                 gm.SeletFunniture.SetActive(true);
                 time = timeScaleValue - 1;
                 timeScaleValue = 2;
@@ -128,7 +127,7 @@ public class Ui : MonoBehaviour
             {
                 funnitureSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveX(2520, 1f).SetUpdate(true);
-                tileGrid[0].SetActive(false);
+                OnTile(funnitureWindow, gm.Step);
                 gm.SeletFunniture.SetActive(false);
                 funnitureWindow = false;
                 timeScaleValue = time;
@@ -202,6 +201,7 @@ public class Ui : MonoBehaviour
     }
     public void OnDestroySystem()
     {
+        AudioManager.Instance.PlaySfx(AudioManager.Sfx.Click);
         if (!tileWindow && ! funnitureWindow)
         {
             if (!destroySystem)
@@ -245,6 +245,11 @@ public class Ui : MonoBehaviour
     public void OnSave()
     {
         GameManager.Instance.OnSave();
+    }
+    public void TimeScaleChangeButton()
+    {
+        AudioManager.Instance.PlaySfx(AudioManager.Sfx.TimeScale);
+        TimeScaleChange();
     }
     public void TimeScaleChange()
     {
@@ -296,7 +301,7 @@ public class Ui : MonoBehaviour
     {
         closingMainTitle.text = gm.PlayerName;
         closingTitleDay.text = $"Day {gm.Day}";
-
+        step.text = gm.Step + 1.ToString();
         for (int i = 0; i < cropOneDayEa.Length; i++)
         {
             if (cropOneDayEa[i] != 0)
@@ -307,6 +312,7 @@ public class Ui : MonoBehaviour
 
         if (!onClosing)
         {
+            AudioManager.Instance.PlaySfx(AudioManager.Sfx.Day);
             closing.transform.DOScale(new Vector3(1, 1, 1), 0.5f).SetUpdate(true);
             int happySum = happyUp + happyDown;
             closingHappyTxt.text = happySum >= 0 ? $"<color=green>+ {happySum}</color>" : $"<color=red>= {happySum}</color>";
@@ -368,7 +374,7 @@ public class Ui : MonoBehaviour
     }
     public void FoodSet(int num)
     {
-        switch(num)
+        switch (num)
         {
             case 0:
                 for (int i = 0; i < 20; i++)
@@ -398,5 +404,9 @@ public class Ui : MonoBehaviour
                 FoodCheck();
                 break;
         }
+    }
+    public void ClickSound()
+    {
+        AudioManager.Instance.PlaySfx(AudioManager.Sfx.TimeScale);
     }
 }

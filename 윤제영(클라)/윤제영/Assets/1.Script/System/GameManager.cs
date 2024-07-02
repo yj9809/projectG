@@ -197,6 +197,14 @@ public class GameManager : Singleton<GameManager>
             return sky;
         }
     }
+    public int AllHappy
+    {
+        get { return data.allHappyPoint; }
+        set
+        {
+            data.allHappyPoint = value;
+        }
+    }
     public int Happy
     {
         get { return data.happy; }
@@ -281,6 +289,7 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.Instance.PlayBgm(AudioManager.Bgm.Main);
         // SetElementals
         elementals = GameObject.Find("Elementals").transform;
         // SetActive
@@ -304,7 +313,7 @@ public class GameManager : Singleton<GameManager>
 
         // Instantiate Main Character
         mainCharacter =
-            Instantiate(mainChar, House.housePos.position,Quaternion.identity).GetComponent<MainCharacter>();
+            Instantiate(mainChar, House.housePos.position, Quaternion.identity).GetComponent<MainCharacter>();
 
         // Nav
         nms = GetComponent<NavMeshSurface>();
@@ -334,6 +343,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (scene.name == "Game")
         {
+            AudioManager.Instance.PlayBgm(AudioManager.Bgm.Game);
             // SetElementals
             elementals = GameObject.Find("Elementals").transform;
             // SetActive
