@@ -34,13 +34,13 @@ public class Selet : MonoBehaviour
     {
         GameManager.Instance.buildingPrefab = Resources.Load<GameObject>("Test/Nomal Obj Prefab");
         DataManager.Instance.now.saveName = creatName.text;
-        DataManager.Instance.SaveData();
         GameManager.Instance.OnLoadScene();
     }
-    public void LoadGame()
+    public void LoadGame(string type)
     {
         GameManager.Instance.buildingPrefab = Resources.Load<GameObject>("Test/Save Obj Prefab");
         DataManager.Instance.LoadData();
+        GameManager.Instance.CreatTypeChange(type);
         GameManager.Instance.OnLoadScene();
     }
 }

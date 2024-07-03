@@ -78,11 +78,6 @@ public class SeletTile : MonoBehaviour
                     tilePreView = Instantiate(wall[gm.tileNum], pos, hit.transform.rotation);
                     tilePreView.transform.GetComponent<Collider>().enabled = false;
                 }
-                else
-                {
-                    tilePreView.transform.position = hit.transform.position;
-                    tilePreView.transform.rotation = hit.transform.rotation;
-                }
                 if (Input.GetMouseButtonDown(0))
                 {
                     SetWall(hit.transform.position);

@@ -5,6 +5,11 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
+public enum CreatType
+{
+    New,
+    Load
+}
 public enum TileType
 {
     Tile,
@@ -27,13 +32,18 @@ public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private Transform prfabPos;
     [SerializeField] private GameObject mainChar;
+    [SerializeField] private GameObject[] obj;
     public TileType oType = TileType.Non;
     public FunnitureType fType = FunnitureType.Table;
     public GameState gamestate = GameState.Start;
 
     private ObjData data;
+    private Dictionary<string, GameObject> prefab;
+    private CreatType ct = CreatType.New;
 
     public NavMeshSurface nms;
+    public Transform allTw;
+    public Transform allTable;
     public Transform allChair;
     public Transform elementals;
     public GameObject buildingPrefab;
@@ -296,6 +306,11 @@ public class GameManager : Singleton<GameManager>
     {
         base.Awake();
         SceneManager.sceneLoaded += OnSceneLoaded;
+        prefab = new Dictionary<string, GameObject>();
+        foreach (GameObject prefab in obj)
+        {
+            this.prefab[prefab.name] = prefab;
+        }
     }
     // Start is called before the first frame update
     void Start()
@@ -373,8 +388,13 @@ public class GameManager : Singleton<GameManager>
 
             GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
             prefab.name = "Save Obj Prefab";
+            allTw = prefab.transform.GetChild(0).transform;
+            allTable = prefab.transform.GetChild(1).transform;
             allChair = prefab.transform.GetChild(2).transform;
             savePrefab = GameObject.Find("Save Obj Prefab");
+            Debug.Log("½ÇÇà");
+            if (ct == CreatType.Load)
+                LoadObj();
 
             // Instantiate Main Character
             mainCharacter =
@@ -383,7 +403,6 @@ public class GameManager : Singleton<GameManager>
             // Nav
             nms = GetComponent<NavMeshSurface>();
             nms.BuildNavMesh();
-            DataManager.Instance.SavePrefab(savePrefab);
 
             // Ui Set
             Ui.MainTxt();
@@ -419,7 +438,79 @@ public class GameManager : Singleton<GameManager>
     }
     public void OnSave()
     {
-        DataManager.Instance.SavePrefab(savePrefab);
+        SaveObj();
         DataManager.Instance.SaveData();
+    }
+    public void SaveObj()
+    {
+        DataClear();
+        for (int i = 0; i < allTw.childCount; i++)
+        {
+            data.twName.Add(allTw.GetChild(i).name);
+            data.twPosition.Add(allTw.GetChild(i).transform.position);
+            data.twRotation.Add(allTw.GetChild(i).transform.rotation);
+        }
+        for (int i = 0; i < allTable.childCount; i++)
+        {
+            data.tableName.Add(allTable.GetChild(i).name);
+            data.tablePosition.Add(allTable.GetChild(i).transform.position);
+            data.tableRotation.Add(allTable.GetChild(i).transform.rotation);
+        }
+        for (int i = 0; i < allChair.childCount; i++)
+        {
+            data.chairName.Add(allChair.GetChild(i).name);
+            data.chairPosition.Add(allChair.GetChild(i).transform.position);
+            data.chairRotation.Add(allChair.GetChild(i).transform.rotation);
+        }
+    }
+    public void LoadObj()
+    {
+        for (int i = 0; i < data.twName.Count; i++)
+        {
+            string name = data.twName[i];
+            if (prefab.ContainsKey(name))
+            {
+                GameObject pref = prefab[name];
+                GameObject obj = Instantiate(pref, data.twPosition[i], data.twRotation[i], allTw);
+                obj.name = name;
+            }
+        }
+        for (int i = 0; i < data.tableName.Count; i++)
+        {
+            string name = data.tableName[i];
+            if (prefab.ContainsKey(name))
+            {
+                GameObject pref = prefab[name];
+                GameObject obj = Instantiate(pref, data.tablePosition[i], data.tableRotation[i], allTable);
+                obj.name = name;
+            }
+        }
+        for (int i = 0; i < data.chairName.Count; i++)
+        {
+            string name = data.chairName[i];
+            if (prefab.ContainsKey(name))
+            {
+                GameObject pref = prefab[name];
+                GameObject obj = Instantiate(pref, data.chairPosition[i], data.chairRotation[i], allChair);
+                obj.name = name;
+            }
+        }
+    }
+    private void DataClear()
+    {
+        data.twName.Clear();
+        data.twPosition.Clear();
+        data.twRotation.Clear();
+        data.tableName.Clear();
+        data.tablePosition.Clear();
+        data.tableRotation.Clear();
+        data.chairName.Clear();
+        data.chairPosition.Clear();
+        data.chairRotation.Clear();
+    }
+    public void CreatTypeChange(string type)
+    {
+        if (type == "Load")
+            ct = CreatType.Load;
     }
 }

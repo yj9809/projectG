@@ -17,6 +17,15 @@ public class ObjData
     public int tomatoEa = 0;
     public int butterMushroomEa = 0;
     public int timer = 0;
+    public List<string> twName = new List<string>();
+    public List<Vector3> twPosition = new List<Vector3>();
+    public List<Quaternion> twRotation = new List<Quaternion>();
+    public List<string> tableName = new List<string>();
+    public List<Vector3> tablePosition = new List<Vector3>();
+    public List<Quaternion> tableRotation = new List<Quaternion>();
+    public List<string> chairName = new List<string>();
+    public List<Vector3> chairPosition = new List<Vector3>();
+    public List<Quaternion> chairRotation = new List<Quaternion>();
 }
 public class DataManager : Singleton<DataManager>
 {
@@ -49,24 +58,19 @@ public class DataManager : Singleton<DataManager>
     public void SaveData()
     {
         string data = JsonUtility.ToJson(now);
-        File.WriteAllText(filePath, data);
+        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(data);
+        string encode = System.Convert.ToBase64String(bytes);
+        File.WriteAllText(filePath, encode);
     }
     public void LoadData()
     {
         string data = File.ReadAllText(filePath);
-        now = JsonUtility.FromJson<ObjData>(data);
+        byte[] bytes = System.Convert.FromBase64String(data);
+        string decode = System.Text.Encoding.UTF8.GetString(bytes);
+        now = JsonUtility.FromJson<ObjData>(decode);
     }
     public bool CheckFile()
     {
         return File.Exists(filePath);
-    }
-    public void SavePrefab(GameObject temp)
-    {
-        string fileName = "Save Obj Prefab";
-        string path = "Assets/Resources/Test/" + fileName + ".prefab";
-
-        bool isSuccess = false;
-        UnityEditor.PrefabUtility.SaveAsPrefabAsset(temp, path, out isSuccess);// ¿˙¿Â
-        Debug.Log(isSuccess);
     }
 }

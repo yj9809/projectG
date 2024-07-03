@@ -1030,13 +1030,13 @@ MonoBehaviour:
       - m_Target: {fileID: 166062650}
         m_TargetAssemblyTypeName: Selet, Assembly-CSharp
         m_MethodName: LoadGame
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Game
+          m_StringArgument: Load
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &353091510
@@ -1335,13 +1335,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prfabPos: {fileID: 0}
   mainChar: {fileID: 5317856695094567925, guid: 6abca546f8185f841bd017d96cc67a1d, type: 3}
+  obj:
+  - {fileID: 296254354697334120, guid: fd5ce911960a611408fc1de8dd5bbb26, type: 3}
+  - {fileID: 691710491641966128, guid: a84cd326945686144ac3712e923fa2a4, type: 3}
+  - {fileID: 4834265164960324723, guid: a0c9c7d2547e21c408f5e78987448cc5, type: 3}
+  - {fileID: 4834265164960324723, guid: ef5f1e256ef54f54dafd688be27d715b, type: 3}
+  - {fileID: 4834265164960324723, guid: 85e2460c35e31a94fb133dfbd0156ab4, type: 3}
+  - {fileID: 4834265164960324723, guid: 2a1f911b1ecd0834fbe79ea779324f6d, type: 3}
+  - {fileID: 481593105369551605, guid: 77e8c1ab5fff12348a82089c567c6fed, type: 3}
+  - {fileID: 6426607831109883344, guid: f0097914f282d9b4d91e691d32981f67, type: 3}
+  - {fileID: 8734174571748622179, guid: 61b509302428928469892d90cffebfde, type: 3}
+  - {fileID: 279781815927553189, guid: 5faecf8bf0a53f046a1461ae5c283f68, type: 3}
+  - {fileID: 3933095489803253465, guid: 367e10700a0691f47bf92696935f5bd0, type: 3}
+  - {fileID: 8746500368216907310, guid: 9018ee30c0648e542affbe1c0a601e81, type: 3}
+  - {fileID: 4643065073834805189, guid: c73f569987ccf3c4fab16e7b5666efe2, type: 3}
+  - {fileID: 8202386391174011638, guid: 13661b9a9d9af1a4db45a85bc79a285e, type: 3}
+  - {fileID: 7960285068001787289, guid: 6b8026b6e341ae64d92f5f765ad86a63, type: 3}
+  - {fileID: 3672220522574190524, guid: 1158e10860668b74a9729a1cecdbfb0c, type: 3}
+  - {fileID: 8413978228838058637, guid: 7a46ccb375105564eadcd7b00d5e2852, type: 3}
+  - {fileID: 282689754026367876, guid: 7e2023786d16832438d6de2d78ca50be, type: 3}
+  - {fileID: 271342600675400472, guid: 9fefd26e6ca0b534ab6392a15020214c, type: 3}
+  - {fileID: 768481632123898676, guid: 7af344f7a32c9844e8ace4f8bda84551, type: 3}
   oType: 0
   fType: 0
   gamestate: 0
   nms: {fileID: 0}
+  allTw: {fileID: 0}
+  allTable: {fileID: 0}
   allChair: {fileID: 0}
   elementals: {fileID: 0}
-  buildingPrefab: {fileID: 5714802809297158953, guid: 48dda88c8f0ac0c4788c07ebacd06fa8, type: 3}
+  buildingPrefab: {fileID: 0}
   savePrefab: {fileID: 0}
   tileNum: 0
   funnitureNum: 0

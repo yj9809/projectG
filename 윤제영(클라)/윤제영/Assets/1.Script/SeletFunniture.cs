@@ -126,7 +126,6 @@ public class SeletFunniture : MonoBehaviour
         Vector3 checkPos = new Vector3(check.transform.position.x, check.transform.position.y + 0.2f, check.transform.position.z);
         RaycastHit hitCheck;
         bool isHit = Physics.Raycast(checkPos, Vector3.down, out hitCheck, 1f, LayerMask.GetMask("Interior Grid"));
-        Debug.Log(isHit);
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity) && isHit)
         {
