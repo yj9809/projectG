@@ -203,6 +203,7 @@ public class GameManager : Singleton<GameManager>
         set
         {
             data.allHappyPoint = value;
+            UpdateStep();
         }
     }
     public int Happy
@@ -261,9 +262,9 @@ public class GameManager : Singleton<GameManager>
     public int Step
     {
         get { return data.tileGridStep; }
-        set
+        private set
         {
-            data.tileGridStep = value;
+            data.tileGridStep = Math.Clamp(value, 0, 3);
         }
     }
     public string PlayerName
@@ -290,49 +291,49 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         AudioManager.Instance.PlayBgm(AudioManager.Bgm.Main);
-        // SetElementals
-        elementals = GameObject.Find("Elementals").transform;
-        // SetActive
-        SeletTile.SetActive(false);
-        SeletFunniture.SetActive(false);
-        //TileGrid.SetActive(false);
-        for (int i = 0; i < Ui.tileGrid.Length; i++)
-        {
-            Ui.tileGrid[i].SetActive(false);
-            Ui.InteriorGrid[i].SetActive(false);
-        }
-        // Data
-        data = DataManager.Instance.now;
-        // Prefab
-        prfabPos = GameObject.Find("PrefabPos").transform;
+        //// SetElementals
+        //elementals = GameObject.Find("Elementals").transform;
+        //// SetActive
+        //SeletTile.SetActive(false);
+        //SeletFunniture.SetActive(false);
+        ////TileGrid.SetActive(false);
+        //for (int i = 0; i < Ui.tileGrid.Length; i++)
+        //{
+        //    Ui.tileGrid[i].SetActive(false);
+        //    Ui.InteriorGrid[i].SetActive(false);
+        //}
+        //// Data
+        //data = DataManager.Instance.now;
+        //// Prefab
+        //prfabPos = GameObject.Find("PrefabPos").transform;
 
-        GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
-        prefab.name = "Save Obj Prefab";
-        allChair = prefab.transform.GetChild(2).transform;
-        savePrefab = GameObject.Find("Save Obj Prefab");
+        //GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
+        //prefab.name = "Save Obj Prefab";
+        //allChair = prefab.transform.GetChild(2).transform;
+        //savePrefab = GameObject.Find("Save Obj Prefab");
 
-        // Instantiate Main Character
-        mainCharacter =
-            Instantiate(mainChar, House.housePos.position, Quaternion.identity).GetComponent<MainCharacter>();
+        //// Instantiate Main Character
+        //mainCharacter =
+        //    Instantiate(mainChar, House.housePos.position, Quaternion.identity).GetComponent<MainCharacter>();
 
-        // Nav
-        nms = GetComponent<NavMeshSurface>();
-        nms.BuildNavMesh();
-        DataManager.Instance.SavePrefab(savePrefab);
+        //// Nav
+        //nms = GetComponent<NavMeshSurface>();
+        //nms.BuildNavMesh();
+        //DataManager.Instance.SavePrefab(savePrefab);
 
-        // Ui Set
-        Ui.MainTxt();
-        // Elementals initialization
-        for (int i = 0; i < Spawn.elemental.Count; i++)
-        {
-            ElementalNpc elem = Spawn.elemental[i].GetComponent<ElementalNpc>();
-            elem.GoStore();
-        }
+        //// Ui Set
+        //Ui.MainTxt();
+        //// Elementals initialization
+        //for (int i = 0; i < Spawn.elemental.Count; i++)
+        //{
+        //    ElementalNpc elem = Spawn.elemental[i].GetComponent<ElementalNpc>();
+        //    elem.GoStore();
+        //}
 
-        // GameStart logic
-        Spawn.customerList.Clear();
-        House.partner.Clear();
-        MainCharacter.GoFarm();
+        //// GameStart logic
+        //Spawn.customerList.Clear();
+        //House.partner.Clear();
+        //MainCharacter.GoFarm();
     }
     // Update is called once per frame
     void Update()
@@ -376,6 +377,7 @@ public class GameManager : Singleton<GameManager>
 
             // Ui Set
             Ui.MainTxt();
+            UpdateStep();
 
             // Elementals initialization
             for (int i = 0; i < Spawn.elemental.Count; i++)
@@ -389,6 +391,11 @@ public class GameManager : Singleton<GameManager>
             House.partner.Clear();
             MainCharacter.GoFarm();
         }
+    }
+    private void UpdateStep()
+    {
+        int newStep = data.allHappyPoint / 1000;
+        Step = newStep;
     }
     public void OnLoadScene()
     {

@@ -5,10 +5,11 @@ using UnityEngine.AI;
 
 public class Npc : MonoBehaviour
 {
-    [SerializeField] GameObject foodPrefab;
+    [SerializeField] private GameObject foodPrefab;
     private Spawn spawn;
     private NavMeshAgent nm;
     private Animator ani;
+    private GameManager gm;
     private ElementalNpc elementalNpc;
 
     public Transform target;
@@ -19,6 +20,7 @@ public class Npc : MonoBehaviour
         nm = GetComponent<NavMeshAgent>();
         spawn = FindObjectOfType<Spawn>();
         ani = transform.GetComponent<Animator>();
+        gm = GameManager.Instance;
     }
     // Start is called before the first frame update
     void Start()
@@ -64,10 +66,30 @@ public class Npc : MonoBehaviour
     }
     public void Eat(GameObject food)
     {
+        int happyPoint = 0;
+        switch (food.name)
+        {
+            case "Soup":
+                happyPoint = 5;
+                break;
+            case "Tomato Soup":
+                happyPoint = 10;
+                break;
+            case "Potato":
+                happyPoint = 20;
+                break;
+            case "Wheat Bread":
+                happyPoint = 30;
+                break;
+            case "PanCake":
+                happyPoint = 50;
+                break;
+        }
+
         foodPrefab = Instantiate(food, transform.GetChild(0));
-        GameManager.Instance.AllHappy += 1;
-        GameManager.Instance.Happy += 1;
-        GameManager.Instance.Ui.happyUp += 1;
+        gm.AllHappy += happyPoint;
+        gm.Happy += happyPoint;
+        gm.Ui.happyUp += happyPoint;
         ani.SetTrigger("Eat");
         Invoke("TargetChange", 10f);
     }
@@ -85,7 +107,7 @@ public class Npc : MonoBehaviour
     {
         if (other.transform.gameObject.tag == "End")
         {
-            GameManager.Instance.Spawn.CheckCustomer(this.gameObject);
+            gm.Spawn.CheckCustomer(this.gameObject);
             spawn.pool.ReturnNpc(this.gameObject);
         }
     }

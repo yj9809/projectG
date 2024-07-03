@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 
-
 public class Ui : MonoBehaviour
 {
     public GameObject[] tileGrid;
@@ -301,7 +300,8 @@ public class Ui : MonoBehaviour
     {
         closingMainTitle.text = gm.PlayerName;
         closingTitleDay.text = $"Day {gm.Day}";
-        step.text = gm.Step + 1.ToString();
+        step.text = (gm.Step + 1).ToString();
+
         for (int i = 0; i < cropOneDayEa.Length; i++)
         {
             if (cropOneDayEa[i] != 0)
@@ -313,6 +313,7 @@ public class Ui : MonoBehaviour
         if (!onClosing)
         {
             AudioManager.Instance.PlaySfx(AudioManager.Sfx.Day);
+            gm.foods.Clear();
             closing.transform.DOScale(new Vector3(1, 1, 1), 0.5f).SetUpdate(true);
             int happySum = happyUp + happyDown;
             closingHappyTxt.text = happySum >= 0 ? $"<color=green>+ {happySum}</color>" : $"<color=red>= {happySum}</color>";
@@ -405,7 +406,7 @@ public class Ui : MonoBehaviour
                 break;
         }
     }
-    public void ClickSound()
+    public void TimeScaleSound()
     {
         AudioManager.Instance.PlaySfx(AudioManager.Sfx.TimeScale);
     }

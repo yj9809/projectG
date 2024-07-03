@@ -111,9 +111,16 @@ public class ElementalNpc : MonoBehaviour
         if (nm.remainingDistance <= nm.stoppingDistance)
         {
             if (gm.foods.Count <= 0)
+            {
                 foodPrefab = Instantiate(food, transform.GetChild(0).transform);
+                foodPrefab.name = food.name;
+            }
             else
-                foodPrefab = Instantiate(gm.foods.Dequeue(), transform.GetChild(0).transform);
+            {
+                GameObject food = gm.foods.Dequeue();
+                foodPrefab = Instantiate(food, transform.GetChild(0).transform);
+                foodPrefab.name = food.name;
+            }
 
             target = orderTarget;
             sType = ServingType.GoServing;
