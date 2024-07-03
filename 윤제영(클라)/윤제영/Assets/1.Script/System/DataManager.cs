@@ -16,6 +16,7 @@ public class ObjData
     public int potatoEa = 0;
     public int tomatoEa = 0;
     public int butterMushroomEa = 0;
+    public int timer = 0;
 }
 public class DataManager : Singleton<DataManager>
 {

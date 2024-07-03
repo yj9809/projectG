@@ -22,6 +22,7 @@ public enum GameState
     Start,
     Stop
 }
+
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private Transform prfabPos;
@@ -204,6 +205,7 @@ public class GameManager : Singleton<GameManager>
         {
             data.allHappyPoint = value;
             UpdateStep();
+            UpdateSpawnTimer();
         }
     }
     public int Happy
@@ -277,6 +279,14 @@ public class GameManager : Singleton<GameManager>
         set
         {
             data.counteEa = value;
+        }
+    }
+    public int Timer
+    {
+        get { return data.timer; }
+        private set
+        {
+            data.timer = Math.Clamp(value, 0, 4);
         }
     }
     public int tileNum;
@@ -378,6 +388,7 @@ public class GameManager : Singleton<GameManager>
             // Ui Set
             Ui.MainTxt();
             UpdateStep();
+            UpdateSpawnTimer();
 
             // Elementals initialization
             for (int i = 0; i < Spawn.elemental.Count; i++)
@@ -396,6 +407,11 @@ public class GameManager : Singleton<GameManager>
     {
         int newStep = data.allHappyPoint / 1000;
         Step = newStep;
+    }
+    public void UpdateSpawnTimer()
+    {
+        int newTime =data.allHappyPoint / 1000;
+        Timer = newTime;
     }
     public void OnLoadScene()
     {

@@ -57,6 +57,8 @@ public class Spawn : MonoBehaviour
         if (GameManager.Instance.gamestate == GameState.Stop)
             return;
 
+        SpwanTime();
+
         if (onSpawn)
         {
             spwanTimer += Time.deltaTime;
@@ -66,6 +68,27 @@ public class Spawn : MonoBehaviour
 
                 SpawnNpc();
             }
+        }
+    }
+    private void SpwanTime()
+    {
+        switch (GameManager.Instance.Timer)
+        {
+            case 0:
+                spwanTime = 5;
+                break;
+            case 1:
+                spwanTime = 4;
+                break;
+            case 2:
+                spwanTime = 3;
+                break;
+            case 3:
+                spwanTime = 2;
+                break;
+            case 4:
+                spwanTime = 1;
+                break;
         }
     }
     private void SpawnNpc()
