@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : Singleton<AudioManager>
 {
+    public AudioMixer audioMixer;
+ 
     [Header("#BGM")]
     public AudioClip[] bgmClip;
     public float bgmVolume;
@@ -45,7 +48,7 @@ public class AudioManager : Singleton<AudioManager>
                 bgmPlayer[i].playOnAwake = true;
             else
                 bgmPlayer[i].playOnAwake = false;
-
+            bgmPlayer[i].outputAudioMixerGroup = audioMixer.FindMatchingGroups("Bgm")[0];
             bgmPlayer[i].loop = true;
             bgmPlayer[i].volume = bgmVolume;
             bgmPlayer[i].clip = bgmClip[i];
@@ -59,6 +62,7 @@ public class AudioManager : Singleton<AudioManager>
         for (int i = 0; i < sfxPlayer.Length; i++)
         {
             sfxPlayer[i] = sfxObj.AddComponent<AudioSource>();
+            sfxPlayer[i].outputAudioMixerGroup = audioMixer.FindMatchingGroups("Sfx")[0];
             sfxPlayer[i].playOnAwake = false;
             sfxPlayer[i].volume = sfxVolume;
         }
