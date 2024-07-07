@@ -14,6 +14,7 @@ TagManager:
   - House
   - Counte
   - Farm
+  - Ui Canvas
   layers:
   - Default
   - TransparentFX

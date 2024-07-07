@@ -5,8 +5,16 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 
+public enum MenuType
+{
+    OnMenu,
+    OffMenu
+}
 public class Ui : MonoBehaviour
 {
+    //Canvas
+    public Canvas uiCanvas;
+    //TileGrid
     public GameObject[] tileGrid;
     public GameObject[] InteriorGrid;
     //DestroyWindow
@@ -41,15 +49,18 @@ public class Ui : MonoBehaviour
     [SerializeField] private Sprite[] timeScaleSprite;
     //Clock
     [SerializeField] private Image clockBackGround;
-    [SerializeField] private Image clockForwordGround;
     //Ui Txt
     [SerializeField] private TMP_Text happyPointTxt;
     [SerializeField] private TMP_Text[] cropTxt;
+    //Option
+    [SerializeField] private GameObject menu;
+    [SerializeField] private GameObject option;
 
     private GameManager gm;
+    private MenuType mt = MenuType.OnMenu;
 
-    private int timeScaleValue = 0;
-    private int time;
+    public int timeScaleValue = 0;
+    public int time;
     public int happyUp = 0;
     public int happyDown = 0;
     public int[] cropOneDayEa = new int[4];
@@ -58,6 +69,8 @@ public class Ui : MonoBehaviour
     private bool funnitureWindow = false;
     private bool destroySystem = false;
     private bool onClosing = false;
+    private bool onMenuWindow = false;
+    private bool onOption = false;
     private void Awake()
     {
         gm = GameManager.Instance;
@@ -69,6 +82,7 @@ public class Ui : MonoBehaviour
         {
             TimeScaleChangeButton();
         }
+        OnMenu();
     }
     public void OnStart()
     {
@@ -77,61 +91,69 @@ public class Ui : MonoBehaviour
     public void TileWindow()
     {
         AudioManager.Instance.PlaySfx(AudioManager.Sfx.Click);
-        if (!funnitureWindow && !destroySystem)
+        if (!funnitureWindow && !destroySystem && !onMenuWindow)
         {
-            
             if (!tileWindow)
             {
+                mt = MenuType.OffMenu;
                 tileSeletWindow.transform.
-                    GetComponent<RectTransform>().DOMoveX(1900, 1f).SetUpdate(true);
+                    GetComponent<RectTransform>().DOMoveX(1900, 0.25f).SetUpdate(true);
                 OnTile(tileWindow, gm.Step);
                 gm.SeletTile.SetActive(true);
                 time = timeScaleValue -1;
                 timeScaleValue = 2;
                 TimeScaleChange();
-                buttons.transform.DOMoveX(2120, 1f).SetUpdate(true);
-                tileWindow = true;
+                buttons.transform.DOMoveX(2120, 0.25f).SetUpdate(true)
+                    .OnComplete(() => tileWindow = true);
             }
             else if (tileWindow)
             {
+                mt = MenuType.OnMenu;
                 tileSeletWindow.transform.
-                    GetComponent<RectTransform>().DOMoveX(2520, 1f).SetUpdate(true);
+                    GetComponent<RectTransform>().DOMoveX(2520, 0.25f).SetUpdate(true);
                 OnTile(tileWindow, gm.Step);
                 gm.SeletTile.SetActive(false);
-                tileWindow = false;
-                timeScaleValue = time;
-                TimeScaleChange();
-                buttons.transform.DOMoveX(1920, 1f).SetUpdate(true);
+                buttons.transform.DOMoveX(1920, 0.25f).SetUpdate(true)
+                    .OnComplete(() => {
+                        tileWindow = false; 
+                        timeScaleValue = time;
+                        TimeScaleChange();
+                    });
             }
         }
     }
     public void FunnitureWindow()
     {
         AudioManager.Instance.PlaySfx(AudioManager.Sfx.Click);
-        if (!tileWindow && !destroySystem)
+        if (!tileWindow && !destroySystem && !onMenuWindow)
         {
             if (!funnitureWindow)
             {
+                mt = MenuType.OffMenu;
                 funnitureSeletWindow.transform.
-                    GetComponent<RectTransform>().DOMoveX(1900, 1f).SetUpdate(true);
+                    GetComponent<RectTransform>().DOMoveX(1900, 0.25f).SetUpdate(true);
                 OnTile(funnitureWindow, gm.Step);
                 gm.SeletFunniture.SetActive(true);
                 time = timeScaleValue - 1;
                 timeScaleValue = 2;
                 TimeScaleChange();
-                buttons.transform.DOMoveX(2120, 1f).SetUpdate(true);
-                funnitureWindow = true;
+                buttons.transform.DOMoveX(2120, 0.25f).SetUpdate(true)
+                    .OnComplete(() => funnitureWindow = true);
             }
             else if (funnitureWindow)
             {
+                mt = MenuType.OnMenu;
                 funnitureSeletWindow.transform.
-                    GetComponent<RectTransform>().DOMoveX(2520, 1f).SetUpdate(true);
+                    GetComponent<RectTransform>().DOMoveX(2520, 0.25f).SetUpdate(true);
                 OnTile(funnitureWindow, gm.Step);
                 gm.SeletFunniture.SetActive(false);
                 funnitureWindow = false;
-                timeScaleValue = time;
-                TimeScaleChange();
-                buttons.transform.DOMoveX(1920, 1f).SetUpdate(true);
+                buttons.transform.DOMoveX(1920, 0.25f).SetUpdate(true)
+                    .OnComplete(() => { 
+                        funnitureWindow = false;
+                        timeScaleValue = time;
+                        TimeScaleChange();
+                    });
             }
         }
         
@@ -201,26 +223,30 @@ public class Ui : MonoBehaviour
     public void OnDestroySystem()
     {
         AudioManager.Instance.PlaySfx(AudioManager.Sfx.Click);
-        if (!tileWindow && ! funnitureWindow)
+        if (!tileWindow && ! funnitureWindow && !onMenuWindow)
         {
             if (!destroySystem)
             {
-                destryoCloseButton.transform.DOMoveX(1900, 1f).SetUpdate(true);
-                buttons.transform.DOMoveX(2120, 1f).SetUpdate(true);
+                mt = MenuType.OffMenu;
+                destryoCloseButton.transform.DOMoveX(1900, 0.25f).SetUpdate(true);
                 destroy.SetActive(true);
                 time = timeScaleValue - 1;
                 timeScaleValue = 2;
                 TimeScaleChange();
-                destroySystem = true;
+                buttons.transform.DOMoveX(2120, 0.25f).SetUpdate(true)
+                    .OnComplete(() => destroySystem = true);
             }
             else if (destroySystem)
             {
-                destryoCloseButton.transform.DOMoveX(2220, 1f).SetUpdate(true);
-                buttons.transform.DOMoveX(1920, 1f).SetUpdate(true);
+                mt = MenuType.OnMenu;
+                destryoCloseButton.transform.DOMoveX(2220, 0.25f).SetUpdate(true);
                 destroy.SetActive(false);
-                destroySystem = false;
-                timeScaleValue = time;
-                TimeScaleChange();
+                buttons.transform.DOMoveX(1920, 0.25f).SetUpdate(true)
+                    .OnComplete(() => { 
+                        destroySystem = false;
+                        timeScaleValue = time;
+                        TimeScaleChange();
+                    });
             }
         }
     }
@@ -409,5 +435,42 @@ public class Ui : MonoBehaviour
     public void TimeScaleSound()
     {
         AudioManager.Instance.PlaySfx(AudioManager.Sfx.TimeScale);
+    }
+    private void OnMenu()
+    {
+        if (!destroySystem && !tileWindow && !funnitureWindow && mt == MenuType.OnMenu)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) && !onMenuWindow)
+            {
+                menu.SetActive(true);
+                onMenuWindow = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape) && onMenuWindow)
+            {
+                menu.SetActive(false);
+                onMenuWindow = false;
+            }
+        }
+    }
+    public void OnOptionWindow()
+    {
+        if (!onOption)
+        {
+            option.SetActive(true);
+            onOption = true;
+        }
+        else if (onOption)
+        {
+            option.SetActive(false);
+            onOption = false;
+        }
+    }
+    public void Exit()
+    {
+        OptionManager.Instance.OnExit();
+    }
+    public void OptionSet(GameObject option)
+    {
+        this.option = option;
     }
 }

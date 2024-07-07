@@ -1,89 +1,121 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class OptionManager : Singleton<OptionManager>
 {
-    [SerializeField] private TMP_Dropdown resolutionDropdown;
-    [SerializeField] private Toggle fullScreenToggle;
+    public TMP_Dropdown resolutionDropdown;
+    public Toggle fullScreenToggle;
+    public Slider masterVolumeSlider;
+    public Slider bgmVolumeSlider;
+    public Slider sfxVolumeSlider;
 
+    private AudioMixer audioMixer;
+
+    private List<Resolution> resolutions = new List<Resolution>()
+    {
+        new Resolution { width = 1280, height = 720 },
+        new Resolution { width = 1600, height = 900 },
+        new Resolution { width = 1920, height = 1080 }
+    };
     void Start()
     {
-        LoadSettings();
+        audioMixer = AudioManager.Instance.audioMixer;
+
+        masterVolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume", 0.75f);
+        bgmVolumeSlider.value = PlayerPrefs.GetFloat("BGMVolume", 0.75f);
+        sfxVolumeSlider.value = PlayerPrefs.GetFloat("SFXVolume", 0.75f);
+
+        SetMasterVolume(masterVolumeSlider.value);
+        SetBgmVolume(bgmVolumeSlider.value);
+        SetSfxVolume(sfxVolumeSlider.value);
+
+        masterVolumeSlider.onValueChanged.AddListener(SetMasterVolume);
+        bgmVolumeSlider.onValueChanged.AddListener(SetBgmVolume);
+        sfxVolumeSlider.onValueChanged.AddListener(SetSfxVolume);
+
         InitResolutionOptions();
+        InitFullscreenToggle();
 
-        fullScreenToggle.onValueChanged.AddListener(SetFullScreenMode);
     }
-
-    void OnApplicationQuit()
+    public void SetMasterVolume(float volume)
     {
-        SaveSettings();
+        audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20); // 데시벨로 변환하여 설정
+        PlayerPrefs.SetFloat("MasterVolume", volume); // 변경된 볼륨 값을 저장
+        PlayerPrefs.Save();
     }
-    void SetFullScreenMode(bool isFullScreen)
+    public void SetBgmVolume(float volume)
     {
-        Screen.fullScreen = isFullScreen;
-        PlayerPrefs.SetInt("FullScreen", isFullScreen ? 1 : 0);
+        audioMixer.SetFloat("Bgm", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("BGMVolume", volume);
+        PlayerPrefs.Save();
+    }
+    public void SetSfxVolume(float volume)
+    {
+        audioMixer.SetFloat("Sfx", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("SFXVolume", volume);
+        PlayerPrefs.Save();
+    }
+    private void InitFullscreenToggle()
+    {
+        fullScreenToggle.isOn = Screen.fullScreen;
+        fullScreenToggle.onValueChanged.AddListener(SetFullscreen);
     }
     private void InitResolutionOptions()
     {
         resolutionDropdown.ClearOptions();
         List<string> options = new List<string>();
-
-        // 필터링할 해상도 및 주사율
-        int[] desiredWidths = { 1280, 1600, 1920 };
-        int[] desiredHeights = { 720, 900, 1080 };
-
-        foreach (Resolution resolution in Screen.resolutions)
+        foreach (var res in resolutions)
         {
-            // 필터링 조건 확인
-            if ((resolution.width == desiredWidths[0] && resolution.height == desiredHeights[0] ||
-                 resolution.width == desiredWidths[1] && resolution.height == desiredHeights[1] ||
-                 resolution.width == desiredWidths[2] && resolution.height == desiredHeights[2]))
-            {
-                options.Add(resolution.width + "x" + resolution.height + " " + resolution.refreshRate + "Hz");
-            }
+            options.Add(res.width + "x" + res.height);
         }
-
         resolutionDropdown.AddOptions(options);
 
-        // 기본값 설정
-        if (options.Count > 0)
-        {
-            resolutionDropdown.value = 0; // 첫 번째 필터된 해상도를 기본값으로 설정
-        }
+        // Load saved resolution index
+        resolutionDropdown.value = PlayerPrefs.GetInt("ResolutionPreference", 0);
         resolutionDropdown.RefreshShownValue();
+        ChangeResolution(resolutionDropdown.value);
 
-        fullScreenToggle.isOn = PlayerPrefs.GetInt("FullScreen", 0) == 1;
-
-        resolutionDropdown.onValueChanged.RemoveAllListeners();
-        resolutionDropdown.onValueChanged.AddListener(OnResolutionChange);
+        resolutionDropdown.onValueChanged.AddListener(ChangeResolution);
     }
-
-    public void OnResolutionChange(int index)
+    public void SetFullscreen(bool isFullscreen)
     {
-        string[] parts = resolutionDropdown.options[index].text.Split(new char[] { 'x', ' ' });
-        int width = int.Parse(parts[0]);
-        int height = int.Parse(parts[1]);
-        Screen.SetResolution(width, height, Screen.fullScreen);
-        PlayerPrefs.SetInt("ResolutionIndex", index);
-    }
-    public void SaveSettings()
-    {
-        PlayerPrefs.SetInt("ResolutionIndex", resolutionDropdown.value);
-        PlayerPrefs.SetInt("FullScreen", fullScreenToggle.isOn ? 1 : 0);
+        Screen.fullScreen = isFullscreen;
+        PlayerPrefs.SetInt("FullscreenPreference", isFullscreen ? 1 : 0);
         PlayerPrefs.Save();
     }
-
-    public void LoadSettings()
+    public void ChangeResolution(int resolutionIndex)
     {
-        int resolutionIndex = PlayerPrefs.GetInt("ResolutionIndex", 0);
-        bool isFullScreen = PlayerPrefs.GetInt("FullScreen", 0) == 1;
+        Resolution resolution = resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        PlayerPrefs.SetInt("ResolutionPreference", resolutionIndex);
+        PlayerPrefs.Save();
+    }
+    public void OnExit()
+    {
+        Application.Quit();
+    }
+    public void OptionValueSet()
+    {
+        masterVolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume", 0.75f);
+        bgmVolumeSlider.value = PlayerPrefs.GetFloat("BGMVolume", 0.75f);
+        sfxVolumeSlider.value = PlayerPrefs.GetFloat("SFXVolume", 0.75f);
 
-        Resolution selectedResolution = Screen.resolutions[resolutionIndex];
-        Screen.SetResolution(selectedResolution.width, selectedResolution.height, isFullScreen);
-        fullScreenToggle.isOn = isFullScreen;
+        SetMasterVolume(masterVolumeSlider.value);
+        SetBgmVolume(bgmVolumeSlider.value);
+        SetSfxVolume(sfxVolumeSlider.value);
+
+        masterVolumeSlider.onValueChanged.AddListener(SetMasterVolume);
+        bgmVolumeSlider.onValueChanged.AddListener(SetBgmVolume);
+        sfxVolumeSlider.onValueChanged.AddListener(SetSfxVolume);
+
+        InitResolutionOptions();
+        InitFullscreenToggle();
     }
 }
 

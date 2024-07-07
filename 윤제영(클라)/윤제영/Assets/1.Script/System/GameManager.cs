@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public enum CreatType
 {
@@ -33,10 +35,12 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Transform prfabPos;
     [SerializeField] private GameObject mainChar;
     [SerializeField] private GameObject[] obj;
+    [SerializeField] private GameObject option;
     public TileType oType = TileType.Non;
     public FunnitureType fType = FunnitureType.Table;
     public GameState gamestate = GameState.Start;
 
+    private OptionManager om;
     private ObjData data;
     private Dictionary<string, GameObject> prefab;
     private CreatType ct = CreatType.New;
@@ -311,54 +315,12 @@ public class GameManager : Singleton<GameManager>
         {
             this.prefab[prefab.name] = prefab;
         }
+        om = OptionManager.Instance;
     }
     // Start is called before the first frame update
     void Start()
     {
         AudioManager.Instance.PlayBgm(AudioManager.Bgm.Main);
-        //// SetElementals
-        //elementals = GameObject.Find("Elementals").transform;
-        //// SetActive
-        //SeletTile.SetActive(false);
-        //SeletFunniture.SetActive(false);
-        ////TileGrid.SetActive(false);
-        //for (int i = 0; i < Ui.tileGrid.Length; i++)
-        //{
-        //    Ui.tileGrid[i].SetActive(false);
-        //    Ui.InteriorGrid[i].SetActive(false);
-        //}
-        //// Data
-        //data = DataManager.Instance.now;
-        //// Prefab
-        //prfabPos = GameObject.Find("PrefabPos").transform;
-
-        //GameObject prefab = Instantiate(buildingPrefab, prfabPos.position, Quaternion.identity);
-        //prefab.name = "Save Obj Prefab";
-        //allChair = prefab.transform.GetChild(2).transform;
-        //savePrefab = GameObject.Find("Save Obj Prefab");
-
-        //// Instantiate Main Character
-        //mainCharacter =
-        //    Instantiate(mainChar, House.housePos.position, Quaternion.identity).GetComponent<MainCharacter>();
-
-        //// Nav
-        //nms = GetComponent<NavMeshSurface>();
-        //nms.BuildNavMesh();
-        //DataManager.Instance.SavePrefab(savePrefab);
-
-        //// Ui Set
-        //Ui.MainTxt();
-        //// Elementals initialization
-        //for (int i = 0; i < Spawn.elemental.Count; i++)
-        //{
-        //    ElementalNpc elem = Spawn.elemental[i].GetComponent<ElementalNpc>();
-        //    elem.GoStore();
-        //}
-
-        //// GameStart logic
-        //Spawn.customerList.Clear();
-        //House.partner.Clear();
-        //MainCharacter.GoFarm();
     }
     // Update is called once per frame
     void Update()
@@ -405,9 +367,13 @@ public class GameManager : Singleton<GameManager>
             nms.BuildNavMesh();
 
             // Ui Set
+            GameObject optionWindow = Instantiate(option, Ui.uiCanvas.transform);
+            Ui.OptionSet(optionWindow);
             Ui.MainTxt();
             UpdateStep();
             UpdateSpawnTimer();
+            OptionWindowSet();
+            optionWindow.SetActive(false);
 
             // Elementals initialization
             for (int i = 0; i < Spawn.elemental.Count; i++)
@@ -507,6 +473,15 @@ public class GameManager : Singleton<GameManager>
         data.chairName.Clear();
         data.chairPosition.Clear();
         data.chairRotation.Clear();
+    }
+    private void OptionWindowSet()
+    {
+        om.resolutionDropdown = GameObject.Find("Resolution Dropdown").transform.GetComponent<TMP_Dropdown>();
+        om.fullScreenToggle = GameObject.Find("Full").transform.GetComponent<Toggle>();
+        om.masterVolumeSlider = GameObject.Find("MasterVolume").transform.GetComponent<Slider>();
+        om.bgmVolumeSlider = GameObject.Find("Bgm Volume").transform.GetComponent<Slider>();
+        om.sfxVolumeSlider = GameObject.Find("Sfx Volume").transform.GetComponent<Slider>();
+        om.OptionValueSet();
     }
     public void CreatTypeChange(string type)
     {
