@@ -101,6 +101,7 @@ public class MainCharacter : MonoBehaviour
             {
                 plant = false;
                 ani.SetBool("Move", false);
+                ani.SetTrigger("Watering");
                 isMove = false;
                 goFarm = false;
                 fm.PlantingSeed();
@@ -109,6 +110,7 @@ public class MainCharacter : MonoBehaviour
             else if(!plant)
             {
                 ani.SetBool("Move", false);
+                ani.SetTrigger("Harvest");
                 isMove = false;
                 goFarm = false;
                 fm.Harvest();

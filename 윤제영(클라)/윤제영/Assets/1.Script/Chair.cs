@@ -19,6 +19,10 @@ public class Chair : MonoBehaviour
             rotaY = 0;
         else if (Physics.Raycast(chairPos, Vector3.back, 1f, LayerMask.GetMask("Table")))
             rotaY = 180;
+        else if (Physics.Raycast(chairPos, Vector3.right, 1f, LayerMask.GetMask("Table")))
+            rotaY = 90;
+        else if (Physics.Raycast(chairPos, Vector3.left, 1f, LayerMask.GetMask("Table")))
+            rotaY = 270;
 
         return rotaY;
     }

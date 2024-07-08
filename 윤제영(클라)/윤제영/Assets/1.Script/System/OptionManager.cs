@@ -27,9 +27,9 @@ public class OptionManager : Singleton<OptionManager>
     {
         audioMixer = AudioManager.Instance.audioMixer;
 
-        masterVolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume", 0.75f);
-        bgmVolumeSlider.value = PlayerPrefs.GetFloat("BGMVolume", 0.75f);
-        sfxVolumeSlider.value = PlayerPrefs.GetFloat("SFXVolume", 0.75f);
+        masterVolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume", 1f);
+        bgmVolumeSlider.value = PlayerPrefs.GetFloat("BGMVolume", 1f);
+        sfxVolumeSlider.value = PlayerPrefs.GetFloat("SFXVolume", 1f);
 
         SetMasterVolume(masterVolumeSlider.value);
         SetBgmVolume(bgmVolumeSlider.value);
@@ -45,8 +45,8 @@ public class OptionManager : Singleton<OptionManager>
     }
     public void SetMasterVolume(float volume)
     {
-        audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20); // 데시벨로 변환하여 설정
-        PlayerPrefs.SetFloat("MasterVolume", volume); // 변경된 볼륨 값을 저장
+        audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("MasterVolume", volume);
         PlayerPrefs.Save();
     }
     public void SetBgmVolume(float volume)
