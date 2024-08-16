@@ -22,7 +22,7 @@ public class ControlSkyBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gm.gamestate == GameState.Stop)
+        if (gm.gameState == GameState.Stop)
             return;
 
         RenderSettings.skybox.SetFloat("_Rotation", Time.time * 0.5f);
@@ -104,7 +104,7 @@ public class ControlSkyBox : MonoBehaviour
         gm.House.partner.Clear();
         gm.Spawn.customerList.Clear();
         gm.Day += 1;
-        gm.gamestate = GameState.Start;
+        gm.gameState = GameState.Start;
         AudioManager.Instance.PlaySfx(AudioManager.Sfx.Click);
         gm.Ui.Closing();
     }

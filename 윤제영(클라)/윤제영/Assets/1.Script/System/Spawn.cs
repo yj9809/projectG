@@ -54,7 +54,7 @@ public class Spawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.gamestate == GameState.Stop)
+        if (GameManager.Instance.gameState == GameState.Stop)
             return;
 
         SpwanTime();

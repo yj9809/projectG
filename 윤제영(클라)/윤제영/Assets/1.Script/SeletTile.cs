@@ -39,7 +39,7 @@ public class SeletTile : MonoBehaviour
                 {
                     if (tilePreView == null)
                     {
-                        tilePreView = Instantiate(tile[gm.tileNum], hit.transform.position, Quaternion.identity);
+                        tilePreView = Instantiate(tile[gm.TileNum], hit.transform.position, Quaternion.identity);
                         tilePreView.transform.GetComponent<Collider>().enabled = false;
                     }
                     else
@@ -56,7 +56,7 @@ public class SeletTile : MonoBehaviour
                     Vector3 pos = new Vector3(hit.transform.position.x + 1f, hit.transform.position.y + 0.01f, hit.transform.position.z);
                     if (tilePreView == null)
                     {
-                        tilePreView = Instantiate(counter[gm.tileNum], pos, Quaternion.identity);
+                        tilePreView = Instantiate(counter[gm.TileNum], pos, Quaternion.identity);
                         tilePreView.transform.GetComponent<Collider>().enabled = false;
                         tilePreView.transform.GetChild(9).GetChild(1).GetComponent<Collider>().enabled = false;
                     }
@@ -75,7 +75,7 @@ public class SeletTile : MonoBehaviour
                 Vector3 pos = new Vector3(hit.transform.position.x, hit.transform.position.y + 1.25f, hit.transform.position.z);
                 if (tilePreView == null)
                 {
-                    tilePreView = Instantiate(wall[gm.tileNum], pos, hit.transform.rotation);
+                    tilePreView = Instantiate(wall[gm.TileNum], pos, hit.transform.rotation);
                     tilePreView.transform.GetComponent<Collider>().enabled = false;
                 }
                 if (Input.GetMouseButtonDown(0))
@@ -106,17 +106,17 @@ public class SeletTile : MonoBehaviour
 
         if(Physics.Raycast(ray, out hit, Mathf.Infinity) && gm.CounteEa == 0)
         {
-            if (hit.transform.gameObject.name == counter[gm.tileNum].name)
+            if (hit.transform.gameObject.name == counter[gm.TileNum].name)
                 return;
-            else if(hit.transform.gameObject.name != counter[gm.tileNum].name)
+            else if(hit.transform.gameObject.name != counter[gm.TileNum].name)
             {
                 if (hit.transform.gameObject.layer == 6)
                 {
-                    GameObject newCounter = Instantiate(counter[gm.tileNum], position, Quaternion.identity);
-                    newCounter.name = counter[gm.tileNum].name;
-                    newCounter.transform.SetParent(gm.tWParent);
+                    GameObject newCounter = Instantiate(counter[gm.TileNum], position, Quaternion.identity);
+                    newCounter.name = counter[gm.TileNum].name;
+                    newCounter.transform.SetParent(gm.TWParent);
                     gm.CounteEa += 1;
-                    gm.nms.BuildNavMesh();
+                    gm.navMeshSurface.BuildNavMesh();
                 }
                 else if (hit.transform.CompareTag("Wall") && hit.transform.CompareTag("Tile"))
                     return;
@@ -128,26 +128,26 @@ public class SeletTile : MonoBehaviour
     {
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            if (hit.transform.gameObject.name == tile[gm.tileNum].name)
+            if (hit.transform.gameObject.name == tile[gm.TileNum].name)
                 return;
-            else if (hit.transform.gameObject.name != tile[gm.tileNum].name)
+            else if (hit.transform.gameObject.name != tile[gm.TileNum].name)
             {
                 GameObject newTile;
 
                 if (hit.transform.gameObject.layer == 6)
-                    newTile = Instantiate(tile[gm.tileNum], position, Quaternion.identity);
+                    newTile = Instantiate(tile[gm.TileNum], position, Quaternion.identity);
                 else if (hit.transform.CompareTag("Wall") && hit.transform.CompareTag("Counte"))
                     return;
                 else
                 {
                     newTile = hit.transform.gameObject;
                     Material[] mate = newTile.transform.GetComponent<MeshRenderer>().materials;
-                    mate[0] = tileMate[gm.tileNum];
+                    mate[0] = tileMate[gm.TileNum];
                     newTile.transform.GetComponent<MeshRenderer>().materials = mate;
                 }
-                newTile.name = tile[gm.tileNum].name;
-                newTile.transform.SetParent(gm.tWParent);
-                gm.nms.BuildNavMesh();
+                newTile.name = tile[gm.TileNum].name;
+                newTile.transform.SetParent(gm.TWParent);
+                gm.navMeshSurface.BuildNavMesh();
             }
         } 
     }
@@ -156,29 +156,29 @@ public class SeletTile : MonoBehaviour
     {
         if (Physics.Raycast(ray, out hit, Mathf.Infinity)) 
         {
-            if (hit.transform.gameObject.name == wall[gm.tileNum].name)
+            if (hit.transform.gameObject.name == wall[gm.TileNum].name)
                 return;
-            else if (hit.transform.gameObject.name != wall[gm.tileNum].name) 
+            else if (hit.transform.gameObject.name != wall[gm.TileNum].name) 
             {
                 GameObject newWall;
 
                 Vector3 pos = new Vector3(position.x, position.y + 1.25f, position.z);
 
                 if (hit.transform.gameObject.layer == 6)
-                    newWall = Instantiate(wall[gm.tileNum], pos, tilePreView.transform.rotation);
+                    newWall = Instantiate(wall[gm.TileNum], pos, tilePreView.transform.rotation);
                 else if (hit.transform.CompareTag("Tile") && hit.transform.CompareTag("Counte"))
-                    newWall = Instantiate(wall[gm.tileNum], pos, tilePreView.transform.rotation);
+                    newWall = Instantiate(wall[gm.TileNum], pos, tilePreView.transform.rotation);
                 else
                 {
                     newWall = hit.transform.gameObject;
                     Material[] mate = newWall.transform.GetComponent<MeshRenderer>().materials;
-                    mate[0] = wallMate[gm.tileNum];
+                    mate[0] = wallMate[gm.TileNum];
                     newWall.transform.GetComponent<MeshRenderer>().materials = mate;
                 }
 
-                newWall.name = wall[gm.tileNum].name;
-                newWall.transform.SetParent(gm.tWParent);
-                gm.nms.BuildNavMesh();
+                newWall.name = wall[gm.TileNum].name;
+                newWall.transform.SetParent(gm.TWParent);
+                gm.navMeshSurface.BuildNavMesh();
             }
         }
     }

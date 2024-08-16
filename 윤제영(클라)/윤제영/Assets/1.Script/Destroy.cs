@@ -48,7 +48,7 @@ public class Destroy : MonoBehaviour
                     outLine.Add(hit.transform.gameObject.AddComponent<Outline>());
                     outLine[outLine.Count - 1].OutlineWidth = 6f;
                     outLine[outLine.Count - 1].OutlineColor = Color.green;
-                    gm.nms.BuildNavMesh();
+                    gm.navMeshSurface.BuildNavMesh();
                 }
             }
         }
@@ -84,6 +84,6 @@ public class Destroy : MonoBehaviour
             Destroy(obj);
         }
         ClearList();
-        gm.nms.BuildNavMesh();
+        gm.navMeshSurface.BuildNavMesh();
     }
 }

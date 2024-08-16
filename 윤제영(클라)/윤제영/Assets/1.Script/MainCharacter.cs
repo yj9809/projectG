@@ -24,16 +24,10 @@ public class MainCharacter : MonoBehaviour
         gm = GameManager.Instance;
         fm = FindObjectOfType<FarmManager>();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if (gm.gamestate == GameState.Stop)
+        if (gm.gameState == GameState.Stop)
             return;
 
         if (isMove)

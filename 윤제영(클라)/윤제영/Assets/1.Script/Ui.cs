@@ -86,7 +86,7 @@ public class Ui : MonoBehaviour
     }
     public void OnStart()
     {
-        GameManager.Instance.gamestate = GameState.Start;
+        GameManager.Instance.gameState = GameState.Start;
     }
     public void TileWindow()
     {
@@ -99,7 +99,7 @@ public class Ui : MonoBehaviour
                 tileSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveX(1900, 0.25f).SetUpdate(true);
                 OnTile(tileWindow, gm.Step);
-                gm.SeletTile.SetActive(true);
+                gm.SelectTile.SetActive(true);
                 time = timeScaleValue -1;
                 timeScaleValue = 2;
                 TimeScaleChange();
@@ -112,7 +112,7 @@ public class Ui : MonoBehaviour
                 tileSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveX(2520, 0.25f).SetUpdate(true);
                 OnTile(tileWindow, gm.Step);
-                gm.SeletTile.SetActive(false);
+                gm.SelectTile.SetActive(false);
                 buttons.transform.DOMoveX(1920, 0.25f).SetUpdate(true)
                     .OnComplete(() => {
                         tileWindow = false; 
@@ -133,7 +133,7 @@ public class Ui : MonoBehaviour
                 funnitureSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveX(1900, 0.25f).SetUpdate(true);
                 OnTile(funnitureWindow, gm.Step);
-                gm.SeletFunniture.SetActive(true);
+                gm.SelectFurniture.SetActive(true);
                 time = timeScaleValue - 1;
                 timeScaleValue = 2;
                 TimeScaleChange();
@@ -146,7 +146,7 @@ public class Ui : MonoBehaviour
                 funnitureSeletWindow.transform.
                     GetComponent<RectTransform>().DOMoveX(2520, 0.25f).SetUpdate(true);
                 OnTile(funnitureWindow, gm.Step);
-                gm.SeletFunniture.SetActive(false);
+                gm.SelectFurniture.SetActive(false);
                 funnitureWindow = false;
                 buttons.transform.DOMoveX(1920, 0.25f).SetUpdate(true)
                     .OnComplete(() => { 
@@ -252,7 +252,7 @@ public class Ui : MonoBehaviour
     }
     public void TileNum(int num)
     {
-        GameManager.Instance.tileNum = num;
+        GameManager.Instance.TileNum = num;
     }
     public void TileType(int num)
     {
@@ -260,12 +260,12 @@ public class Ui : MonoBehaviour
     }
     public void FunnitureNum(int num)
     {
-        GameManager.Instance.funnitureNum = num;
+        GameManager.Instance.FurnitureNum = num;
     }
     public void FunnitureType(int num)
     {
         GameManager.Instance.fType = (FunnitureType)num;
-        Destroy(GameManager.Instance.SeletFunniture.GetComponent<SeletFunniture>().funniturePreView);
+        Destroy(GameManager.Instance.SelectFurniture.GetComponent<SeletFunniture>().funniturePreView);
     }
     public void OnSave()
     {

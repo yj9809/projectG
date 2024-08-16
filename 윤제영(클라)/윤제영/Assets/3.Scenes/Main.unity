@@ -791,19 +791,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: OptionManager, Assembly-CSharp
-        m_MethodName: SaveSettings
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1767209258}
         m_TargetAssemblyTypeName: OptionManager, Assembly-CSharp
         m_MethodName: OnExit
         m_Mode: 1
@@ -2610,7 +2598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31b89fd2f78eb354984bf6e9a173d7d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prfabPos: {fileID: 0}
+  prefabPos: {fileID: 0}
   mainChar: {fileID: 5317856695094567925, guid: 6abca546f8185f841bd017d96cc67a1d, type: 3}
   obj:
   - {fileID: 296254354697334120, guid: fd5ce911960a611408fc1de8dd5bbb26, type: 3}
@@ -2636,16 +2624,14 @@ MonoBehaviour:
   option: {fileID: 1586254458565145549, guid: 4e2b58de247ab2a4da00b9ddb0693d72, type: 3}
   oType: 0
   fType: 0
-  gamestate: 0
-  nms: {fileID: 0}
+  gameState: 0
+  navMeshSurface: {fileID: 0}
   allTw: {fileID: 0}
   allTable: {fileID: 0}
   allChair: {fileID: 0}
   elementals: {fileID: 0}
   buildingPrefab: {fileID: 0}
   savePrefab: {fileID: 0}
-  tileNum: 0
-  funnitureNum: 0
 --- !u!1 &1207451768
 GameObject:
   m_ObjectHideFlags: 0
@@ -3421,6 +3407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resolutionDropdown: {fileID: 1570052490}
   fullScreenToggle: {fileID: 523148136}
+  windowScreenToggle: {fileID: 1908706344}
   masterVolumeSlider: {fileID: 726935005}
   bgmVolumeSlider: {fileID: 23351235}
   sfxVolumeSlider: {fileID: 667387005}
@@ -8656,6 +8643,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1908706344 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1586254460058350204, guid: 4e2b58de247ab2a4da00b9ddb0693d72, type: 3}
+  m_PrefabInstance: {fileID: 1586254458471047805}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2082714764
 GameObject:
   m_ObjectHideFlags: 0

@@ -36,15 +36,10 @@ public class ElementalNpc : MonoBehaviour
         spawn = FindObjectOfType<Spawn>();
         gm = FindObjectOfType<GameManager>();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.gamestate == GameState.Stop)
+        if (GameManager.Instance.gameState == GameState.Stop)
             return;
 
         switch (sType)

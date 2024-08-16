@@ -41,7 +41,7 @@ public class SeletFunniture : MonoBehaviour
         {
             if (funniturePreView == null)
             {
-                funniturePreView = Instantiate(table[gm.funnitureNum], hit.transform.position, Quaternion.identity);
+                funniturePreView = Instantiate(table[gm.FurnitureNum], hit.transform.position, Quaternion.identity);
                 funniturePreView.transform.GetComponent<Collider>().enabled = false;
             }
             else
@@ -77,10 +77,10 @@ public class SeletFunniture : MonoBehaviour
                 if (child.transform.position == hit.transform.position)
                     return;
             }
-            GameObject newTable = Instantiate(table[gm.funnitureNum], pos, Quaternion.Euler(rota));
-            newTable.name = table[gm.funnitureNum].name;
+            GameObject newTable = Instantiate(table[gm.FurnitureNum], pos, Quaternion.Euler(rota));
+            newTable.name = table[gm.FurnitureNum].name;
             newTable.transform.SetParent(gm.TableParent);
-            gm.nms.BuildNavMesh();
+            gm.navMeshSurface.BuildNavMesh();
         }
     }
     // ﾀﾇﾀﾚ ｼｼﾆﾃ
@@ -91,7 +91,7 @@ public class SeletFunniture : MonoBehaviour
         {
             if (funniturePreView == null)
             {
-                funniturePreView = Instantiate(chair[gm.funnitureNum], hit.transform.position, Quaternion.identity);
+                funniturePreView = Instantiate(chair[gm.FurnitureNum], hit.transform.position, Quaternion.identity);
                 funniturePreView.transform.GetComponent<Collider>().enabled = false;
             }
             else
@@ -135,11 +135,11 @@ public class SeletFunniture : MonoBehaviour
             }  
             else if (!hit.transform.CompareTag("Chair"))    
             {
-                GameObject newChair = Instantiate(chair[gm.funnitureNum], pos, Quaternion.Euler(rota));
+                GameObject newChair = Instantiate(chair[gm.FurnitureNum], pos, Quaternion.Euler(rota));
                 newChair.transform.SetParent(gm.ChairParent);
-                newChair.name = chair[gm.funnitureNum].name;
+                newChair.name = chair[gm.FurnitureNum].name;
 
-                gm.nms.BuildNavMesh();
+                gm.navMeshSurface.BuildNavMesh();
                 spawn.npcTarget.Add(newChair.transform);
                 spawn.SetRandomTarget();
             }
