@@ -33,7 +33,6 @@ public class GameManager : Singleton<GameManager>
     public Transform allChair;
     public Transform elementals;
     public GameObject buildingPrefab;
-    public GameObject savePrefab;
     public Queue<GameObject> foods = new Queue<GameObject>();
 
     private Ui ui;
@@ -59,6 +58,7 @@ public class GameManager : Singleton<GameManager>
     private GameObject selectTile;
     private GameObject selectFurniture;
 
+    // 게임 매니저에서 전부 받아놓은 후 다른 스크립트에서 활용
     public Transform CounterPos => counterPos ??= GameObject.Find("Counter Pos").transform;
     public Transform ProtagonistPos => protagonistPos ??= GameObject.Find("Protagonist Pos").transform;
     public Transform KitchenPos => kitchenPos ??= GameObject.Find("Kitchen Pos").transform;
@@ -194,7 +194,6 @@ public class GameManager : Singleton<GameManager>
         allTw = prefab.transform.GetChild(0);
         allTable = prefab.transform.GetChild(1);
         allChair = prefab.transform.GetChild(2);
-        savePrefab = GameObject.Find("Save Obj Prefab");
 
         if (creatType == CreatType.Load)
             LoadObj();
@@ -234,6 +233,7 @@ public class GameManager : Singleton<GameManager>
         MainCharacter.GoFarm();
     }
 
+    // 지금까지 얻은 해피포인트(게임 내 재화)를 활용하여 스폰 타임이나 랭크를 조정
     private void UpdateStep() => Step = data.allHappyPoint / 1000;
 
     public void UpdateSpawnTimer() => Timer = data.allHappyPoint / 1000;

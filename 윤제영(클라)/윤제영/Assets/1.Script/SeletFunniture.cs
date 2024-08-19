@@ -33,7 +33,7 @@ public class SeletFunniture : MonoBehaviour
         else if (gm.fType == FunnitureType.Chair)
             ChairSelet();
     }
-    // ﾅﾗﾀﾌｺ・ｼｼﾆﾃ
+    // 타일을 세팅하기 위한 위치를 잡는 함수
     private void TableSelet()
     {
         int tileLayer = LayerMask.GetMask("Tile");
@@ -68,6 +68,7 @@ public class SeletFunniture : MonoBehaviour
             }
         }
     }
+    // 실제 오브젝트를 생성하는 함수
     private void SetTable(Vector3 pos, Vector3 rota)
     {
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))

@@ -56,6 +56,7 @@ public class ControlSkyBox : MonoBehaviour
         sun.transform.localRotation = Quaternion.Euler((currentTime * 360f) - 50, 170, 0);
         moon.transform.localRotation = Quaternion.Euler((currentTime * 360f) - 50, 170, 0);
     }
+    // currentTime과 연동하여 일정 시간에만 npc 스폰을 진행는 코드입니다.
     private void OnSpawn()
     {
         if (currentTime >= 0.1f && currentTime <= 0.7f)
@@ -67,6 +68,7 @@ public class ControlSkyBox : MonoBehaviour
             GameManager.Instance.Spawn.onSpawn = false;
         }
     }
+    // currentTime과 연동하여 하늘을 변경합니다.
     private void SkyBoxChange()
     {
         if (currentTime >= 0.5f && currentTime <0.8f)
@@ -91,6 +93,7 @@ public class ControlSkyBox : MonoBehaviour
             sun.gameObject.SetActive(true);
         }
     }
+    // 다음날로 넘어가기 위한 여러 초기화 코드입니다.
     public void NextDay()
     {
         onGame = true;

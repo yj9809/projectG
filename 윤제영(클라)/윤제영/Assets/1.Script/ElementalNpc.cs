@@ -41,7 +41,7 @@ public class ElementalNpc : MonoBehaviour
     {
         if (GameManager.Instance.gameState == GameState.Stop)
             return;
-
+        // 서빙을 하기 위한 enum 타입에 맞춰 switch 문을 통한 행동 결정
         switch (sType)
         {
             case ServingType.Idle:
@@ -92,6 +92,7 @@ public class ElementalNpc : MonoBehaviour
 
         return randomTime;
     }
+    // 정령들이 서빙을 위한 로직 함수 시작
     private void GoGuest()
     {
         if (nm.remainingDistance <= nm.stoppingDistance)
@@ -131,6 +132,7 @@ public class ElementalNpc : MonoBehaviour
             sType = ServingType.Idle;
         }
     }
+    // 정령들이 서빙을 위한 로직 함수 끝
     public void GoHouse()
     {
         goHome = true;

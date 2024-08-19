@@ -53,6 +53,7 @@ public class Npc : MonoBehaviour
             StartCoroutine(NpcCall());
         }
     }
+    // npc 주문 로직 시작
     IEnumerator NpcCall()
     {
         yield return new WaitForSeconds(3f);
@@ -93,6 +94,7 @@ public class Npc : MonoBehaviour
         ani.SetTrigger("Eat");
         Invoke("TargetChange", 10f);
     }
+    // npc 주문 로직 끝
     private void TargetChange()
     {
         Destroy(foodPrefab);

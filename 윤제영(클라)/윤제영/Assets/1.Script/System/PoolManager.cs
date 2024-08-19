@@ -33,6 +33,7 @@ public class PoolManager : MonoBehaviour
         npc.SetActive(false);
         poolNpc.Enqueue(npc);
     }
+    // 스폰 시킬 위치를 랜덤으로 잡아주는 함수
     private Vector3 GetRandomPositionInBounds(Bounds bounds)
     {
         float randomX = Random.Range(bounds.min.x, bounds.max.x);

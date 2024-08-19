@@ -33,18 +33,6 @@ public class MainCharacter : MonoBehaviour
         if (isMove)
             nm.SetDestination(target.position);
     }
-    private int KitchenCheck()
-    {
-        Vector3 pos = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-
-        int rotaY = 0;
-        if (Physics.Raycast(pos, Vector3.forward, 2f, LayerMask.GetMask("Kitchen")))
-            rotaY = 0;
-        else if (Physics.Raycast(pos, Vector3.back, 2f, LayerMask.GetMask("Kitchen")))
-            rotaY = 180;
-        Debug.Log(rotaY);
-        return rotaY;
-    }
     public void GoHouse()
     {
         ani.SetBool("Move", true);

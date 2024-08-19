@@ -93,7 +93,8 @@ public class Spawn : MonoBehaviour
     }
     private void SpawnNpc()
     {
-        if (Random.value < 0.6f)
+        // 너무 많은 방문을 유도해서 초반에 해피포인트 조절을 하기 위해 40% 확률로 방문하게 했습니다.
+        if (Random.value < 0.6f) 
         {
             int random = Random.Range(0, end.Length);
             GameObject newNpc = pool.CreatNpc();
@@ -130,6 +131,7 @@ public class Spawn : MonoBehaviour
             }
         }
     }
+    // 확실하게 타겟이 없다는 표시를 하기 위해 -1 값을 반환합니다.
     private int RandomTargetIndex()
     {
         List<int> availableTargets = new List<int>();
